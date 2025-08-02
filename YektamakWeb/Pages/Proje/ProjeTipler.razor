@@ -1,0 +1,112 @@
+﻿@page "/proje-tipler"
+@inherits AuthorizedPageBase
+
+@inject IProjeTipService ProjeTipService
+@inject NavigationManager Navigation
+
+@using Models
+@using ApiService.Interfaces
+@using Microsoft.AspNetCore.Components.Forms
+
+<h3>Proje Tipleri Yönetimi</h3>
+
+@if (!ErisimKontrolEdildi)
+{
+    <p>Sayfa erişimi kontrol ediliyor...</p>
+}
+else if (!ErisimVar)
+{
+    <p class="text-danger">Bu sayfaya erişim yetkiniz yok.</p>
+}
+else
+{
+    <EditForm Model="@seciliTip" OnValidSubmit="HandleSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label>Proje Tip Adı</label>
+                <InputText class="form-control" @bind-Value="seciliTip.ProjeTipAd" />
+            </div>
+        </div>
+
+        <button class="btn btn-success" type="submit">@(seciliTip.ProjeTipId == 0 ? "Ekle" : "Güncelle")</button>
+        <button class="btn btn-secondary ms-2" type="button" @onclick="Temizle">Temizle</button>
+    </EditForm>
+
+    <hr />
+
+    <table class="table table-bordered table-striped mt-3">
+        <thead>
+            <tr>
+                <th>Ad</th>
+                <th>İşlem</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in projeTipler)
+            {
+                <tr>
+                    <td>@item.ProjeTipAd</td>
+                    <td>
+                        <button class="btn btn-sm btn-primary me-1" @onclick="@(() => Duzenle(item))">Düzenle</button>
+                        <button class="btn btn-sm btn-danger" @onclick="@(() => Sil(item.ProjeTipId))">Sil</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<ProjeTip> projeTipler = new();
+    private ProjeTip seciliTip = new();
+
+    protected override string GercekSayfaYolu => "/proje-tipler";
+
+    protected override async Task OnSayfaYuklendi()
+    {
+        await Yukle();
+    }
+
+    private async Task Yukle()
+    {
+        projeTipler = await ProjeTipService.GetAllAsync();
+    }
+
+    private async Task HandleSubmit()
+    {
+        if (seciliTip.ProjeTipId == 0)
+        {
+            await ProjeTipService.AddAsync(seciliTip);
+        }
+        else
+        {
+            await ProjeTipService.UpdateAsync(seciliTip);
+        }
+
+        await Yukle();
+        Temizle();
+    }
+
+    private void Duzenle(ProjeTip tip)
+    {
+        seciliTip = new ProjeTip
+            {
+                ProjeTipId = tip.ProjeTipId,
+                ProjeTipAd = tip.ProjeTipAd
+            };
+    }
+
+    private async Task Sil(int id)
+    {
+        await ProjeTipService.DeleteAsync(id);
+        await Yukle();
+    }
+
+    private void Temizle()
+    {
+        seciliTip = new();
+    }
+}

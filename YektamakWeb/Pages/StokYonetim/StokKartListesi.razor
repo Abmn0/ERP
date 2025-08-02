@@ -1,0 +1,167 @@
+﻿@page "/stok-kartlari"
+@inherits AuthorizedPageBase
+
+@inject IStokKartService StokKartService
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
+
+<h3 class="mb-3">Stok Kartları</h3>
+
+@if (!ErisimKontrolEdildi)
+{
+     <p>Sayfa erişimi kontrol ediliyor...</p>
+}
+else if (!ErisimVar)
+{
+     <p class="text-danger">Bu sayfaya erişim yetkiniz yok.</p>
+}
+else
+{
+    <button class="btn btn-success mb-3" @onclick="@(() => NavigationManager.NavigateTo("/stok-kart-ekle"))">
+        Yeni Stok Kartı Ekle
+    </button>
+
+    @if (stokKartlar is null)
+    {
+         <p>Yükleniyor...</p>
+    }
+    else if (!stokKartlar.Any())
+    {
+         <p>Henüz kayıtlı stok kartı yok.</p>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-sm table-striped table-bordered table-hover">
+                <thead class="table-dark text-nowrap">
+                    <tr>
+                        <th @onclick='() => SortByColumn("Kod")' style="cursor: pointer;">Kod <span class="oi @GetSortIcon("Kod")"></span></th>
+                        <th @onclick='() => SortByColumn("Ad")' style="cursor: pointer;">Ad <span class="oi @GetSortIcon("Ad")"></span></th>
+                        <th @onclick='() => SortByColumn("ParcaKod")' style="cursor: pointer;">Parça Kodu <span class="oi @GetSortIcon("ParcaKod")"></span></th>
+                        <th @onclick='() => SortByColumn("ParcaAdi")' style="cursor: pointer;">Parça Adı <span class="oi @GetSortIcon("ParcaAdi")"></span></th>
+                        <th @onclick='() => SortByColumn("StokGrup")' style="cursor: pointer;">Grup <span class="oi @GetSortIcon("StokGrup")"></span></th>
+                        <th @onclick='() => SortByColumn("StokTip")' style="cursor: pointer;">Tip <span class="oi @GetSortIcon("StokTip")"></span></th>
+                        <th @onclick='() => SortByColumn("OlcuBirim")' style="cursor: pointer;">Ölçü Birim <span class="oi @GetSortIcon("OlcuBirim")"></span></th>
+                        <th>Malzeme</th>
+                        <th>Açıklama</th>
+                        <th @onclick='() => SortByColumn("Agirlik")' style="cursor: pointer;">Ağırlık <span class="oi @GetSortIcon("Agirlik")"></span></th>
+                        <th @onclick='() => SortByColumn("Boy")' style="cursor: pointer;">Boy <span class="oi @GetSortIcon("Boy")"></span></th>
+                        <th @onclick='() => SortByColumn("En")' style="cursor: pointer;">En <span class="oi @GetSortIcon("En")"></span></th>
+                        <th>Yükseklik</th>
+                        <th>Uzunluk</th>
+                        <th>Çap</th>
+                        <th>Et Kalınlığı</th>
+                        <th class="text-center">İşlemler</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var stok in stokKartlar)
+                    {
+                        <tr>
+                            <td>@stok.Kod</td>
+                            <td>@stok.Ad</td>
+                            <td>@stok.ParcaKod</td>
+                            <td>@stok.ParcaAdi</td>
+                            <td>@stok.StokGrup?.Ad</td>
+                            <td>@stok.StokTip?.Ad</td>
+                            <td>@stok.OlcuBirim?.Ad</td>
+                            <td>@stok.Malzeme</td>
+                            <td>@stok.Aciklama</td>
+                            <td>@stok.Agirlik</td>
+                            <td>@stok.Boy</td>
+                            <td>@stok.En</td>
+                            <td>@stok.Yukseklik</td>
+                            <td>@stok.Uzunluk</td>
+                            <td>@stok.Cap</td>
+                            <td>@stok.EtKalınligi</td>
+                            <td class="text-center text-nowrap">
+                                <button class="btn btn-sm btn-info" @onclick="@(() => Detay(stok.Id))" title="Detay"><i class="oi oi-eye"></i></button>
+                                <button class="btn btn-sm btn-warning mx-1" @onclick="@(() => Guncelle(stok.Id))" title="Güncelle"><i class="oi oi-pencil"></i></button>
+                                <button class="btn btn-sm btn-danger" @onclick="@(() => Sil(stok.Id))" title="Sil"><i class="oi oi-trash"></i></button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+}
+
+@code {
+    private List<StokKart>? stokKartlar;
+
+    // Sıralama durumu için değişkenler
+    private string? _currentSortColumn;
+    private bool _isSortAscending = true;
+
+    protected override string GercekSayfaYolu => "/stok-kartlari";
+
+    protected override async Task OnSayfaYuklendi()
+    {
+        stokKartlar = await StokKartService.GetAllAsync(); // Veya ilişkili veriler için GetAllWithIncludeAsync()
+    }
+
+    // Ana sıralama metodu
+    private void SortByColumn(string columnName)
+    {
+        if (columnName == _currentSortColumn)
+        {
+            _isSortAscending = !_isSortAscending; // Yönü değiştir
+        }
+        else
+        {
+            _currentSortColumn = columnName;
+            _isSortAscending = true; // Yeni sütun, varsayılan olarak artan sırala
+        }
+
+        PerformSort();
+    }
+
+    // Gerçek sıralama işlemini yapan metot
+    private void PerformSort()
+    {
+        if (stokKartlar is null || _currentSortColumn is null) return;
+
+        switch (_currentSortColumn)
+        {
+            case "Kod": stokKartlar = _isSortAscending ? stokKartlar.OrderBy(s => s.Kod).ToList() : stokKartlar.OrderByDescending(s => s.Kod).ToList(); break;
+            case "Ad": stokKartlar = _isSortAscending ? stokKartlar.OrderBy(s => s.Ad).ToList() : stokKartlar.OrderByDescending(s => s.Ad).ToList(); break;
+            case "ParcaKod": stokKartlar = _isSortAscending ? stokKartlar.OrderBy(s => s.ParcaKod).ToList() : stokKartlar.OrderByDescending(s => s.ParcaKod).ToList(); break;
+            case "ParcaAdi": stokKartlar = _isSortAscending ? stokKartlar.OrderBy(s => s.ParcaAdi).ToList() : stokKartlar.OrderByDescending(s => s.ParcaAdi).ToList(); break;
+            case "StokGrup": stokKartlar = _isSortAscending ? stokKartlar.OrderBy(s => s.StokGrup?.Ad).ToList() : stokKartlar.OrderByDescending(s => s.StokGrup?.Ad).ToList(); break;
+            case "StokTip": stokKartlar = _isSortAscending ? stokKartlar.OrderBy(s => s.StokTip?.Ad).ToList() : stokKartlar.OrderByDescending(s => s.StokTip?.Ad).ToList(); break;
+            case "OlcuBirim": stokKartlar = _isSortAscending ? stokKartlar.OrderBy(s => s.OlcuBirim?.Ad).ToList() : stokKartlar.OrderByDescending(s => s.OlcuBirim?.Ad).ToList(); break;
+            case "Agirlik": stokKartlar = _isSortAscending ? stokKartlar.OrderBy(s => s.Agirlik).ToList() : stokKartlar.OrderByDescending(s => s.Agirlik).ToList(); break;
+            case "Boy": stokKartlar = _isSortAscending ? stokKartlar.OrderBy(s => s.Boy).ToList() : stokKartlar.OrderByDescending(s => s.Boy).ToList(); break;
+            case "En": stokKartlar = _isSortAscending ? stokKartlar.OrderBy(s => s.En).ToList() : stokKartlar.OrderByDescending(s => s.En).ToList(); break;
+        }
+    }
+
+    // Doğru sıralama ikonunu döndüren yardımcı metot
+    private string GetSortIcon(string columnName)
+    {
+        if (_currentSortColumn != columnName)
+        {
+            return "oi-elevator"; // Aktif değilse, çift yönlü ok
+        }
+        return _isSortAscending ? "oi-arrow-top" : "oi-arrow-bottom";
+    }
+
+    private void Detay(int id) => NavigationManager.NavigateTo($"/stok-kart-detay/{id}");
+    private void Guncelle(int id) => NavigationManager.NavigateTo($"/stok-kart-guncelle/{id}");
+
+    private async Task Sil(int id)
+    {
+        var confirmed = await JSRuntime.InvokeAsync<bool>("confirm", $"Stok kartı silinsin mi? (ID: {id})");
+        if (confirmed)
+        {
+            try
+            {
+                await StokKartService.DeleteAsync(id);
+                stokKartlar = await StokKartService.GetAllAsync();
+            }
+            catch (InvalidOperationException ex) { await JSRuntime.InvokeVoidAsync("alert", ex.Message); }
+            catch (Exception ex) { await JSRuntime.InvokeVoidAsync("alert", "Bir hata oluştu: " + ex.Message); }
+        }
+    }
+}

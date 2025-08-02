@@ -1,0 +1,58 @@
+﻿@page "/stok-kart-araclari"
+@inherits AuthorizedPageBase
+
+@inject NavigationManager Navigation
+
+<h3 class="text-center my-4">Stok Kart Araçları</h3>
+
+@if (!ErisimKontrolEdildi)
+{
+    <p class="text-center">Sayfa erişimi kontrol ediliyor...</p>
+}
+else if (!ErisimVar)
+{
+    <p class="text-danger text-center">Bu sayfaya erişim yetkiniz yok.</p>
+}
+else
+{
+    <hr />
+    <div class="row row-cols-1 row-cols-md-3 g-4 px-4">
+        @foreach (var item in menuItems)
+        {
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body d-flex flex-column justify-content-between">
+                        <h5 class="card-title">@item.Title</h5>
+                        <button class="btn btn-primary mt-3" @onclick="@(() => Navigation.NavigateTo(item.Url))">
+                            Yönet
+                        </button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+
+@code {
+    private List<MenuItem> menuItems = new()
+    {
+        new MenuItem("Stok Kartları Yönetimi", "/stok-kartlari"),
+        new MenuItem("Stok Grup Yönetimi", "/stok-gruplar"),
+        new MenuItem("Stok Tip Yönetimi", "/stok-tipler"),
+        new MenuItem("Malzeme Grup Yönetimi", "/malzeme-gruplar"),
+        new MenuItem("Malzeme Alt Grup Yönetimi", "/malzeme-alt-gruplar"),
+        new MenuItem("Malzeme Alt Grup 2 Yönetimi", "/malzeme-alt-grup2ler"),
+        new MenuItem("Ölçü Birim Yönetimi", "/olcu-birimler"),
+        new MenuItem("Malzeme Standart Yönetimi", "/malzeme-standartlar"),
+        new MenuItem("Hammadde Yönetimi", "/hammaddeler")
+    };
+
+    private record MenuItem(string Title, string Url);
+
+    protected override string GercekSayfaYolu => "/stok-kart-araclari";
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+    }
+}

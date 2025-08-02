@@ -1,0 +1,68 @@
+﻿@page "/pozisyon-guncelle/{id:int}"
+@inherits AuthorizedPageBase
+
+@inject IPozisyonService PozisyonService
+@inject NavigationManager NavigationManager
+
+<h3>Pozisyon Güncelle</h3>
+
+@if (!ErisimKontrolEdildi)
+{
+    <p>Sayfa erişimi kontrol ediliyor...</p>
+}
+else if (!ErisimVar)
+{
+    <p class="text-danger">Bu sayfaya erişim yetkiniz yok.</p>
+}
+else if (pozisyon == null)
+{
+    <p>Yükleniyor...</p>
+}
+else
+{
+    <EditForm Model="pozisyon" OnValidSubmit="PozisyonGuncelleAsync">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="mb-3">
+            <label for="ad" class="form-label">Ad</label>
+            <InputText id="ad" class="form-control" @bind-Value="pozisyon.Ad" />
+        </div>
+
+        <div class="mb-3">
+            <label for="kod" class="form-label">Kod</label>
+            <InputText id="kod" class="form-control" @bind-Value="pozisyon.Kod" />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Güncelle</button>
+        <button type="button" class="btn btn-secondary ms-2" @onclick="GeriDon">İptal</button>
+    </EditForm>
+}
+
+@code {
+    [Parameter]
+    public int id { get; set; }
+
+    private Pozisyon? pozisyon;
+
+    protected override string GercekSayfaYolu => "/pozisyon-guncelle";
+
+    protected override async Task OnSayfaYuklendi()
+    {
+        pozisyon = await PozisyonService.GetByIdAsync(id);
+    }
+
+    private async Task PozisyonGuncelleAsync()
+    {
+        if (pozisyon != null)
+        {
+            await PozisyonService.UpdateAsync(pozisyon);
+            NavigationManager.NavigateTo("/pozisyonlar");
+        }
+    }
+
+    private void GeriDon()
+    {
+        NavigationManager.NavigateTo("/pozisyonlar");
+    }
+}

@@ -1,0 +1,110 @@
+﻿@page "/kullanici-guncelle/{Id:int}"
+@inherits AuthorizedPageBase
+@using Utilities.Interfaces
+@inject IKullaniciService KullaniciService
+@inject IRolService RolService
+@inject IPersonelService PersonelService
+@inject NavigationManager Navigation
+@inject IPasswordService PasswordService
+
+<h3>Kullanıcı Güncelle</h3>
+
+@if (!ErisimKontrolEdildi)
+{
+    <p>Sayfa erişimi kontrol ediliyor...</p>
+}
+else if (!ErisimVar)
+{
+    <p class="text-danger">Bu sayfaya erişim yetkiniz yok.</p>
+}
+else if (kullanici == null)
+{
+    <p>Yükleniyor...</p>
+}
+else
+{
+    <EditForm Model="kullanici" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="mb-3">
+            <label class="form-label">Ad</label>
+            <InputText class="form-control" @bind-Value="kullanici.Ad" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Kod</label>
+            <InputText class="form-control" @bind-Value="kullanici.Kod" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Yeni Şifre (Opsiyonel)</label>
+            <InputText type="password" class="form-control" @bind-Value="yeniSifre" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Rol</label>
+            <InputSelect class="form-control" @bind-Value="kullanici.RolId">
+                <option value="">-- Seçiniz --</option>
+                @foreach (var rol in roller)
+                {
+                    <option value="@rol.Id">@rol.Ad</option>
+                }
+            </InputSelect>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Personel</label>
+            <InputSelect class="form-control" @bind-Value="kullanici.PersonelId">
+                <option value="">-- Seçiniz --</option>
+                @foreach (var p in personeller)
+                {
+                    <option value="@p.Id">@p.PersonelAd @p.PersonelSoyad</option>
+                }
+            </InputSelect>
+        </div>
+
+        <button class="btn btn-primary" type="submit">Güncelle</button>
+        <button class="btn btn-secondary ms-2" type="button" @onclick="Iptal">İptal</button>
+    </EditForm>
+}
+
+@code {
+    [Parameter] public int Id { get; set; }
+
+    private Kullanici? kullanici;
+    private string yeniSifre = string.Empty;
+    private List<Rol> roller = new();
+    private List<Personel> personeller = new();
+
+    protected override string GercekSayfaYolu => "/kullanici-guncelle";
+
+    protected override async Task OnSayfaYuklendi()
+    {
+        kullanici = await KullaniciService.GetByIdAsync(Id);
+        roller = await RolService.GetAllAsync();
+        personeller = await PersonelService.GetAllAsync();
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        if (!string.IsNullOrWhiteSpace(yeniSifre))
+        {
+            var (hash, salt) = PasswordService.HashPassword(yeniSifre);
+            kullanici!.Sifre = hash;
+            kullanici.Salt = salt;
+            kullanici.IsSifreDegisti = true;
+        }
+
+        kullanici!.UpdatedTime = DateTime.Now;
+        kullanici.UpdatedByComputer = Environment.MachineName;
+
+        await KullaniciService.UpdateAsync(kullanici);
+        Navigation.NavigateTo("/kullanicilar");
+    }
+
+    private void Iptal()
+    {
+        Navigation.NavigateTo("/kullanicilar");
+    }
+}

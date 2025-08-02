@@ -1,0 +1,15 @@
+C:\Users\ozabd\source\repos\YektamakERP_v2\ApiService\bin\Release\net7.0\ApiService.deps.json
+C:\Users\ozabd\source\repos\YektamakERP_v2\ApiService\bin\Release\net7.0\ApiService.dll
+C:\Users\ozabd\source\repos\YektamakERP_v2\ApiService\bin\Release\net7.0\ApiService.pdb
+C:\Users\ozabd\source\repos\YektamakERP_v2\ApiService\bin\Release\net7.0\Models.dll
+C:\Users\ozabd\source\repos\YektamakERP_v2\ApiService\bin\Release\net7.0\Models.pdb
+C:\Users\ozabd\source\repos\YektamakERP_v2\ApiService\obj\Release\net7.0\ApiService.csproj.AssemblyReference.cache
+C:\Users\ozabd\source\repos\YektamakERP_v2\ApiService\obj\Release\net7.0\ApiService.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ozabd\source\repos\YektamakERP_v2\ApiService\obj\Release\net7.0\ApiService.AssemblyInfoInputs.cache
+C:\Users\ozabd\source\repos\YektamakERP_v2\ApiService\obj\Release\net7.0\ApiService.AssemblyInfo.cs
+C:\Users\ozabd\source\repos\YektamakERP_v2\ApiService\obj\Release\net7.0\ApiService.csproj.CoreCompileInputs.cache
+C:\Users\ozabd\source\repos\YektamakERP_v2\ApiService\obj\Release\net7.0\ApiService.csproj.Up2Date
+C:\Users\ozabd\source\repos\YektamakERP_v2\ApiService\obj\Release\net7.0\ApiService.dll
+C:\Users\ozabd\source\repos\YektamakERP_v2\ApiService\obj\Release\net7.0\refint\ApiService.dll
+C:\Users\ozabd\source\repos\YektamakERP_v2\ApiService\obj\Release\net7.0\ApiService.pdb
+C:\Users\ozabd\source\repos\YektamakERP_v2\ApiService\obj\Release\net7.0\ref\ApiService.dll

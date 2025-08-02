@@ -1,0 +1,170 @@
+﻿@page "/malzeme-alt-grup2ler"
+@inherits AuthorizedPageBase
+
+@inject IMalzemeAltGrup2Service MalzemeAltGrup2Service
+@inject IMalzemeAltGrupService MalzemeAltGrupService
+@inject NavigationManager Navigation
+
+<h3>Malzeme Alt Grup 2 Yönetimi</h3>
+
+@if (!ErisimKontrolEdildi)
+{
+    <p>Sayfa erişim kontrol ediliyor...</p>
+}
+else if (!ErisimVar)
+{
+    <p class="text-danger">Bu sayfaya erişim yetkiniz yok.</p>
+}
+else
+{
+    <EditForm Model="@seciliAltGrup2" OnValidSubmit="HandleSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label>Malzeme Alt Grup</label>
+                <InputSelect class="form-select" @bind-Value="seciliAltGrup2.MalzemeAltGrupId">
+                    <option value="">-- Seçiniz --</option>
+                    @foreach (var grup in altGruplar)
+                    {
+                        <option value="@grup.Id">@grup.Ad</option>
+                    }
+                </InputSelect>
+            </div>
+            <div class="col-md-4">
+                <label>Kod</label>
+                <InputText class="form-control" @bind-Value="seciliAltGrup2.Kod" />
+            </div>
+            <div class="col-md-4">
+                <label>Ad</label>
+                <InputText class="form-control" @bind-Value="seciliAltGrup2.Ad" />
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-2">
+                <label>Üretim</label>
+                <InputCheckbox class="form-check-input" @bind-Value="seciliAltGrup2.IsUretim" />
+            </div>
+            <div class="col-md-2">
+                <label>PDF</label>
+                <InputCheckbox class="form-check-input" @bind-Value="seciliAltGrup2.PdfVar" />
+            </div>
+            <div class="col-md-2">
+                <label>DXF</label>
+                <InputCheckbox class="form-check-input" @bind-Value="seciliAltGrup2.DxfVar" />
+            </div>
+            <div class="col-md-2">
+                <label>STEP</label>
+                <InputCheckbox class="form-check-input" @bind-Value="seciliAltGrup2.StepVar" />
+            </div>
+        </div>
+
+        <button class="btn btn-success" type="submit">@(seciliAltGrup2.Id == 0 ? "Ekle" : "Güncelle")</button>
+        <button class="btn btn-secondary ms-2" type="button" @onclick="Temizle">Temizle</button>
+    </EditForm>
+
+    <hr />
+
+    <table class="table table-bordered table-striped mt-3">
+        <thead>
+            <tr>
+                <th>Kod</th>
+                <th>Ad</th>
+                <th>Alt Grup</th>
+                <th>Üretim</th>
+                <th>PDF</th>
+                <th>DXF</th>
+                <th>STEP</th>
+                <th>İşlem</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in altGrup2List)
+            {
+                <tr>
+                    <td>@item.Kod</td>
+                    <td>@item.Ad</td>
+                    <td>@item.MalzemeAltGrup?.Ad</td>
+                    <td>@(item.IsUretim ? "✔" : "-")</td>
+                    <td>@(item.PdfVar ? "✔" : "-")</td>
+                    <td>@(item.DxfVar ? "✔" : "-")</td>
+                    <td>@(item.StepVar ? "✔" : "-")</td>
+                    <td>
+                        <button class="btn btn-sm btn-primary me-1" @onclick="@(() => Duzenle(item))">Düzenle</button>
+                        <button class="btn btn-sm btn-danger" @onclick="@(() => Sil(item.Id))">Sil</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <button class="btn btn-outline-dark" @onclick="GeriDon">← Geri</button>
+}
+
+@code {
+    protected override string GercekSayfaYolu => "/malzeme-alt-grup2ler";
+
+    private List<MalzemeAltGrup2> altGrup2List = new();
+    private List<MalzemeAltGrup> altGruplar = new();
+
+    private MalzemeAltGrup2 seciliAltGrup2 = new();
+
+    protected override async Task OnSayfaYuklendi()
+    {
+        await Yukle();
+    }
+
+    private async Task Yukle()
+    {
+        altGrup2List = await MalzemeAltGrup2Service.GetAllWithIncludeAsync();
+        altGruplar = await MalzemeAltGrupService.GetAllAsync();
+    }
+
+    private async Task HandleSubmit()
+    {
+        if (seciliAltGrup2.Id == 0)
+        {
+            await MalzemeAltGrup2Service.AddAsync(seciliAltGrup2);
+        }
+        else
+        {
+            await MalzemeAltGrup2Service.UpdateAsync(seciliAltGrup2);
+        }
+
+        await Yukle();
+        Temizle();
+    }
+
+    private void Duzenle(MalzemeAltGrup2 entity)
+    {
+        seciliAltGrup2 = new MalzemeAltGrup2
+            {
+                Id = entity.Id,
+                Kod = entity.Kod,
+                Ad = entity.Ad,
+                IsUretim = entity.IsUretim,
+                PdfVar = entity.PdfVar,
+                DxfVar = entity.DxfVar,
+                StepVar = entity.StepVar,
+                MalzemeAltGrupId = entity.MalzemeAltGrupId
+            };
+    }
+
+    private async Task Sil(int id)
+    {
+        await MalzemeAltGrup2Service.DeleteAsync(id);
+        await Yukle();
+    }
+
+    private void Temizle()
+    {
+        seciliAltGrup2 = new();
+    }
+
+    private void GeriDon()
+    {
+        Navigation.NavigateTo("/stok-kart-araclari");
+    }
+}

@@ -1,0 +1,81 @@
+﻿@page "/login"
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@using System.Security.Claims
+@using Models
+@using Services.Interfaces
+@using Utilities.Interfaces
+@using YektamakWeb.Accounts
+
+@inject IKullaniciService KullaniciService
+@inject IPasswordService PasswordService
+@inject NavigationManager Navigation
+@inject ProtectedSessionStorage SessionStorage
+@inject AuthenticationStateProvider AuthStateProvider
+
+<h3 class="text-center">Giriş Yap</h3>
+
+<EditForm Model="@loginModel" OnValidSubmit="HandleLogin">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="mb-3">
+        <label class="form-label">Kullanıcı Kodu</label>
+        <InputText class="form-control" @bind-Value="loginModel.Kod" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Şifre</label>
+        <InputText class="form-control" type="password" @bind-Value="loginModel.Sifre" />
+    </div>
+
+    @if (!string.IsNullOrWhiteSpace(errorMessage))
+    {
+        <div class="alert alert-danger">@errorMessage</div>
+    }
+
+    <button class="btn btn-primary" type="submit">Giriş</button>
+</EditForm>
+
+@code {
+    private LoginModel loginModel = new();
+    private string? errorMessage;
+
+    private async Task HandleLogin()
+    {
+        var user = await KullaniciService.GetUserByKodAsync(loginModel.Kod);
+
+
+        if (user == null)
+        {
+            errorMessage = "Kullanıcı bulunamadı.";
+            return;
+        }
+
+        bool isValid = PasswordService.VerifyPassword(loginModel.Sifre, user.Sifre, user.Salt);
+
+        if (!isValid)
+        {
+            errorMessage = "Şifre hatalı.";
+            return;
+        }
+
+        // Session’a kullanıcı Id’sini kaydet
+        await SessionStorage.SetAsync("authUser", user.Id.ToString());
+
+     
+
+
+        if (AuthStateProvider is CustomAuthStateProvider customProvider)
+        {
+            await customProvider.MarkUserAsAuthenticated(user.Id);
+        }
+
+        Navigation.NavigateTo("/dashboard");
+    }
+
+    public class LoginModel
+    {
+        public string Kod { get; set; } = string.Empty;
+        public string Sifre { get; set; } = string.Empty;
+    }
+}

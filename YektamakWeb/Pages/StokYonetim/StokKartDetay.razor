@@ -1,0 +1,115 @@
+﻿@page "/stok-kart-detay/{Id:int}"
+@inherits AuthorizedPageBase
+
+@inject IStokKartService StokKartService
+@inject NavigationManager Navigation
+
+<h3>Stok Kart Detayı</h3>
+
+@if (!ErisimKontrolEdildi)
+{
+    <p>Sayfa erişimi kontrol ediliyor...</p>
+}
+else if (!ErisimVar)
+{
+    <p class="text-danger">Bu sayfaya erişim yetkiniz yok.</p>
+}
+else if (stokKart is null)
+{
+    <p>Yükleniyor...</p>
+}
+else
+{
+    <div class="card">
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3">Kod</dt>
+                <dd class="col-sm-9">@stokKart.Kod</dd>
+
+                <dt class="col-sm-3">Ad</dt>
+                <dd class="col-sm-9">@stokKart.Ad</dd>
+
+                <dt class="col-sm-3">Parça Kod</dt>
+                <dd class="col-sm-9">@stokKart.ParcaKod</dd>
+
+                <dt class="col-sm-3">Parça Adı</dt>
+                <dd class="col-sm-9">@stokKart.ParcaAdi</dd>
+
+                <dt class="col-sm-3">Boyut</dt>
+                <dd class="col-sm-9">@stokKart.Boyut</dd>
+
+                <dt class="col-sm-3">Malzeme</dt>
+                <dd class="col-sm-9">@stokKart.Malzeme</dd>
+
+                <dt class="col-sm-3">Açıklama</dt>
+                <dd class="col-sm-9">@stokKart.Aciklama</dd>
+
+                <dt class="col-sm-3">Grup</dt>
+                <dd class="col-sm-9">@stokKart.StokGrup?.Ad</dd>
+
+                <dt class="col-sm-3">Tip</dt>
+                <dd class="col-sm-9">@stokKart.StokTip?.Ad</dd>
+
+                <dt class="col-sm-3">Malzeme Grup</dt>
+                <dd class="col-sm-9">@stokKart.MalzemeGrup?.Ad</dd>
+
+                <dt class="col-sm-3">Alt Grup</dt>
+                <dd class="col-sm-9">@stokKart.MalzemeAltGrup?.Ad</dd>
+
+                <dt class="col-sm-3">Alt Grup 2</dt>
+                <dd class="col-sm-9">@stokKart.MalzemeAltGrup2?.Ad</dd>
+
+                <dt class="col-sm-3">Ölçü Birimi</dt>
+                <dd class="col-sm-9">@stokKart.OlcuBirim?.Ad</dd>
+
+                <dt class="col-sm-3">Malzeme Standart</dt>
+                <dd class="col-sm-9">@stokKart.MalzemeStandart?.Kod</dd>
+
+                <dt class="col-sm-3">Hammadde</dt>
+                <dd class="col-sm-9">@stokKart.Hammadde?.Ad</dd>
+
+                <dt class="col-sm-3">Ağırlık</dt>
+                <dd class="col-sm-9">@stokKart.Agirlik</dd>
+
+                <dt class="col-sm-3">Boy x En x Yükseklik</dt>
+                <dd class="col-sm-9">@stokKart.Boy x @stokKart.En x @stokKart.Yukseklik</dd>
+
+                <dt class="col-sm-3">Uzunluk</dt>
+                <dd class="col-sm-9">@stokKart.Uzunluk</dd>
+
+                <dt class="col-sm-3">Çap</dt>
+                <dd class="col-sm-9">@stokKart.Cap</dd>
+
+                <dt class="col-sm-3">Et Kalınlığı</dt>
+                <dd class="col-sm-9">@stokKart.EtKalınligi</dd>
+
+                <dt class="col-sm-3">Excel'den mi?</dt>
+                <dd class="col-sm-9">@((stokKart.IsFromExcel) ? "Evet" : "Hayır")</dd>
+            </dl>
+
+            <button class="btn btn-secondary" @onclick="GeriDon">Geri Dön</button>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter] public int Id { get; set; }
+
+    private StokKart? stokKart;
+
+    protected override string GercekSayfaYolu => "/stok-kart-detay";
+
+    protected override async Task OnSayfaYuklendi()
+    {
+        stokKart = await StokKartService.GetByIdAsync(Id);
+        if (stokKart == null)
+        {
+            Navigation.NavigateTo("/stok-kartlari");
+        }
+    }
+
+    private void GeriDon()
+    {
+        Navigation.NavigateTo("/stok-kartlari");
+    }
+}

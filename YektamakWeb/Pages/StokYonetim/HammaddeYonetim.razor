@@ -1,0 +1,125 @@
+﻿@page "/hammaddeler"
+@inherits AuthorizedPageBase
+
+@inject IHammaddeService HammaddeService
+@inject NavigationManager Navigation
+
+<h3>Hammadde Yönetimi</h3>
+
+@if (!ErisimKontrolEdildi)
+{
+    <p>Sayfa erişim kontrol ediliyor...</p>
+}
+else if (!ErisimVar)
+{
+    <p class="text-danger">Bu sayfaya erişim yetkiniz yok.</p>
+}
+else
+{
+    <EditForm Model="@seciliHammadde" OnValidSubmit="HandleSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="row mb-2">
+            <div class="col-md-4">
+                <InputText class="form-control" placeholder="Kod" @bind-Value="seciliHammadde.Kod" />
+            </div>
+            <div class="col-md-4">
+                <InputText class="form-control" placeholder="Ad" @bind-Value="seciliHammadde.Ad" />
+            </div>
+            <div class="col-md-4">
+                <button class="btn btn-success me-2" type="submit">
+                    @(seciliHammadde.Id == 0 ? "Ekle" : "Güncelle")
+                </button>
+                <button class="btn btn-secondary" type="button" @onclick="Temizle">Temizle</button>
+            </div>
+        </div>
+    </EditForm>
+
+    <table class="table table-bordered table-sm">
+        <thead>
+            <tr>
+                <th>Kod</th>
+                <th>Ad</th>
+                <th style="width:150px;">İşlemler</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var h in hammaddeler)
+            {
+                <tr>
+                    <td>@h.Kod</td>
+                    <td>@h.Ad</td>
+                    <td>
+                        <button class="btn btn-sm btn-primary me-2" @onclick="@(() => Duzenle(h))">Düzenle</button>
+                        <button class="btn btn-sm btn-danger" @onclick="@(() => Sil(h.Id))">Sil</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <button class="btn btn-outline-dark" @onclick="GeriDon">← Geri</button>
+}
+
+@code {
+    protected override string GercekSayfaYolu => "/hammaddeler";
+
+    private List<Hammadde> hammaddeler = new();
+    private Hammadde seciliHammadde = new();
+
+    protected override async Task OnSayfaYuklendi()
+    {
+        await Yukle();
+    }
+
+    private async Task Yukle()
+    {
+        hammaddeler = await HammaddeService.GetAllAsync();
+    }
+
+    private async Task HandleSubmit()
+    {
+        if (seciliHammadde.Id == 0)
+        {
+            await HammaddeService.AddAsync(seciliHammadde);
+        }
+        else
+        {
+            await HammaddeService.UpdateAsync(new Hammadde
+                {
+                    Id = seciliHammadde.Id,
+                    Kod = seciliHammadde.Kod,
+                    Ad = seciliHammadde.Ad
+                });
+        }
+
+        await Yukle();
+        Temizle();
+    }
+
+    private void Duzenle(Hammadde hammadde)
+    {
+        seciliHammadde = new Hammadde
+            {
+                Id = hammadde.Id,
+                Kod = hammadde.Kod,
+                Ad = hammadde.Ad
+            };
+    }
+
+    private async Task Sil(int id)
+    {
+        await HammaddeService.DeleteAsync(id);
+        await Yukle();
+    }
+
+    private void Temizle()
+    {
+        seciliHammadde = new Hammadde();
+    }
+
+    private void GeriDon()
+    {
+        Navigation.NavigateTo("/stok-kart-araclari");
+    }
+}

@@ -1,0 +1,149 @@
+﻿@page "/satis-siparisler"
+@inherits AuthorizedPageBase
+
+@inject ISatisSiparisService SatisSiparisService
+@inject NavigationManager Navigation
+
+@using Models
+@using Microsoft.AspNetCore.Components.Forms
+
+<h3>Satış Siparişleri</h3>
+
+@if (!ErisimKontrolEdildi)
+{
+    <p>Sayfa erişimi kontrol ediliyor...</p>
+}
+else if (!ErisimVar)
+{
+    <p class="text-danger">Bu sayfaya erişim yetkiniz yok.</p>
+}
+else
+{
+    <EditForm Model="@seciliSiparis" OnValidSubmit="HandleSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label>Sipariş No</label>
+                <InputText class="form-control" @bind-Value="seciliSiparis.SiparisNo" />
+            </div>
+            <div class="col-md-4">
+                <label>Sipariş Tarihi</label>
+                <InputDate class="form-control" @bind-Value="seciliSiparis.SiparisTarihi" />
+            </div>
+            <div class="col-md-4">
+                <label>Teslim Tarihi</label>
+                <InputDate class="form-control" @bind-Value="seciliSiparis.TeslimTarihi" />
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label>Sipariş Tutarı</label>
+                <InputNumber class="form-control" @bind-Value="seciliSiparis.SiparisTutari" />
+            </div>
+            <div class="col-md-4">
+                <label>Öngörü Maliyeti</label>
+                <InputNumber class="form-control" @bind-Value="seciliSiparis.OngoruMaliyeti" />
+            </div>
+            <div class="col-md-4">
+                <label>KDV</label>
+                <InputNumber class="form-control" @bind-Value="seciliSiparis.Kdv" />
+            </div>
+        </div>
+
+        <button class="btn btn-success" type="submit">@(seciliSiparis.Id == 0 ? "Ekle" : "Güncelle")</button>
+        <button class="btn btn-secondary ms-2" type="button" @onclick="Temizle">Temizle</button>
+    </EditForm>
+
+    <hr />
+
+    <table class="table table-bordered table-striped mt-3">
+        <thead>
+            <tr>
+                <th>Sipariş No</th>
+                <th>Sipariş Tarihi</th>
+                <th>Teslim Tarihi</th>
+                <th>Tutar</th>
+                <th>Öngörü Maliyeti</th>
+                <th>KDV</th>
+                <th>İşlem</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in siparisler)
+            {
+                <tr>
+                    <td>@item.SiparisNo</td>
+                    <td>@item.SiparisTarihi?.ToShortDateString()</td>
+                    <td>@item.TeslimTarihi?.ToShortDateString()</td>
+                    <td>@item.SiparisTutari</td>
+                    <td>@item.OngoruMaliyeti</td>
+                    <td>@item.Kdv</td>
+                    <td>
+                        <button class="btn btn-sm btn-primary me-1" @onclick="@(() => Duzenle(item))">Düzenle</button>
+                        <button class="btn btn-sm btn-danger" @onclick="@(() => Sil(item.Id))">Sil</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<SatisSiparis> siparisler = new();
+    private SatisSiparis seciliSiparis = new();
+
+    protected override string GercekSayfaYolu => "/satis-siparisler";
+
+    protected override async Task OnSayfaYuklendi()
+    {
+        await Yukle();
+    }
+
+    private async Task Yukle()
+    {
+        siparisler = await SatisSiparisService.GetAllAsync();
+    }
+
+    private async Task HandleSubmit()
+    {
+        if (seciliSiparis.Id == 0)
+        {
+            await SatisSiparisService.AddAsync(seciliSiparis);
+        }
+        else
+        {
+            await SatisSiparisService.UpdateAsync(seciliSiparis);
+        }
+
+        await Yukle();
+        Temizle();
+    }
+
+    private void Duzenle(SatisSiparis item)
+    {
+        seciliSiparis = new SatisSiparis
+        {
+            Id = item.Id,
+            SiparisNo = item.SiparisNo,
+            SiparisTarihi = item.SiparisTarihi,
+            TeslimTarihi = item.TeslimTarihi,
+            SiparisTutari = item.SiparisTutari,
+            OngoruMaliyeti = item.OngoruMaliyeti,
+            Kdv = item.Kdv
+        };
+    }
+
+    private async Task Sil(int id)
+    {
+        await SatisSiparisService.DeleteAsync(id);
+        await Yukle();
+    }
+
+    private void Temizle()
+    {
+        seciliSiparis = new();
+    }
+}

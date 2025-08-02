@@ -1,0 +1,590 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{9D4370CB-3855-4A87-8107-0B04CAA65198}|YektamakWeb\\YektamakWeb.csproj|c:\\users\\ozabd\\source\\repos\\yektamakerp_v2\\yektamakweb\\shared\\navmenu.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9D4370CB-3855-4A87-8107-0B04CAA65198}|YektamakWeb\\YektamakWeb.csproj|solutionrelative:yektamakweb\\shared\\navmenu.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9D4370CB-3855-4A87-8107-0B04CAA65198}|YektamakWeb\\YektamakWeb.csproj|c:\\users\\ozabd\\source\\repos\\yektamakerp_v2\\yektamakweb\\pages\\satinalmaveteklif\\satinalmasiparislistesi.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9D4370CB-3855-4A87-8107-0B04CAA65198}|YektamakWeb\\YektamakWeb.csproj|solutionrelative:yektamakweb\\pages\\satinalmaveteklif\\satinalmasiparislistesi.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9D4370CB-3855-4A87-8107-0B04CAA65198}|YektamakWeb\\YektamakWeb.csproj|c:\\users\\ozabd\\source\\repos\\yektamakerp_v2\\yektamakweb\\pages\\satinalmaveteklif\\satinalmasiparisguncelle.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9D4370CB-3855-4A87-8107-0B04CAA65198}|YektamakWeb\\YektamakWeb.csproj|solutionrelative:yektamakweb\\pages\\satinalmaveteklif\\satinalmasiparisguncelle.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9D4370CB-3855-4A87-8107-0B04CAA65198}|YektamakWeb\\YektamakWeb.csproj|c:\\users\\ozabd\\source\\repos\\yektamakerp_v2\\yektamakweb\\pages\\satinalmaveteklif\\satinalmasiparisekle.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9D4370CB-3855-4A87-8107-0B04CAA65198}|YektamakWeb\\YektamakWeb.csproj|solutionrelative:yektamakweb\\pages\\satinalmaveteklif\\satinalmasiparisekle.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9D4370CB-3855-4A87-8107-0B04CAA65198}|YektamakWeb\\YektamakWeb.csproj|c:\\users\\ozabd\\source\\repos\\yektamakerp_v2\\yektamakweb\\pages\\satinalmaveteklif\\satinalmasiparisdetay.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9D4370CB-3855-4A87-8107-0B04CAA65198}|YektamakWeb\\YektamakWeb.csproj|solutionrelative:yektamakweb\\pages\\satinalmaveteklif\\satinalmasiparisdetay.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2A1A4A04-1414-468D-92D5-4E850342EB0C}|Models\\Models.csproj|c:\\users\\ozabd\\source\\repos\\yektamakerp_v2\\models\\satinalmasiparisbaslik.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2A1A4A04-1414-468D-92D5-4E850342EB0C}|Models\\Models.csproj|solutionrelative:models\\satinalmasiparisbaslik.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2A1A4A04-1414-468D-92D5-4E850342EB0C}|Models\\Models.csproj|c:\\users\\ozabd\\source\\repos\\yektamakerp_v2\\models\\satinalmasiparisdetay.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2A1A4A04-1414-468D-92D5-4E850342EB0C}|Models\\Models.csproj|solutionrelative:models\\satinalmasiparisdetay.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CFF70722-F274-4BB8-ADE0-44799CA81268}|Services\\Services.csproj|c:\\users\\ozabd\\source\\repos\\yektamakerp_v2\\services\\implementations\\satinalmasiparisdetayservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CFF70722-F274-4BB8-ADE0-44799CA81268}|Services\\Services.csproj|solutionrelative:services\\implementations\\satinalmasiparisdetayservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CFF70722-F274-4BB8-ADE0-44799CA81268}|Services\\Services.csproj|c:\\users\\ozabd\\source\\repos\\yektamakerp_v2\\services\\implementations\\satinalmasiparisbaslikservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CFF70722-F274-4BB8-ADE0-44799CA81268}|Services\\Services.csproj|solutionrelative:services\\implementations\\satinalmasiparisbaslikservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9D4370CB-3855-4A87-8107-0B04CAA65198}|YektamakWeb\\YektamakWeb.csproj|c:\\users\\ozabd\\source\\repos\\yektamakerp_v2\\yektamakweb\\pages\\satinalmaveteklif\\satinalmatalepguncelle.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9D4370CB-3855-4A87-8107-0B04CAA65198}|YektamakWeb\\YektamakWeb.csproj|solutionrelative:yektamakweb\\pages\\satinalmaveteklif\\satinalmatalepguncelle.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9D4370CB-3855-4A87-8107-0B04CAA65198}|YektamakWeb\\YektamakWeb.csproj|c:\\users\\ozabd\\source\\repos\\yektamakerp_v2\\yektamakweb\\pages\\satinalmaveteklif\\satinalmatalepekle.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9D4370CB-3855-4A87-8107-0B04CAA65198}|YektamakWeb\\YektamakWeb.csproj|solutionrelative:yektamakweb\\pages\\satinalmaveteklif\\satinalmatalepekle.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9D4370CB-3855-4A87-8107-0B04CAA65198}|YektamakWeb\\YektamakWeb.csproj|c:\\users\\ozabd\\source\\repos\\yektamakerp_v2\\yektamakweb\\pages\\satinalmaveteklif\\satinalmataleplistesi.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9D4370CB-3855-4A87-8107-0B04CAA65198}|YektamakWeb\\YektamakWeb.csproj|solutionrelative:yektamakweb\\pages\\satinalmaveteklif\\satinalmataleplistesi.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CFF70722-F274-4BB8-ADE0-44799CA81268}|Services\\Services.csproj|c:\\users\\ozabd\\source\\repos\\yektamakerp_v2\\services\\interfaces\\isatinalmatalepbaslikservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CFF70722-F274-4BB8-ADE0-44799CA81268}|Services\\Services.csproj|solutionrelative:services\\interfaces\\isatinalmatalepbaslikservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CFF70722-F274-4BB8-ADE0-44799CA81268}|Services\\Services.csproj|c:\\users\\ozabd\\source\\repos\\yektamakerp_v2\\services\\implementations\\satinalmatalepdetayservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CFF70722-F274-4BB8-ADE0-44799CA81268}|Services\\Services.csproj|solutionrelative:services\\implementations\\satinalmatalepdetayservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CFF70722-F274-4BB8-ADE0-44799CA81268}|Services\\Services.csproj|c:\\users\\ozabd\\source\\repos\\yektamakerp_v2\\services\\implementations\\satinalmatalepbaslikservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CFF70722-F274-4BB8-ADE0-44799CA81268}|Services\\Services.csproj|solutionrelative:services\\implementations\\satinalmatalepbaslikservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2A1A4A04-1414-468D-92D5-4E850342EB0C}|Models\\Models.csproj|c:\\users\\ozabd\\source\\repos\\yektamakerp_v2\\models\\satinalmatalepdetay.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2A1A4A04-1414-468D-92D5-4E850342EB0C}|Models\\Models.csproj|solutionrelative:models\\satinalmatalepdetay.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2A1A4A04-1414-468D-92D5-4E850342EB0C}|Models\\Models.csproj|c:\\users\\ozabd\\source\\repos\\yektamakerp_v2\\models\\satinalmatalepbaslik.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2A1A4A04-1414-468D-92D5-4E850342EB0C}|Models\\Models.csproj|solutionrelative:models\\satinalmatalepbaslik.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CFF70722-F274-4BB8-ADE0-44799CA81268}|Services\\Services.csproj|c:\\users\\ozabd\\source\\repos\\yektamakerp_v2\\services\\interfaces\\isatinalmatalepdetayservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CFF70722-F274-4BB8-ADE0-44799CA81268}|Services\\Services.csproj|solutionrelative:services\\interfaces\\isatinalmatalepdetayservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9D4370CB-3855-4A87-8107-0B04CAA65198}|YektamakWeb\\YektamakWeb.csproj|c:\\users\\ozabd\\source\\repos\\yektamakerp_v2\\yektamakweb\\pages\\satinalmaveteklif\\satinalmatalepdetayyonetim.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9D4370CB-3855-4A87-8107-0B04CAA65198}|YektamakWeb\\YektamakWeb.csproj|solutionrelative:yektamakweb\\pages\\satinalmaveteklif\\satinalmatalepdetayyonetim.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9D4370CB-3855-4A87-8107-0B04CAA65198}|YektamakWeb\\YektamakWeb.csproj|c:\\users\\ozabd\\source\\repos\\yektamakerp_v2\\yektamakweb\\shared\\authorizedpagebase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9D4370CB-3855-4A87-8107-0B04CAA65198}|YektamakWeb\\YektamakWeb.csproj|solutionrelative:yektamakweb\\shared\\authorizedpagebase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{68E1B70E-D5B8-4359-A8D8-E9FC5ECDF856}|DataAccess\\DataAccess.csproj|c:\\users\\ozabd\\source\\repos\\yektamakerp_v2\\dataaccess\\yektamakdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{68E1B70E-D5B8-4359-A8D8-E9FC5ECDF856}|DataAccess\\DataAccess.csproj|solutionrelative:dataaccess\\yektamakdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CFF70722-F274-4BB8-ADE0-44799CA81268}|Services\\Services.csproj|c:\\users\\ozabd\\source\\repos\\yektamakerp_v2\\services\\interfaces\\isatinalmasiparisdetayservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CFF70722-F274-4BB8-ADE0-44799CA81268}|Services\\Services.csproj|solutionrelative:services\\interfaces\\isatinalmasiparisdetayservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CFF70722-F274-4BB8-ADE0-44799CA81268}|Services\\Services.csproj|c:\\users\\ozabd\\source\\repos\\yektamakerp_v2\\services\\interfaces\\isatinalmasiparisbaslikservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CFF70722-F274-4BB8-ADE0-44799CA81268}|Services\\Services.csproj|solutionrelative:services\\interfaces\\isatinalmasiparisbaslikservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2A1A4A04-1414-468D-92D5-4E850342EB0C}|Models\\Models.csproj|c:\\users\\ozabd\\source\\repos\\yektamakerp_v2\\models\\stokkart.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2A1A4A04-1414-468D-92D5-4E850342EB0C}|Models\\Models.csproj|solutionrelative:models\\stokkart.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2A1A4A04-1414-468D-92D5-4E850342EB0C}|Models\\Models.csproj|c:\\users\\ozabd\\source\\repos\\yektamakerp_v2\\models\\firma.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2A1A4A04-1414-468D-92D5-4E850342EB0C}|Models\\Models.csproj|solutionrelative:models\\firma.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9D4370CB-3855-4A87-8107-0B04CAA65198}|YektamakWeb\\YektamakWeb.csproj|c:\\users\\ozabd\\source\\repos\\yektamakerp_v2\\yektamakweb\\_imports.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9D4370CB-3855-4A87-8107-0B04CAA65198}|YektamakWeb\\YektamakWeb.csproj|solutionrelative:yektamakweb\\_imports.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9D4370CB-3855-4A87-8107-0B04CAA65198}|YektamakWeb\\YektamakWeb.csproj|c:\\users\\ozabd\\source\\repos\\yektamakerp_v2\\yektamakweb\\pages\\firmaekle.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9D4370CB-3855-4A87-8107-0B04CAA65198}|YektamakWeb\\YektamakWeb.csproj|solutionrelative:yektamakweb\\pages\\firmaekle.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9D4370CB-3855-4A87-8107-0B04CAA65198}|YektamakWeb\\YektamakWeb.csproj|c:\\users\\ozabd\\source\\repos\\yektamakerp_v2\\yektamakweb\\pages\\fetchdata.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9D4370CB-3855-4A87-8107-0B04CAA65198}|YektamakWeb\\YektamakWeb.csproj|solutionrelative:yektamakweb\\pages\\fetchdata.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9D4370CB-3855-4A87-8107-0B04CAA65198}|YektamakWeb\\YektamakWeb.csproj|c:\\users\\ozabd\\source\\repos\\yektamakerp_v2\\yektamakweb\\pages\\rolguncelle.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9D4370CB-3855-4A87-8107-0B04CAA65198}|YektamakWeb\\YektamakWeb.csproj|solutionrelative:yektamakweb\\pages\\rolguncelle.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9D4370CB-3855-4A87-8107-0B04CAA65198}|YektamakWeb\\YektamakWeb.csproj|c:\\users\\ozabd\\source\\repos\\yektamakerp_v2\\yektamakweb\\pages\\pozisyonlar.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9D4370CB-3855-4A87-8107-0B04CAA65198}|YektamakWeb\\YektamakWeb.csproj|solutionrelative:yektamakweb\\pages\\pozisyonlar.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9D4370CB-3855-4A87-8107-0B04CAA65198}|YektamakWeb\\YektamakWeb.csproj|c:\\users\\ozabd\\source\\repos\\yektamakerp_v2\\yektamakweb\\pages\\kullaniciguncelle.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9D4370CB-3855-4A87-8107-0B04CAA65198}|YektamakWeb\\YektamakWeb.csproj|solutionrelative:yektamakweb\\pages\\kullaniciguncelle.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2A1A4A04-1414-468D-92D5-4E850342EB0C}|Models\\Models.csproj|c:\\users\\ozabd\\source\\repos\\yektamakerp_v2\\models\\markaaltgrup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2A1A4A04-1414-468D-92D5-4E850342EB0C}|Models\\Models.csproj|solutionrelative:models\\markaaltgrup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9D4370CB-3855-4A87-8107-0B04CAA65198}|YektamakWeb\\YektamakWeb.csproj|c:\\users\\ozabd\\source\\repos\\yektamakerp_v2\\yektamakweb\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9D4370CB-3855-4A87-8107-0B04CAA65198}|YektamakWeb\\YektamakWeb.csproj|solutionrelative:yektamakweb\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 1,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedHeight": 208,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "SatinalmaTalepEkle.razor",
+              "DocumentMoniker": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\YektamakWeb\\Pages\\SatinAlmaveTeklif\\SatinalmaTalepEkle.razor",
+              "RelativeDocumentMoniker": "YektamakWeb\\Pages\\SatinAlmaveTeklif\\SatinalmaTalepEkle.razor",
+              "ToolTip": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\YektamakWeb\\Pages\\SatinAlmaveTeklif\\SatinalmaTalepEkle.razor",
+              "RelativeToolTip": "YektamakWeb\\Pages\\SatinAlmaveTeklif\\SatinalmaTalepEkle.razor",
+              "ViewState": "AgIAABMBAAAAAAAAAAAowDABAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-25T13:55:41.237Z",
+              "IsPinned": true
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "NavMenu.razor",
+              "DocumentMoniker": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\YektamakWeb\\Shared\\NavMenu.razor",
+              "RelativeDocumentMoniker": "YektamakWeb\\Shared\\NavMenu.razor",
+              "ToolTip": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\YektamakWeb\\Shared\\NavMenu.razor",
+              "RelativeToolTip": "YektamakWeb\\Shared\\NavMenu.razor",
+              "ViewState": "AgIAAOwAAAAAAAAAAAAwwBIBAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-28T12:03:34.819Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "SatinalmaSiparisBaslik.cs",
+              "DocumentMoniker": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\Models\\SatinalmaSiparisBaslik.cs",
+              "RelativeDocumentMoniker": "Models\\SatinalmaSiparisBaslik.cs",
+              "ToolTip": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\Models\\SatinalmaSiparisBaslik.cs",
+              "RelativeToolTip": "Models\\SatinalmaSiparisBaslik.cs",
+              "ViewState": "AgIAABUAAAAAAAAAAAAAwCkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-25T14:13:36.579Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "SatinalmaSiparisDetay.cs",
+              "DocumentMoniker": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\Models\\SatinalmaSiparisDetay.cs",
+              "RelativeDocumentMoniker": "Models\\SatinalmaSiparisDetay.cs",
+              "ToolTip": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\Models\\SatinalmaSiparisDetay.cs",
+              "RelativeToolTip": "Models\\SatinalmaSiparisDetay.cs",
+              "ViewState": "AgIAAAQAAAAAAAAAAAAowA4AAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-25T13:43:35.527Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "SatinalmaSiparisEkle.razor",
+              "DocumentMoniker": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\YektamakWeb\\Pages\\SatinAlmaveTeklif\\SatinalmaSiparisEkle.razor",
+              "RelativeDocumentMoniker": "YektamakWeb\\Pages\\SatinAlmaveTeklif\\SatinalmaSiparisEkle.razor",
+              "ToolTip": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\YektamakWeb\\Pages\\SatinAlmaveTeklif\\SatinalmaSiparisEkle.razor",
+              "RelativeToolTip": "YektamakWeb\\Pages\\SatinAlmaveTeklif\\SatinalmaSiparisEkle.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-28T04:53:30.49Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "SatinalmaSiparisDetay.razor",
+              "DocumentMoniker": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\YektamakWeb\\Pages\\SatinAlmaveTeklif\\SatinalmaSiparisDetay.razor",
+              "RelativeDocumentMoniker": "YektamakWeb\\Pages\\SatinAlmaveTeklif\\SatinalmaSiparisDetay.razor",
+              "ToolTip": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\YektamakWeb\\Pages\\SatinAlmaveTeklif\\SatinalmaSiparisDetay.razor",
+              "RelativeToolTip": "YektamakWeb\\Pages\\SatinAlmaveTeklif\\SatinalmaSiparisDetay.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-25T13:42:16.724Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "SatinalmaSiparisGuncelle.razor",
+              "DocumentMoniker": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\YektamakWeb\\Pages\\SatinAlmaveTeklif\\SatinalmaSiparisGuncelle.razor",
+              "RelativeDocumentMoniker": "YektamakWeb\\Pages\\SatinAlmaveTeklif\\SatinalmaSiparisGuncelle.razor",
+              "ToolTip": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\YektamakWeb\\Pages\\SatinAlmaveTeklif\\SatinalmaSiparisGuncelle.razor",
+              "RelativeToolTip": "YektamakWeb\\Pages\\SatinAlmaveTeklif\\SatinalmaSiparisGuncelle.razor",
+              "ViewState": "AgIAAIIAAAAAAAAAAAAUwJkAAAA+AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-25T13:51:48.691Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "SatinalmaSiparisListesi.razor",
+              "DocumentMoniker": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\YektamakWeb\\Pages\\SatinAlmaveTeklif\\SatinalmaSiparisListesi.razor",
+              "RelativeDocumentMoniker": "YektamakWeb\\Pages\\SatinAlmaveTeklif\\SatinalmaSiparisListesi.razor",
+              "ToolTip": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\YektamakWeb\\Pages\\SatinAlmaveTeklif\\SatinalmaSiparisListesi.razor",
+              "RelativeToolTip": "YektamakWeb\\Pages\\SatinAlmaveTeklif\\SatinalmaSiparisListesi.razor",
+              "ViewState": "AgIAAE8AAAAAAAAAAAAmwHUAAABDAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-25T13:51:59.183Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "SatinalmaSiparisDetayService.cs",
+              "DocumentMoniker": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\Services\\Implementations\\SatinalmaSiparisDetayService.cs",
+              "RelativeDocumentMoniker": "Services\\Implementations\\SatinalmaSiparisDetayService.cs",
+              "ToolTip": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\Services\\Implementations\\SatinalmaSiparisDetayService.cs",
+              "RelativeToolTip": "Services\\Implementations\\SatinalmaSiparisDetayService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-28T05:16:06.625Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "SatinalmaSiparisBaslikService.cs",
+              "DocumentMoniker": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\Services\\Implementations\\SatinalmaSiparisBaslikService.cs",
+              "RelativeDocumentMoniker": "Services\\Implementations\\SatinalmaSiparisBaslikService.cs",
+              "ToolTip": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\Services\\Implementations\\SatinalmaSiparisBaslikService.cs",
+              "RelativeToolTip": "Services\\Implementations\\SatinalmaSiparisBaslikService.cs",
+              "ViewState": "AgIAAHsAAAAAAAAAAAA5wJgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-28T05:12:01.594Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "SatinalmaTalepGuncelle.razor",
+              "DocumentMoniker": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\YektamakWeb\\Pages\\SatinAlmaveTeklif\\SatinalmaTalepGuncelle.razor",
+              "RelativeDocumentMoniker": "YektamakWeb\\Pages\\SatinAlmaveTeklif\\SatinalmaTalepGuncelle.razor",
+              "ToolTip": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\YektamakWeb\\Pages\\SatinAlmaveTeklif\\SatinalmaTalepGuncelle.razor",
+              "RelativeToolTip": "YektamakWeb\\Pages\\SatinAlmaveTeklif\\SatinalmaTalepGuncelle.razor",
+              "ViewState": "AgIAAC8BAAAAAAAAAAAowEwBAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-25T13:53:01.748Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "SatinalmaTalepListesi.razor",
+              "DocumentMoniker": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\YektamakWeb\\Pages\\SatinAlmaveTeklif\\SatinalmaTalepListesi.razor",
+              "RelativeDocumentMoniker": "YektamakWeb\\Pages\\SatinAlmaveTeklif\\SatinalmaTalepListesi.razor",
+              "ToolTip": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\YektamakWeb\\Pages\\SatinAlmaveTeklif\\SatinalmaTalepListesi.razor",
+              "RelativeToolTip": "YektamakWeb\\Pages\\SatinAlmaveTeklif\\SatinalmaTalepListesi.razor",
+              "ViewState": "AgIAAKUAAAAAAAAAAAAowMIAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-25T13:53:06.22Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "ISatinalmaTalepBaslikService.cs",
+              "DocumentMoniker": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\Services\\Interfaces\\ISatinalmaTalepBaslikService.cs",
+              "RelativeDocumentMoniker": "Services\\Interfaces\\ISatinalmaTalepBaslikService.cs",
+              "ToolTip": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\Services\\Interfaces\\ISatinalmaTalepBaslikService.cs",
+              "RelativeToolTip": "Services\\Interfaces\\ISatinalmaTalepBaslikService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-28T11:17:54.38Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "SatinalmaTalepBaslikService.cs",
+              "DocumentMoniker": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\Services\\Implementations\\SatinalmaTalepBaslikService.cs",
+              "RelativeDocumentMoniker": "Services\\Implementations\\SatinalmaTalepBaslikService.cs",
+              "ToolTip": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\Services\\Implementations\\SatinalmaTalepBaslikService.cs",
+              "RelativeToolTip": "Services\\Implementations\\SatinalmaTalepBaslikService.cs",
+              "ViewState": "AgIAAMoAAAAAAAAAAAAAAOQAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-28T10:06:40.796Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "SatinalmaTalepDetay.cs",
+              "DocumentMoniker": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\Models\\SatinalmaTalepDetay.cs",
+              "RelativeDocumentMoniker": "Models\\SatinalmaTalepDetay.cs",
+              "ToolTip": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\Models\\SatinalmaTalepDetay.cs",
+              "RelativeToolTip": "Models\\SatinalmaTalepDetay.cs",
+              "ViewState": "AgIAABgAAAAAAAAAAAA3wC4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-28T10:08:13.163Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "SatinalmaTalepBaslik.cs",
+              "DocumentMoniker": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\Models\\SatinalmaTalepBaslik.cs",
+              "RelativeDocumentMoniker": "Models\\SatinalmaTalepBaslik.cs",
+              "ToolTip": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\Models\\SatinalmaTalepBaslik.cs",
+              "RelativeToolTip": "Models\\SatinalmaTalepBaslik.cs",
+              "ViewState": "AgIAACAAAAAAAAAAAAAYwDUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-25T14:15:31.12Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "SatinalmaTalepDetayService.cs",
+              "DocumentMoniker": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\Services\\Implementations\\SatinalmaTalepDetayService.cs",
+              "RelativeDocumentMoniker": "Services\\Implementations\\SatinalmaTalepDetayService.cs",
+              "ToolTip": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\Services\\Implementations\\SatinalmaTalepDetayService.cs",
+              "RelativeToolTip": "Services\\Implementations\\SatinalmaTalepDetayService.cs",
+              "ViewState": "AgIAAG0AAAAAAAAAAAAQwIgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-28T07:30:00.69Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "ISatinalmaTalepDetayService.cs",
+              "DocumentMoniker": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\Services\\Interfaces\\ISatinalmaTalepDetayService.cs",
+              "RelativeDocumentMoniker": "Services\\Interfaces\\ISatinalmaTalepDetayService.cs",
+              "ToolTip": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\Services\\Interfaces\\ISatinalmaTalepDetayService.cs",
+              "RelativeToolTip": "Services\\Interfaces\\ISatinalmaTalepDetayService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAABFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-28T07:31:26.329Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "SatinalmaTalepDetayYonetim.razor",
+              "DocumentMoniker": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\YektamakWeb\\Pages\\SatinAlmaveTeklif\\SatinalmaTalepDetayYonetim.razor",
+              "RelativeDocumentMoniker": "YektamakWeb\\Pages\\SatinAlmaveTeklif\\SatinalmaTalepDetayYonetim.razor",
+              "ToolTip": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\YektamakWeb\\Pages\\SatinAlmaveTeklif\\SatinalmaTalepDetayYonetim.razor",
+              "RelativeToolTip": "YektamakWeb\\Pages\\SatinAlmaveTeklif\\SatinalmaTalepDetayYonetim.razor",
+              "ViewState": "AgIAADIAAAAAAAAAAAAAACEAAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-25T13:53:07.852Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "YektamakDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\DataAccess\\YektamakDbContext.cs",
+              "RelativeDocumentMoniker": "DataAccess\\YektamakDbContext.cs",
+              "ToolTip": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\DataAccess\\YektamakDbContext.cs",
+              "RelativeToolTip": "DataAccess\\YektamakDbContext.cs",
+              "ViewState": "AgIAAPoBAAAAAAAAAAAqwBACAABYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-28T05:16:45.992Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "AuthorizedPageBase.cs",
+              "DocumentMoniker": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\YektamakWeb\\Shared\\AuthorizedPageBase.cs",
+              "RelativeDocumentMoniker": "YektamakWeb\\Shared\\AuthorizedPageBase.cs",
+              "ToolTip": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\YektamakWeb\\Shared\\AuthorizedPageBase.cs",
+              "RelativeToolTip": "YektamakWeb\\Shared\\AuthorizedPageBase.cs",
+              "ViewState": "AgIAAAcAAAAAAAAAAAA8wDMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-28T05:19:08.883Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "ISatinalmaSiparisDetayService.cs",
+              "DocumentMoniker": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\Services\\Interfaces\\ISatinalmaSiparisDetayService.cs",
+              "RelativeDocumentMoniker": "Services\\Interfaces\\ISatinalmaSiparisDetayService.cs",
+              "ToolTip": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\Services\\Interfaces\\ISatinalmaSiparisDetayService.cs",
+              "RelativeToolTip": "Services\\Interfaces\\ISatinalmaSiparisDetayService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-28T05:15:40.57Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "ISatinalmaSiparisBaslikService.cs",
+              "DocumentMoniker": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\Services\\Interfaces\\ISatinalmaSiparisBaslikService.cs",
+              "RelativeDocumentMoniker": "Services\\Interfaces\\ISatinalmaSiparisBaslikService.cs",
+              "ToolTip": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\Services\\Interfaces\\ISatinalmaSiparisBaslikService.cs",
+              "RelativeToolTip": "Services\\Interfaces\\ISatinalmaSiparisBaslikService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-28T05:12:13.244Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "StokKart.cs",
+              "DocumentMoniker": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\Models\\StokKart.cs",
+              "RelativeDocumentMoniker": "Models\\StokKart.cs",
+              "ToolTip": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\Models\\StokKart.cs",
+              "RelativeToolTip": "Models\\StokKart.cs",
+              "ViewState": "AgIAADIAAAAAAAAAAAA6wFcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-28T05:11:46.402Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "Firma.cs",
+              "DocumentMoniker": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\Models\\Firma.cs",
+              "RelativeDocumentMoniker": "Models\\Firma.cs",
+              "ToolTip": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\Models\\Firma.cs",
+              "RelativeToolTip": "Models\\Firma.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-28T05:11:25.56Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "_Imports.razor",
+              "DocumentMoniker": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\YektamakWeb\\_Imports.razor",
+              "RelativeDocumentMoniker": "YektamakWeb\\_Imports.razor",
+              "ToolTip": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\YektamakWeb\\_Imports.razor",
+              "RelativeToolTip": "YektamakWeb\\_Imports.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-28T04:59:41.225Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "FirmaEkle.razor",
+              "DocumentMoniker": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\YektamakWeb\\Pages\\FirmaEkle.razor",
+              "RelativeDocumentMoniker": "YektamakWeb\\Pages\\FirmaEkle.razor",
+              "ToolTip": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\YektamakWeb\\Pages\\FirmaEkle.razor",
+              "RelativeToolTip": "YektamakWeb\\Pages\\FirmaEkle.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-25T13:52:41.792Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "FetchData.razor",
+              "DocumentMoniker": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\YektamakWeb\\Pages\\FetchData.razor",
+              "RelativeDocumentMoniker": "YektamakWeb\\Pages\\FetchData.razor",
+              "ToolTip": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\YektamakWeb\\Pages\\FetchData.razor",
+              "RelativeToolTip": "YektamakWeb\\Pages\\FetchData.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-25T13:52:37.763Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "RolGuncelle.razor",
+              "DocumentMoniker": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\YektamakWeb\\Pages\\RolGuncelle.razor",
+              "RelativeDocumentMoniker": "YektamakWeb\\Pages\\RolGuncelle.razor",
+              "ToolTip": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\YektamakWeb\\Pages\\RolGuncelle.razor",
+              "RelativeToolTip": "YektamakWeb\\Pages\\RolGuncelle.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-25T13:52:36.625Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "Pozisyonlar.razor",
+              "DocumentMoniker": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\YektamakWeb\\Pages\\Pozisyonlar.razor",
+              "RelativeDocumentMoniker": "YektamakWeb\\Pages\\Pozisyonlar.razor",
+              "ToolTip": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\YektamakWeb\\Pages\\Pozisyonlar.razor",
+              "RelativeToolTip": "YektamakWeb\\Pages\\Pozisyonlar.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-25T13:52:34.385Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "KullaniciGuncelle.razor",
+              "DocumentMoniker": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\YektamakWeb\\Pages\\KullaniciGuncelle.razor",
+              "RelativeDocumentMoniker": "YektamakWeb\\Pages\\KullaniciGuncelle.razor",
+              "ToolTip": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\YektamakWeb\\Pages\\KullaniciGuncelle.razor",
+              "RelativeToolTip": "YektamakWeb\\Pages\\KullaniciGuncelle.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-25T13:51:40.31Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 31,
+              "Title": "MarkaAltGrup.cs",
+              "DocumentMoniker": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\Models\\MarkaAltGrup.cs",
+              "RelativeDocumentMoniker": "Models\\MarkaAltGrup.cs",
+              "ToolTip": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\Models\\MarkaAltGrup.cs",
+              "RelativeToolTip": "Models\\MarkaAltGrup.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-25T13:51:34.906Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 32,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\YektamakWeb\\Program.cs",
+              "RelativeDocumentMoniker": "YektamakWeb\\Program.cs",
+              "ToolTip": "C:\\Users\\ozabd\\source\\repos\\YektamakERP_v2\\YektamakWeb\\Program.cs",
+              "RelativeToolTip": "YektamakWeb\\Program.cs",
+              "ViewState": "AgIAACEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-25T13:40:45.509Z"
+            }
+          ]
+        },
+        {
+          "DockedHeight": 130,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            }
+          ]
+        },
+        {
+          "DockedHeight": 326,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{0ad07096-bba9-4900-a651-0598d26f6d24}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3822e751-eb69-4b0e-b301-595a9e4c74d5}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

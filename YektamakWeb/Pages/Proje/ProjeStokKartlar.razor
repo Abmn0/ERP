@@ -1,0 +1,163 @@
+﻿@page "/proje-stok-kartlar"
+@inherits AuthorizedPageBase
+
+@inject IProjeStokKartService ProjeStokKartService
+@inject IProjeService ProjeService
+@inject IStokKartService StokKartService
+@inject NavigationManager Navigation
+
+@using Models
+@using ApiService.Interfaces
+@using Microsoft.AspNetCore.Components.Forms
+
+<h3>Proje - Stok Kart Yönetimi</h3>
+
+@if (!ErisimKontrolEdildi)
+{
+    <p>Sayfa erişimi kontrol ediliyor...</p>
+}
+else if (!ErisimVar)
+{
+    <p class="text-danger">Bu sayfaya erişim yetkiniz yok.</p>
+}
+else
+{
+    <EditForm Model="@seciliKayit" OnValidSubmit="HandleSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label>Proje</label>
+                <InputSelect class="form-control" @bind-Value="seciliKayit.ProjeId">
+                    <option value="">-- Seçiniz --</option>
+                    @foreach (var proje in projeler)
+                    {
+                        <option value="@proje.Id">@proje.Ad</option>
+                    }
+                </InputSelect>
+            </div>
+            <div class="col-md-4">
+                <label>Stok Kart</label>
+                <InputSelect class="form-control" @bind-Value="seciliKayit.StokKartId">
+                    <option value="">-- Seçiniz --</option>
+                    @foreach (var stok in stokKartlar)
+                    {
+                        <option value="@stok.Id">@stok.Ad</option>
+                    }
+                </InputSelect>
+            </div>
+            <div class="col-md-4">
+                <label>Miktar</label>
+                <InputNumber class="form-control" @bind-Value="seciliKayit.Miktar" />
+            </div>
+        </div>
+
+        <button class="btn btn-success" type="submit">@(seciliKayit.Id == 0 ? "Ekle" : "Güncelle")</button>
+        <button class="btn btn-secondary ms-2" type="button" @onclick="Temizle">Temizle</button>
+    </EditForm>
+
+    @if (!string.IsNullOrWhiteSpace(hataMesaji))
+    {
+        <div class="alert alert-danger mt-2">@hataMesaji</div>
+    }
+
+    <hr />
+
+    <table class="table table-bordered table-striped mt-3">
+        <thead>
+            <tr>
+                <th>Proje</th>
+                <th>Stok Kart</th>
+                <th>Miktar</th>
+                <th>İşlem</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in kayitlar)
+            {
+                <tr>
+                    <td>@item.Proje?.Ad</td>
+                    <td>@item.StokKart?.Ad</td>
+                    <td>@item.Miktar</td>
+                    <td>
+                        <button class="btn btn-sm btn-primary me-1" @onclick="() => Duzenle(item)">Düzenle</button>
+                        <button class="btn btn-sm btn-danger" @onclick="() => Sil(item.Id)">Sil</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<ProjeStokKart> kayitlar = new();
+    private List<Proje> projeler = new();
+    private List<StokKart> stokKartlar = new();
+    private ProjeStokKart seciliKayit = new();
+    private string? hataMesaji;
+
+    protected override string GercekSayfaYolu => "/proje-stok-kartlar";
+
+    protected override async Task OnSayfaYuklendi()
+    {
+        await Yukle();
+    }
+
+    private async Task Yukle()
+    {
+        kayitlar = await ProjeStokKartService.GetAllWithIncludeAsync();
+        projeler = await ProjeService.GetAllAsync();
+        stokKartlar = await StokKartService.GetAllAsync();
+    }
+
+    private async Task HandleSubmit()
+    {
+        try
+        {
+            if (seciliKayit.Id == 0)
+                await ProjeStokKartService.AddAsync(seciliKayit);
+            else
+                await ProjeStokKartService.UpdateAsync(seciliKayit);
+
+            await Yukle();
+            Temizle();
+            hataMesaji = null;
+        }
+        catch (Exception ex)
+        {
+            hataMesaji = $"Hata: {ex.Message}";
+        }
+    }
+
+    private void Duzenle(ProjeStokKart item)
+    {
+        seciliKayit = new ProjeStokKart
+        {
+            Id = item.Id,
+            ProjeId = item.ProjeId,
+            StokKartId = item.StokKartId,
+            Miktar = item.Miktar
+        };
+    }
+
+    private async Task Sil(int id)
+    {
+        try
+        {
+            await ProjeStokKartService.DeleteAsync(id);
+            await Yukle();
+            hataMesaji = null;
+        }
+        catch (Exception ex)
+        {
+            hataMesaji = $"Silme işlemi başarısız: {ex.Message}";
+        }
+    }
+
+    private void Temizle()
+    {
+        seciliKayit = new();
+        hataMesaji = null;
+    }
+}

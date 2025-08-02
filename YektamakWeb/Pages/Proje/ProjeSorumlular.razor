@@ -1,0 +1,146 @@
+﻿@page "/proje-sorumlular"
+@inject IProjeSorumluService ProjeSorumluService
+@inject IProjeService ProjeService
+@inject IPersonelService PersonelService
+@using Models
+@using ApiService.Interfaces
+@using Microsoft.AspNetCore.Components.Forms
+
+<h3>Proje Sorumluları</h3>
+
+@if (!string.IsNullOrWhiteSpace(hataMesaji))
+{
+    <div class="alert alert-danger">@hataMesaji</div>
+}
+
+<EditForm Model="@yeniSorumlu" OnValidSubmit="HandleSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="row mb-2">
+        <div class="col">
+            <label>Proje</label>
+            <select class="form-select" @bind="yeniSorumlu.ProjeId">
+                <option value="">Seçiniz</option>
+                @foreach (var proje in projeler)
+                {
+                    <option value="@proje.Id">@proje.Ad</option>
+                }
+            </select>
+        </div>
+        <div class="col">
+            <label>Personel</label>
+            <select class="form-select" @bind="yeniSorumlu.PersonelId">
+                <option value="">Seçiniz</option>
+                @foreach (var personel in personeller)
+                {
+                    <option value="@personel.Id">@personel.PersonelAd @personel.PersonelSoyad</option>
+                }
+            </select>
+        </div>
+        <div class="col">
+            <button class="btn btn-success mt-4" type="submit">@((guncellenenId == 0) ? "Ekle" : "Güncelle")</button>
+            @if (guncellenenId != 0)
+            {
+                <button type="button" class="btn btn-secondary mt-4 ms-2" @onclick="Vazgec">Vazgeç</button>
+            }
+        </div>
+    </div>
+</EditForm>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Proje</th>
+            <th>Personel</th>
+            <th>İşlemler</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in projeSorumlular)
+        {
+            <tr>
+                <td>@item.Proje?.Ad</td>
+                <td>@item.Personel?.PersonelAd @item.Personel?.PersonelSoyad</td>
+                <td>
+                    <button class="btn btn-sm btn-warning me-1" @onclick="() => Duzenle(item)">Güncelle</button>
+                    <button class="btn btn-sm btn-danger" @onclick="() => Sil(item.Id)">Sil</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    private List<ProjeSorumlu> projeSorumlular = new();
+    private List<Proje> projeler = new();
+    private List<Personel> personeller = new();
+    private ProjeSorumlu yeniSorumlu = new();
+    private string? hataMesaji;
+    private int guncellenenId = 0;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Yukle();
+    }
+
+    private async Task Yukle()
+    {
+        hataMesaji = null;
+        projeSorumlular = await ProjeSorumluService.GetAllAsync();
+        projeler = await ProjeService.GetAllAsync();
+        personeller = await PersonelService.GetAllAsync();
+    }
+
+    private async Task HandleSubmit()
+    {
+        try
+        {
+            if (guncellenenId == 0)
+            {
+                await ProjeSorumluService.AddAsync(yeniSorumlu);
+            }
+            else
+            {
+                await ProjeSorumluService.UpdateAsync(yeniSorumlu);
+            }
+            yeniSorumlu = new();
+            guncellenenId = 0;
+            await Yukle();
+        }
+        catch (Exception ex)
+        {
+            hataMesaji = ex.Message;
+        }
+    }
+
+    private void Duzenle(ProjeSorumlu sorumlu)
+    {
+        yeniSorumlu = new ProjeSorumlu
+            {
+                Id = sorumlu.Id,
+                ProjeId = sorumlu.ProjeId,
+                PersonelId = sorumlu.PersonelId
+            };
+        guncellenenId = sorumlu.Id;
+    }
+
+    private void Vazgec()
+    {
+        yeniSorumlu = new();
+        guncellenenId = 0;
+    }
+
+    private async Task Sil(int id)
+    {
+        try
+        {
+            await ProjeSorumluService.DeleteAsync(id);
+            await Yukle();
+        }
+        catch (Exception ex)
+        {
+            hataMesaji = ex.Message;
+        }
+    }
+}

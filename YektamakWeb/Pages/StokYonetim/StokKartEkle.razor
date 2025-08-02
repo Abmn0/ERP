@@ -1,0 +1,288 @@
+﻿@page "/stok-kart-ekle"
+
+@inject IStokKartService StokKartService
+@inject IStokGrupService StokGrupService
+@inject IStokTipService StokTipService
+@inject IMalzemeGrupService MalzemeGrupService
+@inject IMalzemeAltGrupService MalzemeAltGrupService
+@inject IMalzemeAltGrup2Service MalzemeAltGrup2Service
+@inject IOlcuBirimService OlcuBirimService
+@inject IMalzemeStandartService MalzemeStandartService
+@inject IHammaddeService HammaddeService
+@inject NavigationManager Navigation
+
+<h3>Yeni Stok Kartı Ekle</h3>
+
+<EditForm Model="@yeniStok" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="row g-3">
+        <div class="col-md-3">
+            <label>Kod</label>
+            <InputText class="form-control" @bind-Value="yeniStok.Kod" />
+        </div>
+        <div class="col-md-3">
+            <label>Ad</label>
+            <InputText class="form-control" @bind-Value="yeniStok.Ad" />
+        </div>
+        <div class="col-md-3">
+            <label>Parça Kod</label>
+            <InputText class="form-control" @bind-Value="yeniStok.ParcaKod" />
+        </div>
+        <div class="col-md-3">
+            <label>Parça Adı</label>
+            <InputText class="form-control" @bind-Value="yeniStok.ParcaAdi" />
+        </div>
+
+        <div class="col-md-3">
+            <label>Stok Grubu</label>
+            <InputSelect class="form-select" @bind-Value="StokGrupId">
+                <option value="">-- Seçiniz --</option>
+                @foreach (var g in stokGruplar)
+                {
+                    <option value="@g.Id">@g.Ad</option>
+                }
+            </InputSelect>
+        </div>
+        <div class="col-md-3">
+            <label>Stok Tipi</label>
+            <InputSelect class="form-select" @bind-Value="yeniStok.StokTipId">
+                <option value="">-- Seçiniz --</option>
+                @foreach (var t in stokTipler)
+                {
+                    <option value="@t.Id">@t.Ad</option>
+                }
+            </InputSelect>
+        </div>
+        <div class="col-md-3">
+            <label>Malzeme</label>
+            <InputText class="form-control" @bind-Value="yeniStok.Malzeme" />
+        </div>
+        <div class="col-md-3">
+            <label>Malzeme Grup</label>
+            <InputSelect class="form-select" @bind-Value="MalzemeGrupId">
+                <option value="">-- Seçiniz --</option>
+                @foreach (var mg in malzemeGruplar)
+                {
+                    <option value="@mg.Id">@mg.Ad</option>
+                }
+            </InputSelect>
+        </div>
+
+        <div class="col-md-3">
+            <label>Alt Grup</label>
+            <InputSelect class="form-select" @bind-Value="MalzemeAltGrupId">
+                <option value="">-- Seçiniz --</option>
+                @foreach (var ag in malzemeAltGruplar)
+                {
+                    <option value="@ag.Id">@ag.Ad</option>
+                }
+            </InputSelect>
+        </div>
+        <div class="col-md-3">
+            <label>Alt Grup 2</label>
+            <InputSelect class="form-select" @bind-Value="yeniStok.MalzemeAltGrup2Id">
+                <option value="">-- Seçiniz --</option>
+                @foreach (var ag2 in malzemeAltGrup2ler)
+                {
+                    <option value="@ag2.Id">@ag2.Ad</option>
+                }
+            </InputSelect>
+        </div>
+        <div class="col-md-3">
+            <label>Ölçü Birimi</label>
+            <InputSelect class="form-select" @bind-Value="yeniStok.OlcuBirimId">
+                <option value="">-- Seçiniz --</option>
+                @foreach (var ob in olcuBirimler)
+                {
+                    <option value="@ob.Id">@ob.Ad</option>
+                }
+            </InputSelect>
+        </div>
+        <div class="col-md-3">
+            <label>Malzeme Standart</label>
+            <InputSelect class="form-select" @bind-Value="yeniStok.MalzemeStandartId">
+                <option value="">-- Seçiniz --</option>
+                @foreach (var ms in malzemeStandartlar)
+                {
+                    <option value="@ms.Id">@ms.Kod</option>
+                }
+            </InputSelect>
+        </div>
+
+        <div class="col-md-3">
+            <label>Hammadde</label>
+            <InputSelect class="form-select" @bind-Value="yeniStok.HammaddeId">
+                <option value="">-- Seçiniz --</option>
+                @foreach (var h in hammaddeler)
+                {
+                    <option value="@h.Id">@h.Ad</option>
+                }
+            </InputSelect>
+        </div>
+        <div class="col-md-3">
+            <label>Ağırlık</label>
+            <InputNumber class="form-control" @bind-Value="yeniStok.Agirlik" />
+        </div>
+        <div class="col-md-3">
+            <label>Boy</label>
+            <InputNumber class="form-control" @bind-Value="yeniStok.Boy" />
+        </div>
+        <div class="col-md-3">
+            <label>En</label>
+            <InputNumber class="form-control" @bind-Value="yeniStok.En" />
+        </div>
+        <div class="col-md-3">
+            <label>Yükseklik</label>
+            <InputNumber class="form-control" @bind-Value="yeniStok.Yukseklik" />
+        </div>
+        <div class="col-md-3">
+            <label>Uzunluk</label>
+            <InputNumber class="form-control" @bind-Value="yeniStok.Uzunluk" />
+        </div>
+        <div class="col-md-3">
+            <label>Çap</label>
+            <InputNumber class="form-control" @bind-Value="yeniStok.Cap" />
+        </div>
+        <div class="col-md-3">
+            <label>Et Kalınlığı</label>
+            <InputNumber class="form-control" @bind-Value="yeniStok.EtKalınligi" />
+        </div>
+        <div class="col-md-3 mt-4">
+            <label class="form-check-label">Excel'den Aktarıldı mı?</label>
+            <InputCheckbox class="form-check-input ms-2" @bind-Value="yeniStok.IsFromExcel" />
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <button type="submit" class="btn btn-success">Kaydet</button>
+        <button class="btn btn-secondary ms-2" type="button" @onclick="Iptal">İptal</button>
+    </div>
+</EditForm>
+
+
+@code {
+    private StokKart yeniStok = new();
+    private List<StokGrup> stokGruplar = new();
+    private List<StokTip> stokTipler = new();
+    private List<MalzemeGrup> malzemeGruplar = new();
+    private List<MalzemeAltGrup> malzemeAltGruplar = new();
+    private List<MalzemeAltGrup2> malzemeAltGrup2ler = new();
+    private List<OlcuBirim> olcuBirimler = new();
+    private List<MalzemeStandart> malzemeStandartlar = new();
+    private List<Hammadde> hammaddeler = new();
+
+    private int? _stokGrupId;
+    private int? StokGrupId
+    {
+        get => _stokGrupId;
+        set
+        {
+            if (_stokGrupId != value)
+            {
+                _stokGrupId = value;
+                yeniStok.StokGrupId = value;
+                _ = StokGrupDegisti(value);
+            }
+        }
+    }
+
+    private int? _malzemeGrupId;
+    private int? MalzemeGrupId
+    {
+        get => _malzemeGrupId;
+        set
+        {
+            if (_malzemeGrupId != value)
+            {
+                _malzemeGrupId = value;
+                yeniStok.MalzemeGrupId = value;
+                _ = MalzemeGrupDegisti(value);
+            }
+        }
+    }
+
+    private int? _malzemeAltGrupId;
+    private int? MalzemeAltGrupId
+    {
+        get => _malzemeAltGrupId;
+        set
+        {
+            if (_malzemeAltGrupId != value)
+            {
+                _malzemeAltGrupId = value;
+                yeniStok.MalzemeAltGrupId = value;
+                _ = MalzemeAltGrupDegisti(value);
+            }
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        stokGruplar = await StokGrupService.GetAllAsync();
+        stokTipler = await StokTipService.GetAllAsync();
+        olcuBirimler = await OlcuBirimService.GetAllAsync();
+        malzemeStandartlar = await MalzemeStandartService.GetAllAsync();
+        hammaddeler = await HammaddeService.GetAllAsync();
+    }
+
+    private async Task StokGrupDegisti(int? id)
+    {
+        if (id.HasValue)
+        {
+            malzemeGruplar = await MalzemeGrupService.GetByStokGrupIdAsync(id.Value);
+        }
+        else
+        {
+            malzemeGruplar = new();
+        }
+        MalzemeGrupId = null;
+        MalzemeAltGrupId = null;
+        yeniStok.MalzemeAltGrup2Id = null;
+        malzemeAltGruplar = new();
+        malzemeAltGrup2ler = new();
+        StateHasChanged();
+    }
+
+    private async Task MalzemeGrupDegisti(int? id)
+    {
+        if (id.HasValue)
+        {
+            malzemeAltGruplar = await MalzemeAltGrupService.GetByMalzemeGrupIdAsync(id.Value);
+        }
+        else
+        {
+            malzemeAltGruplar = new();
+        }
+        MalzemeAltGrupId = null;
+        yeniStok.MalzemeAltGrup2Id = null;
+        malzemeAltGrup2ler = new();
+        StateHasChanged();
+    }
+
+    private async Task MalzemeAltGrupDegisti(int? id)
+    {
+        if (id.HasValue)
+        {
+            malzemeAltGrup2ler = await MalzemeAltGrup2Service.GetByMalzemeAltGrupIdAsync(id.Value);
+        }
+        else
+        {
+            malzemeAltGrup2ler = new();
+        }
+        yeniStok.MalzemeAltGrup2Id = null;
+        StateHasChanged();
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        await StokKartService.AddAsync(yeniStok);
+        Navigation.NavigateTo("/stok-kartlari");
+    }
+
+    private void Iptal()
+    {
+        Navigation.NavigateTo("/stok-kartlari");
+    }
+}

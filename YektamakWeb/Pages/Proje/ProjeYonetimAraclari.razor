@@ -1,0 +1,79 @@
+﻿@page "/proje-yonetim-araclari"
+@inherits AuthorizedPageBase
+
+@inject NavigationManager Navigation
+@inject AuthenticationStateProvider AuthStateProvider
+@inject IYetkiService YetkiService
+
+<h3 class="text-center my-4">Proje Yönetim Araçları</h3>
+
+@if (!ErisimKontrolEdildi)
+{
+    <p class="text-center">Sayfa erişimi kontrol ediliyor...</p>
+}
+else if (!ErisimVar)
+{
+    <p class="text-danger text-center">Bu sayfaya erişim yetkiniz yok.</p>
+}
+else if (menuItems.Count == 0)
+{
+    <p class="text-warning text-center">Görüntüleme yetkiniz olan hiçbir proje yönetim aracı bulunamadı.</p>
+}
+else
+{
+    <hr />
+    <div class="row row-cols-1 row-cols-md-3 g-4 px-4">
+        @foreach (var item in menuItems)
+        {
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body d-flex flex-column justify-content-between">
+                        <h5 class="card-title">@item.Title</h5>
+                        <button class="btn btn-primary mt-3" @onclick="@(() => Navigation.NavigateTo(item.Url))">
+                            Yönet
+                        </button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+
+@code {
+    private List<MenuItem> tumMenuItems = new()
+    {
+        new MenuItem("Projeler", "/projeler"),
+        new MenuItem("Proje Tipleri", "/proje-tipler"),
+        new MenuItem("Proje Takvimleri", "/proje-takvim"),
+        new MenuItem("Proje Sorumluları", "/proje-sorumlular"),
+        new MenuItem("Proje Süreç Tanımları", "/proje-surec-tanimlar"),
+        new MenuItem("Proje Stok Kartları", "/proje-stok-kartlar"),
+        new MenuItem("Marka Yönetimi", "/markalar"),
+        new MenuItem("Marka Alt Gruplar", "/marka-alt-gruplar"),
+        new MenuItem("Marka Alt Grup Kategorileri", "/marka-altgrup-kategoriler"),
+        new MenuItem("Satış Siparişler", "/satis-siparisler")
+    };
+
+    private List<MenuItem> menuItems = new();
+
+    private record MenuItem(string Title, string Url);
+
+    protected override string GercekSayfaYolu => "/proje-yonetim-araclari";
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        if (user.Identity?.IsAuthenticated != true)
+            return;
+
+        var yetkiliFormAdlar = await YetkiService.GetYetkiliFormAdlarAsync(user);
+
+        menuItems = tumMenuItems
+            .Where(x => yetkiliFormAdlar.Contains(x.Url.Trim('/').ToLower()))
+            .ToList();
+    }
+}

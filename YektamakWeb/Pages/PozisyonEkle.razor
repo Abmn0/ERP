@@ -1,0 +1,59 @@
+﻿@page "/pozisyon-ekle"
+@inherits AuthorizedPageBase
+
+@inject IPozisyonService PozisyonService
+@inject NavigationManager NavigationManager
+
+<h3>Yeni Pozisyon Ekle</h3>
+
+@if (!ErisimKontrolEdildi)
+{
+    <p>Sayfa erişimi kontrol ediliyor...</p>
+}
+else if (!ErisimVar)
+{
+    <p class="text-danger">Bu sayfaya erişim yetkiniz yok.</p>
+}
+else
+{
+    <EditForm Model="pozisyon" OnValidSubmit="PozisyonEkleAsync">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="mb-3">
+            <label for="ad" class="form-label">Ad</label>
+            <InputText id="ad" class="form-control" @bind-Value="pozisyon.Ad" />
+        </div>
+
+        <div class="mb-3">
+            <label for="kod" class="form-label">Kod</label>
+            <InputText id="kod" class="form-control" @bind-Value="pozisyon.Kod" />
+        </div>
+
+        <button type="submit" class="btn btn-success">Kaydet</button>
+        <button type="button" class="btn btn-secondary ms-2" @onclick="GeriDon">İptal</button>
+    </EditForm>
+}
+
+@code {
+    private Pozisyon pozisyon = new();
+
+    protected override string GercekSayfaYolu => "/pozisyon-ekle";
+
+    protected override Task OnSayfaYuklendi()
+    {
+        // Gerekirse ön yükleme işlemleri burada yapılır
+        return Task.CompletedTask;
+    }
+
+    private async Task PozisyonEkleAsync()
+    {
+        await PozisyonService.AddAsync(pozisyon);
+        NavigationManager.NavigateTo("/pozisyonlar");
+    }
+
+    private void GeriDon()
+    {
+        NavigationManager.NavigateTo("/pozisyonlar");
+    }
+}

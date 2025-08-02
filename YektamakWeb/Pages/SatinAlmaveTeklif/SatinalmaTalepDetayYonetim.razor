@@ -1,0 +1,86 @@
+﻿@page "/satinalma-talep-detay-goruntule/{BaslikId:int}"
+@inherits AuthorizedPageBase
+
+@inject ISatinalmaTalepDetayService DetayService
+@inject IStokKartService StokKartService
+@inject ISatinalmaTalepBaslikService BaslikService
+@inject IOlcuBirimService OlcuBirimService
+@inject NavigationManager Navigation
+
+<h3>Satın Alma Talep Detayları</h3>
+
+@if (!ErisimKontrolEdildi)
+{
+    <p>Sayfa erişimi kontrol ediliyor...</p>
+}
+else if (!ErisimVar)
+{
+    <p class="text-danger">Bu sayfaya erişim yetkiniz yok.</p>
+}
+else if (detaylar is null || stokKartlar is null || olcuBirimler is null || baslik is null)
+{
+    <p>Veriler yükleniyor...</p>
+}
+else
+{
+    <div class="mb-3">
+        <strong>Talep No:</strong> @baslik.SatinalmaTalepNo<br />
+        <strong>Talep Açıklaması:</strong> @baslik.Aciklama
+    </div>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Stok Kart</th>
+                <th>Miktar</th>
+                <th>Ölçü Birimi</th>
+                <th>Açıklama</th>
+                <th>Onay Durumu</th>
+                <th>Onay Tarihi</th>
+                <th>Oluşturulma Zamanı</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var d in detaylar)
+            {
+                var stok = stokKartlar.FirstOrDefault(s => s.Id == d.StokKartId);
+                var olcu = olcuBirimler.FirstOrDefault(o => o.Id == stok?.OlcuBirimId);
+                <tr>
+                    <td>@stok?.Ad</td>
+                    <td>@d.Miktar</td>
+                    <td>@olcu?.Ad</td>
+                    <td>@d.Aciklama</td>
+                    <td>@(d.OnayDurum == true ? "Onaylandı" : d.OnayDurum == false ? "Reddedildi" : "Bekliyor")</td>
+                    <td>@(d.OnayTarihi?.ToShortDateString() ?? "-")</td>
+                    <td>@(d.CreationTime?.ToString("g") ?? "-")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <button class="btn btn-secondary" @onclick="GeriDon">Geri Dön</button>
+}
+
+@code {
+    [Parameter] public int BaslikId { get; set; }
+
+    private SatinalmaTalepBaslik? baslik;
+    private List<SatinalmaTalepDetay>? detaylar;
+    private List<StokKart>? stokKartlar;
+    private List<OlcuBirim>? olcuBirimler;
+
+    protected override string GercekSayfaYolu => "/satinalma-talep-detay-goruntule";
+
+    protected override async Task OnSayfaYuklendi()
+    {
+        detaylar = await DetayService.GetAllByBaslikIdWithIncludeAsync(BaslikId);
+        baslik = await BaslikService.GetByIdAsync(BaslikId);
+        stokKartlar = await StokKartService.GetAllAsync();
+        olcuBirimler = await OlcuBirimService.GetAllAsync();
+    }
+
+    private void GeriDon()
+    {
+        Navigation.NavigateTo("/satinalma-talepler");
+    }
+}

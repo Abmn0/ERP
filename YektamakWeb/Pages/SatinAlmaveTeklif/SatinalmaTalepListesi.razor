@@ -1,0 +1,195 @@
+﻿@page "/satinalma-talepler"
+@inherits AuthorizedPageBase
+
+@using System.Security.Claims
+@inject ISatinalmaTalepBaslikService TalepBaslikService
+@inject NavigationManager Navigation
+@inject AuthenticationStateProvider AuthStateProvider
+
+<h3>Satın Alma Talepleri</h3>
+<hr />
+
+@if (!ErisimKontrolEdildi)
+{
+    <p>Sayfa erişimi kontrol ediliyor...</p>
+}
+else if (!ErisimVar)
+{
+    <p class="text-danger">Bu sayfaya erişim yetkiniz yok.</p>
+}
+else if (talepler is null)
+{
+    <p>Yükleniyor...</p>
+}
+else
+{
+    <button class="btn btn-success mb-3" @onclick="YeniTalepEkle"><i class="oi oi-plus me-2"></i>Yeni Talep Oluştur</button>
+
+    <div class="table-responsive">
+        <table class="table table-sm table-bordered table-striped table-hover">
+            <thead class="table-dark text-nowrap">
+                <tr>
+                    <th @onclick='() => SortByColumn("TalepNo")' style="cursor: pointer;">Talep No <span class="oi @GetSortIcon("TalepNo")"></span></th>
+                    <th @onclick='() => SortByColumn("TalepTarihi")' style="cursor: pointer;">Talep Tarihi <span class="oi @GetSortIcon("TalepTarihi")"></span></th>
+                    <th @onclick='() => SortByColumn("TeslimTarihi")' style="cursor: pointer;">Teslim Tarihi <span class="oi @GetSortIcon("TeslimTarihi")"></span></th>
+                    <th @onclick='() => SortByColumn("Firma")' style="cursor: pointer;">Firma <span class="oi @GetSortIcon("Firma")"></span></th>
+                    <th @onclick='() => SortByColumn("TalepEden")' style="cursor: pointer;">Talep Eden <span class="oi @GetSortIcon("TalepEden")"></span></th>
+                    <th>Onay Durumu</th>
+                    <th @onclick='() => SortByColumn("Onaylayan")' style="cursor: pointer;">Onaylayan <span class="oi @GetSortIcon("Onaylayan")"></span></th>
+                    <th @onclick='() => SortByColumn("OnayTarihi")' style="cursor: pointer;">Onay Tarihi <span class="oi @GetSortIcon("OnayTarihi")"></span></th>
+                    <th>Açıklama</th>
+                    <th class="text-center">İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var talep in talepler)
+                {
+                    <tr>
+                        <td>@talep.SatinalmaTalepNo</td>
+                        <td>@(talep.TalepTarihi?.ToShortDateString() ?? "-")</td>
+                        <td>@(talep.TeslimTarihi?.ToShortDateString() ?? "-")</td>
+                        <td>@talep.Firma?.Ad</td>
+                        <td>@talep.TalepEdenKullanici?.Ad</td>
+                        <td>
+                            @if (talepDurumlari.TryGetValue(talep.Id, out var durum))
+                            {
+                                <span class="badge @GetDurumBadgeClass(durum)">@durum</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary">Yükleniyor...</span>
+                            }
+                        </td>
+                        <td>@talep.OnayKullanici?.Ad</td>
+                        <td>@(talep.OnayTarihi?.ToShortDateString() ?? "-")</td>
+                        <td>@talep.Aciklama</td>
+                        <td class="text-center text-nowrap">
+                            <button class="btn btn-sm btn-info" @onclick="@(() => Detaylar(talep.Id))" title="Detaylar"><i class="oi oi-eye"></i></button>
+                            <button class="btn btn-sm btn-warning mx-1" @onclick="@(() => Guncelle(talep.Id))" title="Güncelle"><i class="oi oi-pencil"></i></button>
+                            <button class="btn btn-sm btn-danger" @onclick="@(() => Sil(talep.Id))" title="Sil"><i class="oi oi-trash"></i></button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+@code {
+    private List<SatinalmaTalepBaslik>? talepler;
+    private Dictionary<int, string> talepDurumlari = new();
+
+    private string? _currentSortColumn;
+    private bool _isSortAscending = true;
+
+    protected override string GercekSayfaYolu => "/satinalma-talepler";
+
+    protected override async Task OnSayfaYuklendi()
+    {
+        var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        // Kullanıcı giriş yapmamışsa veya kimliği yoksa, boş liste göster ve çık.
+        if (user.Identity is null || !user.Identity.IsAuthenticated)
+        {
+            talepler = new();
+            return;
+        }
+
+        // Kullanıcı "Admin" rolüne sahip mi kontrol et. (Rol adı büyük/küçük harfe duyarlıdır)
+        if (user.IsInRole("Admin"))
+        {
+            // Admin ise tüm talepleri getir.
+            talepler = await TalepBaslikService.GetAllWithIncludeAsync();
+        }
+        else
+        {
+            // Admin değilse, sadece kendi taleplerini getir.
+            // Bunun için kullanıcının ID'sini Claim'lerden alıyoruz.
+            var userIdClaim = user.FindFirst(ClaimTypes.NameIdentifier);
+            if (userIdClaim != null && int.TryParse(userIdClaim.Value, out int userId))
+            {
+                talepler = await TalepBaslikService.GetByKullaniciIdWithIncludeAsync(userId);
+            }
+            else
+            {
+                // Geçerli bir kullanıcı ID'si bulunamazsa, güvenlik için boş liste göster.
+                talepler = new();
+            }
+        }
+
+        if (talepler is null) return;
+
+        // Talep durumlarını yükle
+        talepDurumlari.Clear();
+        foreach (var talep in talepler)
+        {
+            var durum = await TalepBaslikService.GetTalepDurumuAsync(talep.Id);
+            talepDurumlari[talep.Id] = durum;
+        }
+
+        // Mevcut sıralamayı uygula
+        PerformSort();
+    }
+
+    private void SortByColumn(string columnName)
+    {
+        if (columnName == _currentSortColumn)
+        {
+            _isSortAscending = !_isSortAscending;
+        }
+        else
+        {
+            _currentSortColumn = columnName;
+            _isSortAscending = true;
+        }
+        PerformSort();
+    }
+
+    private void PerformSort()
+    {
+        if (talepler is null || _currentSortColumn is null) return;
+
+        switch (_currentSortColumn)
+        {
+            case "TalepNo": talepler = _isSortAscending ? talepler.OrderBy(t => t.SatinalmaTalepNo).ToList() : talepler.OrderByDescending(t => t.SatinalmaTalepNo).ToList(); break;
+            case "TalepTarihi": talepler = _isSortAscending ? talepler.OrderBy(t => t.TalepTarihi).ToList() : talepler.OrderByDescending(t => t.TalepTarihi).ToList(); break;
+            case "TeslimTarihi": talepler = _isSortAscending ? talepler.OrderBy(t => t.TeslimTarihi).ToList() : talepler.OrderByDescending(t => t.TeslimTarihi).ToList(); break;
+            case "Firma": talepler = _isSortAscending ? talepler.OrderBy(t => t.Firma?.Ad).ToList() : talepler.OrderByDescending(t => t.Firma?.Ad).ToList(); break;
+            case "TalepEden": talepler = _isSortAscending ? talepler.OrderBy(t => t.TalepEdenKullanici?.Ad).ToList() : talepler.OrderByDescending(t => t.TalepEdenKullanici?.Ad).ToList(); break;
+            case "Onaylayan": talepler = _isSortAscending ? talepler.OrderBy(t => t.OnayKullanici?.Ad).ToList() : talepler.OrderByDescending(t => t.OnayKullanici?.Ad).ToList(); break;
+            case "OnayTarihi": talepler = _isSortAscending ? talepler.OrderBy(t => t.OnayTarihi).ToList() : talepler.OrderByDescending(t => t.OnayTarihi).ToList(); break;
+        }
+    }
+
+    private string GetSortIcon(string columnName)
+    {
+        if (_currentSortColumn != columnName) return "oi-elevator";
+        return _isSortAscending ? "oi-arrow-top" : "oi-arrow-bottom";
+    }
+
+    private string GetDurumBadgeClass(string durum)
+    {
+        return durum switch
+        {
+            "Onaylandı" => "bg-success",
+            "Kısmen Onaylandı" => "bg-info",
+            "Reddedildi" => "bg-danger",
+            _ => "bg-warning text-dark" // Bekliyor
+        };
+    }
+
+
+
+    private void YeniTalepEkle() => Navigation.NavigateTo("/satinalma-talep-ekle");
+    private void Detaylar(int id) => Navigation.NavigateTo($"/satinalma-talep-detay-goruntule/{id}");
+    private void Guncelle(int id) => Navigation.NavigateTo($"/satinalma-talep-guncelle/{id}");
+
+    private async Task Sil(int id)
+    {
+        // Silme işleminden sonra verilerin doğru şekilde yeniden yüklenmesi için OnInitializedAsync çağrısı
+        await TalepBaslikService.DeleteAsync(id);
+        await OnInitializedAsync();
+        StateHasChanged();
+    }
+}

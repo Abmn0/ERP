@@ -1,0 +1,145 @@
+﻿@* @page "/satinalma-siparisler"
+@inherits AuthorizedPageBase
+
+@inject ISatinalmaSiparisBaslikService SiparisBaslikService
+@inject IFirmaService FirmaService
+@inject NavigationManager Navigation
+
+<h3>Satın Alma Siparişleri</h3>
+<hr />
+
+@if (!ErisimKontrolEdildi)
+{
+    <p>Sayfa erişimi kontrol ediliyor...</p>
+}
+else if (!ErisimVar)
+{
+    <p class="text-danger">Bu sayfaya erişim yetkiniz yok.</p>
+}
+else if (siparisler == null)
+{
+    <p>Yükleniyor...</p>
+}
+else
+{
+    <button class="btn btn-success mb-3" @onclick="YeniSiparisEkle">
+        <i class="oi oi-plus me-2"></i>Yeni Sipariş Oluştur
+    </button>
+
+    <div class="table-responsive">
+        <table class="table table-sm table-bordered table-striped table-hover">
+            <thead class="table-dark text-nowrap">
+                <tr>
+                    <th @onclick='() => SortBy("SiparisNo")' style="cursor:pointer">Sipariş No <span class="oi @GetSortIcon("SiparisNo")"></span></th>
+                    <th @onclick='() => SortBy("SiparisTarihi")' style="cursor:pointer">Sipariş Tarihi <span class="oi @GetSortIcon("SiparisTarihi")"></span></th>
+                    <th @onclick='() => SortBy("TeslimTarihi")' style="cursor:pointer">Teslim Tarihi <span class="oi @GetSortIcon("TeslimTarihi")"></span></th>
+                    <th @onclick='() => SortBy("Firma")' style="cursor:pointer">Firma <span class="oi @GetSortIcon("Firma")"></span></th>
+                    <th @onclick='() => SortBy("Tutar")' style="cursor:pointer">Tutar <span class="oi @GetSortIcon("Tutar")"></span></th>
+                    <th>Açıklama</th>
+                    <th class="text-center">İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var s in siparisler)
+                {
+                    <tr>
+                        <td>@s.SiparisNo</td>
+                        <td>@(s.SiparisTarihi?.ToShortDateString() ?? "-")</td>
+                        <td>@(s.TeslimTarihi?.ToShortDateString() ?? "-")</td>
+                        <td>@(firmalar?.FirstOrDefault(f => f.Id == s.FirmaId)?.Ad ?? "-")</td>
+                        <td>@HesaplaToplamTutar(s).ToString("C2")</td>
+                        <td>@s.Aciklama</td>
+                        <td class="text-center text-nowrap">
+                            <button class="btn btn-sm btn-info" @onclick="@(() => Detaylar(s.Id))" title="Detaylar">
+                                <i class="oi oi-eye"></i>
+                            </button>
+                            <button class="btn btn-sm btn-warning mx-1" @onclick="@(() => Guncelle(s.Id))" title="Güncelle">
+                                <i class="oi oi-pencil"></i>
+                            </button>
+                            <button class="btn btn-sm btn-danger" @onclick="@(() => Sil(s.Id))" title="Sil">
+                                <i class="oi oi-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+@code {
+    private List<SatinalmaSiparisBaslik>? siparisler;
+    private List<Firma>? firmalar;
+    private string? _sortColumn;
+    private bool _sortAscending = true;
+
+    protected override string GercekSayfaYolu => "/satinalma-siparisler";
+
+    protected override async Task OnSayfaYuklendi()
+    {
+        siparisler = await SiparisBaslikService.GetAllWithIncludeAsync();
+        firmalar = await FirmaService.GetAllAsync();  // FirmaService eklenmeli
+        PerformSort();
+    }
+
+    private void SortBy(string column)
+    {
+        if (_sortColumn == column)
+            _sortAscending = !_sortAscending;
+        else
+        {
+            _sortColumn = column;
+            _sortAscending = true;
+        }
+        PerformSort();
+    }
+
+    private void PerformSort()
+    {
+        if (siparisler == null || string.IsNullOrEmpty(_sortColumn)) return;
+
+        siparisler = _sortColumn switch
+        {
+            "SiparisNo" => _sortAscending ? siparisler.OrderBy(s => s.SiparisNo).ToList() : siparisler.OrderByDescending(s => s.SiparisNo).ToList(),
+            "SiparisTarihi" => _sortAscending ? siparisler.OrderBy(s => s.SiparisTarihi).ToList() : siparisler.OrderByDescending(s => s.SiparisTarihi).ToList(),
+            "TeslimTarihi" => _sortAscending ? siparisler.OrderBy(s => s.TeslimTarihi).ToList() : siparisler.OrderByDescending(s => s.TeslimTarihi).ToList(),
+            "Firma" => _sortAscending ? siparisler.OrderBy(s => firmalar?.FirstOrDefault(f => f.Id == s.FirmaId)?.Ad).ToList() : siparisler.OrderByDescending(s => firmalar?.FirstOrDefault(f => f.Id == s.FirmaId)?.Ad).ToList(),
+            "Tutar" => _sortAscending ? siparisler.OrderBy(s => s.Tutar).ToList() : siparisler.OrderByDescending(s => s.Tutar).ToList(),
+            _ => siparisler
+        };
+    }
+
+    private decimal HesaplaToplamTutar(SatinalmaSiparisBaslik siparis)
+    {
+        if (siparis.Detaylar == null || !siparis.Detaylar.Any())
+            return 0;
+
+        return siparis.Detaylar
+            .Where(d => d.Miktar.HasValue && d.BirimFiyat.HasValue)
+            .Sum(d => (decimal)(d.Miktar.Value * d.BirimFiyat.Value));
+    }
+
+
+    private string GetSortIcon(string column)
+    {
+        if (_sortColumn != column) return "oi-elevator";
+        return _sortAscending ? "oi-arrow-top" : "oi-arrow-bottom";
+    }
+
+    private void YeniSiparisEkle() => Navigation.NavigateTo("/satinalma-siparis-ekle");
+    private void Detaylar(int id) => Navigation.NavigateTo($"/satinalma-siparis-detay/{id}");
+    private void Guncelle(int id) => Navigation.NavigateTo($"/satinalma-siparis-guncelle/{id}");
+
+    private async Task Sil(int id)
+    {
+        var onay = await Task.FromResult(true); // Doğrudan onay varsay
+        if (onay)
+        {
+            await SiparisBaslikService.DeleteAsync(id);
+            siparisler = await SiparisBaslikService.GetAllWithIncludeAsync();
+            PerformSort();
+            StateHasChanged();
+        }
+    }
+}
+ *@

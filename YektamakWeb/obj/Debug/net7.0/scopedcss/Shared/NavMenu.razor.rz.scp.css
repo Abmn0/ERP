@@ -1,0 +1,162 @@
+/* --- YAPI ve MOB�L UYUMLULUK --- */
+/* Bu b�l�m, men�n�n mobil cihazlarda gizlenip yandan a��lmas�n� sa�lar */
+/* Tam olarak 640px alt�na d���ld���nde i�erik alan�n� d�zelt */
+@media (max-width: 640px) {
+    .sidebar[b-inwk6e0cks] {
+        transform: translateX(-100%); /* men�y� mobil moduna zorla */
+    }
+
+        .sidebar.open[b-inwk6e0cks] {
+            transform: translateX(0); /* men� a��ld���nda tekrar g�ster */
+        }
+
+    main[b-inwk6e0cks], .main-container[b-inwk6e0cks], .content[b-inwk6e0cks], .body-content[b-inwk6e0cks] {
+        margin-left: 0 !important; /* ��erik k�sm�n� sola dayay�p bo�lu�u kald�r */
+    }
+}
+
+/* 641px ve �st� geni�likte i�erik alan�n� sidebar'a g�re ayarla */
+@media (min-width: 641px) {
+    main[b-inwk6e0cks], .main-container[b-inwk6e0cks], .content[b-inwk6e0cks], .body-content[b-inwk6e0cks] {
+        margin-left: 250px !important; /* sidebar geni�li�i kadar alan a� */
+    }
+
+    .sidebar[b-inwk6e0cks] {
+        transform: translateX(0); /* Sidebar daima a��k kals�n */
+    }
+}
+
+.sidebar[b-inwk6e0cks] {
+    background-color: #343a40; /* bg-dark rengi */
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1050; /* Di�er her �eyin �zerinde */
+    transform: translateX(-100%); /* Ba�lang��ta ekran�n d���nda */
+    transition: transform 0.3s ease-in-out;
+}
+
+.sidebar.open[b-inwk6e0cks] {
+    transform: translateX(0); /* Men�y� g�r�n�r yapar */
+}
+
+/* Men� i�eri�inin kayd�r�labilmesi i�in */
+.sidebar-content[b-inwk6e0cks] {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow-y: auto; /* S��mazsa dikey kayd�rma �ubu�u */
+}
+
+/* Men� a��kken arkaplan� karartan katman */
+.nav-overlay[b-inwk6e0cks] {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1040; /* Sidebar'�n hemen arkas�nda */
+}
+
+
+/* --- S�Z�N MEVCUT ST�LLER�N�Z�N ENTEGRASYONU --- */
+/* Bu b�l�mde eski CSS dosyan�zdaki g�rsel stiller korunmu� ve yeni yap�ya uyarlanm��t�r. */
+
+.navbar-brand[b-inwk6e0cks] {
+    font-size: 1.1rem;
+}
+
+.navbar-toggler[b-inwk6e0cks] {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.oi[b-inwk6e0cks] {
+    width: 2rem;
+    font-size: 1.1rem;
+    vertical-align: text-top;
+    top: -2px;
+}
+
+/* NavLink elemanlar� i�in genel stil (Eski .nav-item ::deep a kural�n�z�n modern hali) */
+[b-inwk6e0cks] .nav-link {
+    color: #d7d7d7;
+    border-radius: 4px;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    line-height: 3rem;
+    font-size: 0.9rem;
+    padding-left: 1rem; /* Sol bo�luk */
+}
+
+/* Aktif link stili */
+[b-inwk6e0cks] .nav-link.active {
+    background-color: rgba(255, 255, 255, 0.25);
+    color: white;
+}
+
+/* Hover (fare �zerine gelince) stili */
+[b-inwk6e0cks] .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.sub-menu[b-inwk6e0cks]  .nav-link {
+    padding-left: 2rem; /* ��eriden ba�lama */
+    height: auto !important; /* Y�kseklik otomatik olacak */
+    background-color: transparent !important; /* Kutular� tamamen kald�r */
+    line-height: 1.8rem !important; /* sat�r y�ksekli�i azalt�ld� */
+    font-size: 0.85rem !important; /* yaz� boyutunu k���lt (orant�l� g�r�n�m) */
+    color: #d7d7d7 !important;
+    margin-bottom: 2px !important;
+}
+
+    /* Hover ve aktif g�r�n�m i�in sade ve ��k bir stil */
+    .sub-menu[b-inwk6e0cks]  .nav-link:hover {
+        background-color: rgba(255, 255, 255, 0.1) !important;
+        color: white !important;
+    }
+
+    .sub-menu[b-inwk6e0cks]  .nav-link.active {
+        background-color: rgba(255, 255, 255, 0.2) !important;
+        color: white !important;
+    }
+
+/* --- GEN�� EKRAN (MASA�ST�) AYARLARI --- */
+/* Ekran geni�li�i 992px'den b�y�k oldu�unda bu kurallar ge�erli olur. */
+
+@media (min-width: 992px) {
+    /* Geni� ekranda sidebar'� her zaman g�r�n�r ve sabit yap */
+    .sidebar[b-inwk6e0cks] {
+        transform: translateX(0);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+
+    /* Hamburger men� butonunu geni� ekranda gizle */
+    .navbar-toggler[b-inwk6e0cks] {
+        display: none;
+    }
+
+    /* Arka plan karartma katman�n� geni� ekranda gizle */
+    .nav-overlay[b-inwk6e0cks] {
+        display: none;
+    }
+
+    /* Mobil i�in olan kullan�c� ad�n� gizle */
+    .current-user-mobile[b-inwk6e0cks] {
+        display: none;
+    }
+
+    /* Masa�st� i�in olan kullan�c� ad�n� g�ster */
+    .current-user-desktop[b-inwk6e0cks] {
+        display: block;
+    }
+}

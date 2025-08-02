@@ -1,0 +1,108 @@
+﻿@page "/proje-takvim-guncelle/{id:int}"
+@inherits AuthorizedPageBase
+
+@inject IProjeTakvimService ProjeTakvimService
+@inject IProjeService ProjeService
+@inject IProjeSurecTanimService ProjeSurecTanimService
+@inject NavigationManager Navigation
+@using Models
+@using ApiService.Interfaces
+@using Microsoft.AspNetCore.Components.Forms
+
+
+<h3>Proje Takvim Güncelle</h3>
+
+@if (!ErisimKontrolEdildi)
+{
+        <p>Sayfa erişimi kontrol ediliyor...</p>
+}
+else if (!ErisimVar)
+{
+        <p class="text-danger">Bu sayfaya erişim yetkiniz yok.</p>
+}
+else if (projeTakvim is null)
+{
+        <p>Yükleniyor...</p>
+}
+else
+{
+        <EditForm Model="projeTakvim" OnValidSubmit="HandleValidSubmit">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <div class="mb-3">
+                <label>Proje:</label>
+                <InputSelect class="form-select" @bind-Value="projeTakvim.ProjeId">
+                    <option value="">Seçiniz</option>
+                @foreach (var p in projeler)
+                {
+                            <option value="@p.Id">@p.Ad</option>
+                }
+                </InputSelect>
+            </div>
+
+            <div class="mb-3">
+                <label>Süreç:</label>
+                <InputSelect class="form-select" @bind-Value="projeTakvim.ProjeSurecId">
+                    <option value="">Seçiniz</option>
+                @foreach (var s in surecler)
+                {
+                            <option value="@s.Id">@s.Ad</option>
+                }
+                </InputSelect>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <label>Planlanan Başlangıç:</label>
+                    <InputDate class="form-control" @bind-Value="projeTakvim.PlanlananBaslangicTarihi" />
+                </div>
+                <div class="col">
+                    <label>Planlanan Bitiş:</label>
+                    <InputDate class="form-control" @bind-Value="projeTakvim.PlanlananBitisTarihi" />
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col">
+                    <label>Gerçekleşen Başlangıç:</label>
+                    <InputDate class="form-control" @bind-Value="projeTakvim.GerceklesenBaslangicTarihi" />
+                </div>
+                <div class="col">
+                    <label>Gerçekleşen Bitiş:</label>
+                    <InputDate class="form-control" @bind-Value="projeTakvim.GerceklesenBitisTarihi" />
+                </div>
+            </div>
+
+            <button class="btn btn-primary mt-3" type="submit">Kaydet</button>
+            <button class="btn btn-secondary mt-3 ms-2" type="button" @onclick="GeriDon">Geri Dön</button>
+        </EditForm>
+}
+
+@code {
+    [Parameter] public int id { get; set; }
+
+    private ProjeTakvim? projeTakvim;
+    private List<Proje> projeler = new();
+    private List<ProjeSurecTanim> surecler = new();
+
+    protected override string GercekSayfaYolu => "/proje-takvim-guncelle";
+
+    protected override async Task OnSayfaYuklendi()
+    {
+        projeler = await ProjeService.GetAllAsync();
+        surecler = await ProjeSurecTanimService.GetAllAsync();
+        projeTakvim = await ProjeTakvimService.GetByIdAsync(id);
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        await ProjeTakvimService.UpdateAsync(projeTakvim!);
+        Navigation.NavigateTo("/proje-takvim");
+    }
+
+    private void GeriDon()
+    {
+        Navigation.NavigateTo("/proje-takvim");
+    }
+}

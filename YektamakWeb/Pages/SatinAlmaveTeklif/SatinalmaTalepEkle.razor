@@ -1,0 +1,305 @@
+﻿@page "/satinalma-talep-ekle"
+@inherits AuthorizedPageBase
+
+@* Gerekli tüm servisler burada yer alıyor *@
+@inject ISatinalmaTalepBaslikService TalepBaslikService
+@inject ISatinalmaTalepDetayService DetayService
+@inject IFirmaService FirmaService
+@inject IStokKartService StokKartService
+@inject IKullaniciService KullaniciService
+@inject NavigationManager Navigation
+@inject AuthenticationStateProvider AuthStateProvider
+@inject IStokGrupService StokGrupService
+@inject IMalzemeGrupService MalzemeGrupService
+@inject IMalzemeAltGrupService MalzemeAltGrupService
+@inject IMalzemeAltGrup2Service MalzemeAltGrup2Service
+
+<h3>Yeni Satın Alma Talebi</h3>
+<hr />
+
+@if (verilerYukleniyor)
+{
+     <p>Veriler yükleniyor...</p>
+}
+else
+{
+    <EditForm Model="yeniTalep" OnValidSubmit="TalepVeDetayKaydetAsync">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        @* Talep Başlık Bilgileri *@
+        <div class="row">
+            <div class="col-md-6 mb-3"><label class="form-label">Talep No</label><InputText class="form-control" @bind-Value="yeniTalep.SatinalmaTalepNo" disabled /></div>
+            <div class="col-md-6 mb-3"><label class="form-label">Talep Tarihi</label><InputDate class="form-control" @bind-Value="yeniTalep.TalepTarihi" /></div>
+            <div class="col-md-6 mb-3"><label class="form-label">Teslim Tarihi</label><InputDate class="form-control" @bind-Value="yeniTalep.TeslimTarihi" /></div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Firma</label>
+                <InputSelect class="form-select" @bind-Value="yeniTalep.FirmaId">
+                    <option value="">-- Firma Seçiniz --</option>
+                    @if (firmalar != null)
+                    { @foreach (var firma in firmalar)
+                        {
+                            <option value="@firma.Id">@firma.Ad</option>
+                        }                  }
+                </InputSelect>
+            </div>
+            <div class="col-md-6 mb-3"><label class="form-label">Talep Eden Kullanıcı</label><input class="form-control" value="@aktifKullaniciAd" disabled /></div>
+            <div class="col-md-6 mb-3"><label class="form-label">Onaylayacak Kullanıcı</label><input class="form-control" value="@onayKullaniciAd" disabled /></div>
+            <div class="col-md-12 mb-3"><label class="form-label">Açıklama</label><InputTextArea class="form-control" @bind-Value="yeniTalep.Aciklama" /></div>
+        </div>
+        <hr />
+
+        <h5>Talep Detayları</h5>
+        <div class="table-responsive">
+            <table class="table table-bordered align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th style="width:40%">Stok Kartı</th>
+                        <th style="width:15%">Miktar</th>
+                        <th style="width:15%">Ölçü Birimi</th>
+                        <th style="width:20%">Açıklama</th>
+                        <th style="width:10%">İşlem</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var detay in talepDetaylar)
+                    {
+                        <tr @key="detay">
+                            <td class="p-1">
+                                @if (aktifFiltreDetaySatiri == detay)
+                                {
+                                    @* Filtreleme Modu *@
+                                    <div class="p-2 border rounded bg-white shadow-sm position-relative">
+                                        <button type="button" class="btn-close position-absolute top-0 end-0 m-2" style="z-index:10" @onclick="FiltreModunuKapat"></button>
+                                        <div class="row g-2 mb-2">
+                                            <div class="col-12"><InputText class="form-control form-control-sm" @bind-Value="AramaMetni" placeholder="Stok adı veya kodu ile ara..." /></div>
+                                            <div class="col-6 col-md-3"><InputSelect class="form-select form-select-sm" @bind-Value="FiltreStokGrupId"><option value="">Stok Grubu</option>@foreach (var g in stokGruplar)
+                                                    {
+                                                        <option value="@g.Id">@g.Ad</option>
+                                                    }</InputSelect></div>
+                                                <div class="col-6 col-md-3"><InputSelect class="form-select form-select-sm" @bind-Value="FiltreMalzemeGrupId" disabled="@(malzemeGruplar.Count == 0)"><option value="">Malzeme Grubu</option>@foreach (var mg in malzemeGruplar)
+                                                    {
+                                                        <option value="@mg.Id">@mg.Ad</option>
+                                                    }</InputSelect></div>
+                                                <div class="col-6 col-md-3"><InputSelect class="form-select form-select-sm" @bind-Value="FiltreMalzemeAltGrupId" disabled="@(malzemeAltGruplar.Count == 0)"><option value="">Alt Grup</option>@foreach (var ag in malzemeAltGruplar)
+                                                    {
+                                                        <option value="@ag.Id">@ag.Ad</option>
+                                                    }</InputSelect></div>
+                                                <div class="col-6 col-md-3"><InputSelect class="form-select form-select-sm" @bind-Value="FiltreMalzemeAltGrup2Id" disabled="@(malzemeAltGrup2ler.Count == 0)"><option value="">Alt Grup 2</option>@foreach (var ag2 in malzemeAltGrup2ler)
+                                                    {
+                                                        <option value="@ag2.Id">@ag2.Ad</option>
+                                                    }</InputSelect></div>
+                                            </div>
+
+                                            @* DEĞİŞİKLİK BURADA: Liste artık kaydırılabilir bir div içinde *@
+                                            <div style="max-height: 200px; overflow-y: auto;">
+                                                <ul class="list-group">
+                                                    @if (filtrelenmisStokKartlari.Any())
+                                                {
+                                                    @foreach (var stok in filtrelenmisStokKartlari)
+                                                    {
+                                                        <li class="list-group-item list-group-item-action py-1 px-2" style="cursor:pointer" @onclick="() => StokSecildi(stok)">@stok.Ad (@stok.Kod)</li>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <li class="list-group-item disabled">Sonuç bulunamadı.</li>
+                                                }
+                                            </ul>
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    @* Görüntüleme Modu *@
+                                    <div class="input-group">
+                                        <span class="form-control bg-light">@tumStokKartlari.FirstOrDefault(s => s.Id == detay.StokKartId)?.Ad</span>
+                                        <button class="btn btn-outline-primary" type="button" @onclick="() => FiltreModunuAc(detay)"><i class="oi oi-magnifying-glass"></i> Seç</button>
+                                    </div>
+                                }
+                            </td>
+                            <td><InputNumber class="form-control" @bind-Value="detay.Miktar" /></td>
+                            <td><input class="form-control" disabled value="@tumStokKartlari.FirstOrDefault(s => s.Id == detay.StokKartId)?.OlcuBirim?.Ad" /></td>
+                            <td><InputText class="form-control" @bind-Value="detay.Aciklama" /></td>
+                            <td><button class="btn btn-sm btn-danger" type="button" @onclick="() => DetaySatiriSil(detay)">Sil</button></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <button class="btn btn-sm btn-outline-primary mb-3" type="button" @onclick="YeniDetayEkle">+ Yeni Detay Ekle</button>
+        @if (!string.IsNullOrEmpty(hataMesaji))
+        {
+            <div class="alert alert-danger">@hataMesaji</div>
+        }
+        <div><button type="submit" class="btn btn-success">Kaydet</button><button type="button" class="btn btn-secondary ms-2" @onclick="GeriDon">İptal</button></div>
+    </EditForm>
+}
+
+@code {
+    private SatinalmaTalepBaslik yeniTalep = new() { TalepTarihi = DateTime.Now, CreationTime = DateTime.Now, CreatedByComputer = Environment.MachineName };
+    private List<SatinalmaTalepDetay> talepDetaylar = new();
+    private bool verilerYukleniyor = true;
+
+    private List<Firma>? firmalar;
+    private string? aktifKullaniciAd;
+    private string? onayKullaniciAd;
+    private string hataMesaji = string.Empty;
+
+    // Filtreleme için Gerekli Ana Listeler
+    private List<StokKart> tumStokKartlari = new();
+    private List<StokGrup> stokGruplar = new();
+    private List<MalzemeGrup> malzemeGruplar = new();
+    private List<MalzemeAltGrup> malzemeAltGruplar = new();
+    private List<MalzemeAltGrup2> malzemeAltGrup2ler = new();
+    private List<StokKart> filtrelenmisStokKartlari = new();
+
+    // Hücre içi filtreleme durumu
+    private SatinalmaTalepDetay? aktifFiltreDetaySatiri;
+
+    // Filtreleme kriterlerini tutan property'ler
+    private string? _aramaMetni;
+    private string? AramaMetni { get => _aramaMetni; set { _aramaMetni = value; FiltreleriUygula(); } }
+
+    private int? _filtreStokGrupId;
+    private int? FiltreStokGrupId { get => _filtreStokGrupId; set { if (_filtreStokGrupId != value) { _filtreStokGrupId = value; _ = StokGrupFiltresiDegisti(value); } } }
+
+    private int? _filtreMalzemeGrupId;
+    private int? FiltreMalzemeGrupId { get => _filtreMalzemeGrupId; set { if (_filtreMalzemeGrupId != value) { _filtreMalzemeGrupId = value; _ = MalzemeGrupFiltresiDegisti(value); } } }
+
+    private int? _filtreMalzemeAltGrupId;
+    private int? FiltreMalzemeAltGrupId { get => _filtreMalzemeAltGrupId; set { if (_filtreMalzemeAltGrupId != value) { _filtreMalzemeAltGrupId = value; _ = MalzemeAltGrupFiltresiDegisti(value); } } }
+
+    private int? _filtreMalzemeAltGrup2Id;
+    private int? FiltreMalzemeAltGrup2Id { get => _filtreMalzemeAltGrup2Id; set { if (_filtreMalzemeAltGrup2Id != value) { _filtreMalzemeAltGrup2Id = value; FiltreleriUygula(); } } }
+
+    protected override string GercekSayfaYolu => "/satinalma-talep-ekle";
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        if (ErisimVar)
+        {
+            verilerYukleniyor = true;
+            await Yukle();
+            verilerYukleniyor = false;
+        }
+    }
+
+    private async Task Yukle()
+    {
+        firmalar = await FirmaService.GetAllAsync();
+        tumStokKartlari = await StokKartService.GetAllWithIncludeAsync();
+        stokGruplar = await StokGrupService.GetAllAsync();
+        yeniTalep.SatinalmaTalepNo = await TalepBaslikService.GetYeniTalepNoAsync();
+
+        filtrelenmisStokKartlari = new List<StokKart>(tumStokKartlari);
+
+        var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        if (user.Identity?.IsAuthenticated == true)
+        {
+            var aktifKullanici = await KullaniciService.GetUserByKodAsync(user.Identity.Name);
+            if (aktifKullanici != null)
+            {
+                yeniTalep.TalepEdenKullaniciId = aktifKullanici.Id;
+                aktifKullaniciAd = aktifKullanici.Ad;
+                var yoneticiId = await KullaniciService.GetYoneticiKullaniciIdByKullaniciIdAsync(aktifKullanici.Id);
+                if (yoneticiId.HasValue)
+                {
+                    yeniTalep.OnayKullaniciId = yoneticiId.Value;
+                    var yonetici = await KullaniciService.GetByIdAsync(yoneticiId.Value);
+                    onayKullaniciAd = yonetici?.Ad;
+                }
+            }
+        }
+        YeniDetayEkle();
+    }
+
+    private void FiltreModunuAc(SatinalmaTalepDetay detay)
+    {
+        aktifFiltreDetaySatiri = detay;
+        FiltreleriSifirla();
+        FiltreleriUygula();
+    }
+
+    private void FiltreModunuKapat() => aktifFiltreDetaySatiri = null;
+
+    private void FiltreleriSifirla()
+    {
+        AramaMetni = null;
+        FiltreStokGrupId = null;
+        malzemeGruplar.Clear();
+        malzemeAltGruplar.Clear();
+        malzemeAltGrup2ler.Clear();
+    }
+
+    private void FiltreleriUygula()
+    {
+        IEnumerable<StokKart> geciciListe = tumStokKartlari;
+        if (_filtreStokGrupId.HasValue) geciciListe = geciciListe.Where(s => s.StokGrupId == _filtreStokGrupId.Value);
+        if (_filtreMalzemeGrupId.HasValue) geciciListe = geciciListe.Where(s => s.MalzemeGrupId == _filtreMalzemeGrupId.Value);
+        if (_filtreMalzemeAltGrupId.HasValue) geciciListe = geciciListe.Where(s => s.MalzemeAltGrupId == _filtreMalzemeAltGrupId.Value);
+        if (_filtreMalzemeAltGrup2Id.HasValue) geciciListe = geciciListe.Where(s => s.MalzemeAltGrup2Id == _filtreMalzemeAltGrup2Id.Value);
+        if (!string.IsNullOrWhiteSpace(_aramaMetni))
+        {
+            geciciListe = geciciListe.Where(s => (s.Ad != null && s.Ad.Contains(_aramaMetni, StringComparison.OrdinalIgnoreCase)) || (s.Kod != null && s.Kod.Contains(_aramaMetni, StringComparison.OrdinalIgnoreCase)));
+        }
+        filtrelenmisStokKartlari = geciciListe.ToList();
+    }
+
+    private async Task StokGrupFiltresiDegisti(int? id)
+    {
+        malzemeGruplar = id.HasValue ? await MalzemeGrupService.GetByStokGrupIdAsync(id.Value) : new();
+        FiltreMalzemeGrupId = null; malzemeAltGruplar.Clear(); malzemeAltGrup2ler.Clear();
+        FiltreleriUygula(); await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task MalzemeGrupFiltresiDegisti(int? id)
+    {
+        malzemeAltGruplar = id.HasValue ? await MalzemeAltGrupService.GetByMalzemeGrupIdAsync(id.Value) : new();
+        FiltreMalzemeAltGrupId = null; malzemeAltGrup2ler.Clear();
+        FiltreleriUygula(); await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task MalzemeAltGrupFiltresiDegisti(int? id)
+    {
+        malzemeAltGrup2ler = id.HasValue ? await MalzemeAltGrup2Service.GetByMalzemeAltGrupIdAsync(id.Value) : new();
+        FiltreMalzemeAltGrup2Id = null;
+        FiltreleriUygula(); await InvokeAsync(StateHasChanged);
+    }
+
+    private void StokSecildi(StokKart secilenStok)
+    {
+        if (aktifFiltreDetaySatiri != null)
+        {
+            aktifFiltreDetaySatiri.StokKartId = secilenStok.Id;
+            aktifFiltreDetaySatiri.OlcuBirimi = secilenStok.OlcuBirimId;
+            FiltreModunuKapat();
+        }
+    }
+
+    private void YeniDetayEkle() => talepDetaylar.Add(new SatinalmaTalepDetay());
+    private void DetaySatiriSil(SatinalmaTalepDetay detay) => talepDetaylar.Remove(detay);
+    private void GeriDon() => Navigation.NavigateTo("/satinalma-talepler");
+
+    private async Task TalepVeDetayKaydetAsync()
+    {
+        hataMesaji = string.Empty;
+        if (talepDetaylar.Count == 0 || talepDetaylar.Any(d => d.StokKartId == null || d.Miktar == null || d.Miktar <= 0))
+        {
+            hataMesaji = "Tüm detay satırlarında Stok seçilmeli ve geçerli bir Miktar girilmelidir.";
+            return;
+        }
+        await TalepBaslikService.AddAsync(yeniTalep);
+        foreach (var detay in talepDetaylar)
+        {
+            detay.SatinalmaTalepBaslikId = yeniTalep.Id;
+            detay.CreationTime = DateTime.Now;
+            detay.CreatedByComputer = Environment.MachineName;
+            await DetayService.AddAsync(detay);
+        }
+        Navigation.NavigateTo("/satinalma-talepler");
+    }
+}

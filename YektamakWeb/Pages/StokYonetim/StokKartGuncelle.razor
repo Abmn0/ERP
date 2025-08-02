@@ -1,0 +1,330 @@
+﻿@page "/stok-kart-guncelle/{Id:int}"
+@inherits AuthorizedPageBase
+
+@inject IStokKartService StokKartService
+@inject IStokGrupService StokGrupService
+@inject IStokTipService StokTipService
+@inject IMalzemeGrupService MalzemeGrupService
+@inject IMalzemeAltGrupService MalzemeAltGrupService
+@inject IMalzemeAltGrup2Service MalzemeAltGrup2Service
+@inject IOlcuBirimService OlcuBirimService
+@inject IMalzemeStandartService MalzemeStandartService
+@inject IHammaddeService HammaddeService
+@inject NavigationManager Navigation
+
+<h3>Stok Kartı Güncelle</h3>
+
+@if (!ErisimKontrolEdildi)
+{
+    <p>Sayfa erişimi kontrol ediliyor...</p>
+}
+else if (!ErisimVar)
+{
+    <p class="text-danger">Bu sayfaya erişim yetkiniz yok.</p>
+}
+else if (stokKart is null)
+{
+    <p>Yükleniyor...</p>
+}
+else
+{
+    <EditForm Model="stokKart" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="row g-3">
+            <div class="col-md-3">
+                <label>Kod</label>
+                <InputText class="form-control" @bind-Value="stokKart.Kod" />
+            </div>
+            <div class="col-md-3">
+                <label>Ad</label>
+                <InputText class="form-control" @bind-Value="stokKart.Ad" />
+            </div>
+            <div class="col-md-3">
+                <label>Parça Kod</label>
+                <InputText class="form-control" @bind-Value="stokKart.ParcaKod" />
+            </div>
+            <div class="col-md-3">
+                <label>Parça Adı</label>
+                <InputText class="form-control" @bind-Value="stokKart.ParcaAdi" />
+            </div>
+
+            <div class="col-md-3">
+                <label>Stok Grubu</label>
+                <InputSelect class="form-select" @bind-Value="StokGrupId">
+                    <option value="">-- Seçiniz --</option>
+                    @foreach (var g in stokGruplar)
+                    {
+                        <option value="@g.Id">@g.Ad</option>
+                    }
+                </InputSelect>
+            </div>
+            <div class="col-md-3">
+                <label>Stok Tipi</label>
+                <InputSelect class="form-select" @bind-Value="stokKart.StokTipId">
+                    <option value="">-- Seçiniz --</option>
+                    @foreach (var t in stokTipler)
+                    {
+                        <option value="@t.Id">@t.Ad</option>
+                    }
+                </InputSelect>
+            </div>
+            <div class="col-md-3">
+                <label>Malzeme</label>
+                <InputText class="form-control" @bind-Value="stokKart.Malzeme" />
+            </div>
+            <div class="col-md-3">
+                <label>Malzeme Grup</label>
+                <InputSelect class="form-select" @bind-Value="MalzemeGrupId">
+                    <option value="">-- Seçiniz --</option>
+                    @foreach (var mg in malzemeGruplar)
+                    {
+                        <option value="@mg.Id">@mg.Ad</option>
+                    }
+                </InputSelect>
+            </div>
+
+            <div class="col-md-3">
+                <label>Alt Grup</label>
+                <InputSelect class="form-select" @bind-Value="MalzemeAltGrupId">
+                    <option value="">-- Seçiniz --</option>
+                    @foreach (var ag in malzemeAltGruplar)
+                    {
+                        <option value="@ag.Id">@ag.Ad</option>
+                    }
+                </InputSelect>
+            </div>
+            <div class="col-md-3">
+                <label>Alt Grup 2</label>
+                <InputSelect class="form-select" @bind-Value="stokKart.MalzemeAltGrup2Id">
+                    <option value="">-- Seçiniz --</option>
+                    @foreach (var ag2 in malzemeAltGrup2ler)
+                    {
+                        <option value="@ag2.Id">@ag2.Ad</option>
+                    }
+                </InputSelect>
+            </div>
+            <div class="col-md-3">
+                <label>Ölçü Birimi</label>
+                <InputSelect class="form-select" @bind-Value="stokKart.OlcuBirimId">
+                    <option value="">-- Seçiniz --</option>
+                    @foreach (var ob in olcuBirimler)
+                    {
+                        <option value="@ob.Id">@ob.Ad</option>
+                    }
+                </InputSelect>
+            </div>
+            <div class="col-md-3">
+                <label>Malzeme Standart</label>
+                <InputSelect class="form-select" @bind-Value="stokKart.MalzemeStandartId">
+                    <option value="">-- Seçiniz --</option>
+                    @foreach (var ms in malzemeStandartlar)
+                    {
+                        <option value="@ms.Id">@ms.Kod</option>
+                    }
+                </InputSelect>
+            </div>
+
+            <div class="col-md-3">
+                <label>Hammadde</label>
+                <InputSelect class="form-select" @bind-Value="stokKart.HammaddeId">
+                    <option value="">-- Seçiniz --</option>
+                    @foreach (var h in hammaddeler)
+                    {
+                        <option value="@h.Id">@h.Ad</option>
+                    }
+                </InputSelect>
+            </div>
+            <div class="col-md-3">
+                <label>Ağırlık</label>
+                <InputNumber class="form-control" @bind-Value="stokKart.Agirlik" />
+            </div>
+            <div class="col-md-3">
+                <label>Boy</label>
+                <InputNumber class="form-control" @bind-Value="stokKart.Boy" />
+            </div>
+            <div class="col-md-3">
+                <label>En</label>
+                <InputNumber class="form-control" @bind-Value="stokKart.En" />
+            </div>
+            <div class="col-md-3">
+                <label>Yükseklik</label>
+                <InputNumber class="form-control" @bind-Value="stokKart.Yukseklik" />
+            </div>
+            <div class="col-md-3">
+                <label>Uzunluk</label>
+                <InputNumber class="form-control" @bind-Value="stokKart.Uzunluk" />
+            </div>
+            <div class="col-md-3">
+                <label>Çap</label>
+                <InputNumber class="form-control" @bind-Value="stokKart.Cap" />
+            </div>
+            <div class="col-md-3">
+                <label>Et Kalınlığı</label>
+                <InputNumber class="form-control" @bind-Value="stokKart.EtKalınligi" />
+            </div>
+            <div class="col-md-3 mt-4">
+                <label class="form-check-label">Excel'den Aktarıldı mı?</label>
+                <InputCheckbox class="form-check-input ms-2" @bind-Value="stokKart.IsFromExcel" />
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <button type="submit" class="btn btn-primary">Güncelle</button>
+            <button type="button" class="btn btn-secondary ms-2" @onclick="GeriDon">İptal / Geri Dön</button>
+        </div>
+    </EditForm>
+}
+
+
+
+@code {
+    [Parameter] public int Id { get; set; }
+
+    private StokKart? stokKart;
+    private List<StokGrup> stokGruplar = new();
+    private List<StokTip> stokTipler = new();
+    private List<MalzemeGrup> malzemeGruplar = new();
+    private List<MalzemeAltGrup> malzemeAltGruplar = new();
+    private List<MalzemeAltGrup2> malzemeAltGrup2ler = new();
+    private List<OlcuBirim> olcuBirimler = new();
+    private List<MalzemeStandart> malzemeStandartlar = new();
+    private List<Hammadde> hammaddeler = new();
+
+    private int? _stokGrupId;
+    private int? StokGrupId
+    {
+        get => _stokGrupId ?? stokKart?.StokGrupId;
+        set
+        {
+            if (_stokGrupId != value)
+            {
+                _stokGrupId = value;
+                if (stokKart != null) stokKart.StokGrupId = value;
+                _ = StokGrupDegisti(value);
+            }
+        }
+    }
+
+    private int? _malzemeGrupId;
+    private int? MalzemeGrupId
+    {
+        get => _malzemeGrupId ?? stokKart?.MalzemeGrupId;
+        set
+        {
+            if (_malzemeGrupId != value)
+            {
+                _malzemeGrupId = value;
+                if (stokKart != null) stokKart.MalzemeGrupId = value;
+                _ = MalzemeGrupDegisti(value);
+            }
+        }
+    }
+
+    private int? _malzemeAltGrupId;
+    private int? MalzemeAltGrupId
+    {
+        get => _malzemeAltGrupId ?? stokKart?.MalzemeAltGrupId;
+        set
+        {
+            if (_malzemeAltGrupId != value)
+            {
+                _malzemeAltGrupId = value;
+                if (stokKart != null) stokKart.MalzemeAltGrupId = value;
+                _ = MalzemeAltGrupDegisti(value);
+            }
+        }
+    }
+
+    protected override string GercekSayfaYolu => "/stok-kart-guncelle";
+
+    protected override async Task OnSayfaYuklendi()
+    {
+        stokKart = await StokKartService.GetByIdAsync(Id);
+
+        if (stokKart is null)
+        {
+            Navigation.NavigateTo("/stok-kartlari");
+            return;
+        }
+
+        stokGruplar = await StokGrupService.GetAllAsync();
+        stokTipler = await StokTipService.GetAllAsync();
+        olcuBirimler = await OlcuBirimService.GetAllAsync();
+        malzemeStandartlar = await MalzemeStandartService.GetAllAsync();
+        hammaddeler = await HammaddeService.GetAllAsync();
+
+        // Mevcut değerlere göre alt grupları yükle
+        if (stokKart.StokGrupId.HasValue)
+        {
+            malzemeGruplar = await MalzemeGrupService.GetByStokGrupIdAsync(stokKart.StokGrupId.Value);
+            _stokGrupId = stokKart.StokGrupId;
+        }
+
+        if (stokKart.MalzemeGrupId.HasValue)
+        {
+            malzemeAltGruplar = await MalzemeAltGrupService.GetByMalzemeGrupIdAsync(stokKart.MalzemeGrupId.Value);
+            _malzemeGrupId = stokKart.MalzemeGrupId;
+        }
+
+        if (stokKart.MalzemeAltGrupId.HasValue)
+        {
+            malzemeAltGrup2ler = await MalzemeAltGrup2Service.GetByMalzemeAltGrupIdAsync(stokKart.MalzemeAltGrupId.Value);
+            _malzemeAltGrupId = stokKart.MalzemeAltGrupId;
+        }
+    }
+
+    private async Task StokGrupDegisti(int? id)
+    {
+        if (id.HasValue)
+        {
+            malzemeGruplar = await MalzemeGrupService.GetByStokGrupIdAsync(id.Value);
+        }
+        else
+        {
+            malzemeGruplar = new();
+        }
+        MalzemeGrupId = null;
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task MalzemeGrupDegisti(int? id)
+    {
+        if (id.HasValue)
+        {
+            malzemeAltGruplar = await MalzemeAltGrupService.GetByMalzemeGrupIdAsync(id.Value);
+        }
+        else
+        {
+            malzemeAltGruplar = new();
+        }
+        MalzemeAltGrupId = null;
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task MalzemeAltGrupDegisti(int? id)
+    {
+        if (id.HasValue)
+        {
+            malzemeAltGrup2ler = await MalzemeAltGrup2Service.GetByMalzemeAltGrupIdAsync(id.Value);
+        }
+        else
+        {
+            malzemeAltGrup2ler = new();
+        }
+        if (stokKart != null) stokKart.MalzemeAltGrup2Id = null;
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        await StokKartService.UpdateAsync(stokKart!);
+        Navigation.NavigateTo("/stok-kartlari");
+    }
+    private void GeriDon()
+    {
+        Navigation.NavigateTo("/stok-kartlari");
+    }
+
+}

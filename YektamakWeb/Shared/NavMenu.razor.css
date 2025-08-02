@@ -1,0 +1,162 @@
+/* --- YAPI ve MOBÝL UYUMLULUK --- */
+/* Bu bölüm, menünün mobil cihazlarda gizlenip yandan açýlmasýný saðlar */
+/* Tam olarak 640px altýna düþüldüðünde içerik alanýný düzelt */
+@media (max-width: 640px) {
+    .sidebar {
+        transform: translateX(-100%); /* menüyü mobil moduna zorla */
+    }
+
+        .sidebar.open {
+            transform: translateX(0); /* menü açýldýðýnda tekrar göster */
+        }
+
+    main, .main-container, .content, .body-content {
+        margin-left: 0 !important; /* Ýçerik kýsmýný sola dayayýp boþluðu kaldýr */
+    }
+}
+
+/* 641px ve üstü geniþlikte içerik alanýný sidebar'a göre ayarla */
+@media (min-width: 641px) {
+    main, .main-container, .content, .body-content {
+        margin-left: 250px !important; /* sidebar geniþliði kadar alan aç */
+    }
+
+    .sidebar {
+        transform: translateX(0); /* Sidebar daima açýk kalsýn */
+    }
+}
+
+.sidebar {
+    background-color: #343a40; /* bg-dark rengi */
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1050; /* Diðer her þeyin üzerinde */
+    transform: translateX(-100%); /* Baþlangýçta ekranýn dýþýnda */
+    transition: transform 0.3s ease-in-out;
+}
+
+.sidebar.open {
+    transform: translateX(0); /* Menüyü görünür yapar */
+}
+
+/* Menü içeriðinin kaydýrýlabilmesi için */
+.sidebar-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow-y: auto; /* Sýðmazsa dikey kaydýrma çubuðu */
+}
+
+/* Menü açýkken arkaplaný karartan katman */
+.nav-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1040; /* Sidebar'ýn hemen arkasýnda */
+}
+
+
+/* --- SÝZÝN MEVCUT STÝLLERÝNÝZÝN ENTEGRASYONU --- */
+/* Bu bölümde eski CSS dosyanýzdaki görsel stiller korunmuþ ve yeni yapýya uyarlanmýþtýr. */
+
+.navbar-brand {
+    font-size: 1.1rem;
+}
+
+.navbar-toggler {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.oi {
+    width: 2rem;
+    font-size: 1.1rem;
+    vertical-align: text-top;
+    top: -2px;
+}
+
+/* NavLink elemanlarý için genel stil (Eski .nav-item ::deep a kuralýnýzýn modern hali) */
+::deep .nav-link {
+    color: #d7d7d7;
+    border-radius: 4px;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    line-height: 3rem;
+    font-size: 0.9rem;
+    padding-left: 1rem; /* Sol boþluk */
+}
+
+/* Aktif link stili */
+::deep .nav-link.active {
+    background-color: rgba(255, 255, 255, 0.25);
+    color: white;
+}
+
+/* Hover (fare üzerine gelince) stili */
+::deep .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.sub-menu ::deep .nav-link {
+    padding-left: 2rem; /* Ýçeriden baþlama */
+    height: auto !important; /* Yükseklik otomatik olacak */
+    background-color: transparent !important; /* Kutularý tamamen kaldýr */
+    line-height: 1.8rem !important; /* satýr yüksekliði azaltýldý */
+    font-size: 0.85rem !important; /* yazý boyutunu küçült (orantýlý görünüm) */
+    color: #d7d7d7 !important;
+    margin-bottom: 2px !important;
+}
+
+    /* Hover ve aktif görünüm için sade ve þýk bir stil */
+    .sub-menu ::deep .nav-link:hover {
+        background-color: rgba(255, 255, 255, 0.1) !important;
+        color: white !important;
+    }
+
+    .sub-menu ::deep .nav-link.active {
+        background-color: rgba(255, 255, 255, 0.2) !important;
+        color: white !important;
+    }
+
+/* --- GENÝÞ EKRAN (MASAÜSTÜ) AYARLARI --- */
+/* Ekran geniþliði 992px'den büyük olduðunda bu kurallar geçerli olur. */
+
+@media (min-width: 992px) {
+    /* Geniþ ekranda sidebar'ý her zaman görünür ve sabit yap */
+    .sidebar {
+        transform: translateX(0);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+
+    /* Hamburger menü butonunu geniþ ekranda gizle */
+    .navbar-toggler {
+        display: none;
+    }
+
+    /* Arka plan karartma katmanýný geniþ ekranda gizle */
+    .nav-overlay {
+        display: none;
+    }
+
+    /* Mobil için olan kullanýcý adýný gizle */
+    .current-user-mobile {
+        display: none;
+    }
+
+    /* Masaüstü için olan kullanýcý adýný göster */
+    .current-user-desktop {
+        display: block;
+    }
+}

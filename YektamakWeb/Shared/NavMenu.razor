@@ -1,0 +1,362 @@
+﻿@using Microsoft.AspNetCore.Components.Authorization
+@inject AuthenticationStateProvider AuthStateProvider
+@using System.Security.Claims
+@inject IYetkiService YetkiService
+@inject Accounts.CustomAuthStateProvider AuthProvider
+@inject NavigationManager Navigation
+
+<!-- Mobil ve küçük ekranlar için menüyü açma butonu ve marka -->
+<div class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top px-3">
+    <a class="navbar-brand fw-bold d-flex align-items-center" href="/">
+        <img src="images/yektamak_mini.png" alt="Logo" width="30" height="30" class="me-2" />
+        Yektamak ERP
+    </a>
+    <button title="Navigasyon menüsü" class="navbar-toggler" @onclick="ToggleNavMenu">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</div>
+
+<!-- Menü açıldığında arkadaki içeriği karartacak ve menüyü kapatmayı sağlayacak katman -->
+@if (isNavMenuOpen)
+{
+    <div class="nav-overlay" @onclick="ToggleNavMenu"></div>
+}
+
+<!-- Kenar Çubuğu (Sidebar) -->
+<div class="@NavMenuCssClass" @onclick:stopPropagation="true">
+    <div class="sidebar-content">
+        <!-- Giriş yapan kullanıcı bilgisi (sadece mobilde yukarıda görünür) -->
+        <div class="current-user-mobile text-white ms-3 my-3">
+            @if (!string.IsNullOrWhiteSpace(currentUserName))
+            {
+                <div>
+                    <i class="oi oi-person me-1"></i> @currentUserName
+                </div>
+            }
+        </div>
+
+        <!-- Menü Linkleri -->
+        <nav class="flex-column p-3">
+            @if (yetkiliFormAdlar.Contains("dashboard"))
+            {
+                <div class="nav-item mb-2">
+                    <NavLink class="nav-link text-white" href="/dashboard" Match="NavLinkMatch.All">
+                        <i class="oi oi-home me-2"></i> Ana Sayfa
+                    </NavLink>
+                </div>
+            }
+
+            <hr class="border-secondary" />
+
+            @if (yetkiliFormAdlar.Contains("personeller") || yetkiliFormAdlar.Contains("personel-ekle"))
+            {
+                <h6 class="text-uppercase text-secondary mt-3" @onclick="TogglePersonel" style="cursor:pointer">
+                    <i class="oi oi-people me-2"></i> Personel <span class="oi @(personelOpen ? "oi-caret-bottom" : "oi-caret-right") float-end"></span>
+                </h6>
+            }
+            @if (personelOpen)
+            {
+                <div class="sub-menu">
+                    @if (yetkiliFormAdlar.Contains("personeller"))
+                    {
+                        <NavLink class="nav-link text-white ms-4" href="personeller">
+                            <i class="oi oi-list me-1"></i> Personel Listesi
+                        </NavLink>
+                    }
+                    @if (yetkiliFormAdlar.Contains("personel-ekle"))
+                    {
+                        <NavLink class="nav-link text-white ms-4" href="personel-ekle">
+                            <i class="oi oi-plus me-1"></i> Yeni Personel
+                        </NavLink>
+                    }
+                </div>
+            }
+
+            @if (yetkiliFormAdlar.Contains("firmalar") || yetkiliFormAdlar.Contains("firma-ekle"))
+            {
+                <h6 class="text-uppercase text-secondary mt-4" @onclick="ToggleFirma" style="cursor:pointer">
+                    <i class="oi oi-briefcase me-2"></i> Firma <span class="oi @(firmaOpen ? "oi-caret-bottom" : "oi-caret-right") float-end"></span>
+                </h6>
+            }
+            @if (firmaOpen)
+            {
+                <div class="sub-menu">
+                    @if (yetkiliFormAdlar.Contains("firmalar"))
+                    {
+                        <NavLink class="nav-link text-white ms-4" href="firmalar">
+                            <i class="oi oi-list me-1"></i> Firmalar
+                        </NavLink>
+                    }
+                    @if (yetkiliFormAdlar.Contains("firma-ekle"))
+                    {
+                        <NavLink class="nav-link text-white ms-4" href="firma-ekle">
+                            <i class="oi oi-plus me-1"></i> Firma Ekle
+                        </NavLink>
+                    }
+                </div>
+            }
+
+            @if (yetkiliFormAdlar.Contains("pozisyonlar") || yetkiliFormAdlar.Contains("pozisyon-ekle"))
+            {
+                <h6 class="text-uppercase text-secondary mt-4" @onclick="TogglePozisyon" style="cursor:pointer">
+                    <i class="oi oi-people me-2"></i> Pozisyon <span class="oi @(pozisyonOpen ? "oi-caret-bottom" : "oi-caret-right") float-end"></span>
+                </h6>
+            }
+            @if (pozisyonOpen)
+            {
+                <div class="sub-menu">
+                    @if (yetkiliFormAdlar.Contains("pozisyonlar"))
+                    {
+                        <NavLink class="nav-link text-white ms-4" href="pozisyonlar">
+                            <i class="oi oi-list me-1"></i> Pozisyonlar
+                        </NavLink>
+                    }
+                    @if (yetkiliFormAdlar.Contains("pozisyon-ekle"))
+                    {
+                        <NavLink class="nav-link text-white ms-4" href="pozisyon-ekle">
+                            <i class="oi oi-plus me-1"></i> Pozisyon Ekle
+                        </NavLink>
+                    }
+                </div>
+            }
+
+            @if (yetkiliFormAdlar.Contains("sehirler") || yetkiliFormAdlar.Contains("ulkeler"))
+            {
+                <h6 class="text-uppercase text-secondary mt-4" @onclick="ToggleLokasyon" style="cursor:pointer">
+                    <i class="oi oi-map-marker me-2"></i> Lokasyon <span class="oi @(lokasyonOpen ? "oi-caret-bottom" : "oi-caret-right") float-end"></span>
+                </h6>
+            }
+            @if (lokasyonOpen)
+            {
+                <div class="sub-menu">
+                    @if (yetkiliFormAdlar.Contains("sehirler"))
+                    {
+                        <NavLink class="nav-link text-white ms-4" href="sehirler">
+                            <i class="oi oi-location me-1"></i> Şehirler
+                        </NavLink>
+                    }
+                    @if (yetkiliFormAdlar.Contains("ulkeler"))
+                    {
+                        <NavLink class="nav-link text-white ms-4" href="ulkeler">
+                            <i class="oi oi-globe me-1"></i> Ülkeler
+                        </NavLink>
+                    }
+                </div>
+            }
+
+            @if (yetkiliFormAdlar.Contains("kullanicilar") ||
+            yetkiliFormAdlar.Contains("kullanici-ekle") ||
+            yetkiliFormAdlar.Contains("roller") ||
+            yetkiliFormAdlar.Contains("yetki-yonetimi"))
+            {
+                <h6 class="text-uppercase text-secondary mt-4" @onclick="ToggleKullanici" style="cursor:pointer">
+                    <i class="oi oi-person me-2"></i> Kullanıcılar <span class="oi @(kullaniciOpen ? "oi-caret-bottom" : "oi-caret-right") float-end"></span>
+                </h6>
+            }
+            @if (kullaniciOpen)
+            {
+                <div class="sub-menu">
+                    @if (yetkiliFormAdlar.Contains("kullanicilar"))
+                    {
+                        <NavLink class="nav-link text-white ms-4" href="kullanicilar">
+                            <i class="oi oi-list me-1"></i> Kullanıcılar
+                        </NavLink>
+                    }
+                    @if (yetkiliFormAdlar.Contains("kullanici-ekle"))
+                    {
+                        <NavLink class="nav-link text-white ms-4" href="kullanici-ekle">
+                            <i class="oi oi-plus me-1"></i> Kullanıcı Ekle
+                        </NavLink>
+                    }
+                    @if (yetkiliFormAdlar.Contains("roller"))
+                    {
+                        <NavLink class="nav-link text-white ms-4" href="roller">
+                            <i class="oi oi-lock-locked me-1"></i> Roller
+                        </NavLink>
+                    }
+                    @if (yetkiliFormAdlar.Contains("yetki-yonetimi"))
+                    {
+                        <NavLink class="nav-link text-white ms-4" href="yetki-yonetimi">
+                            <i class="oi oi-lock-unlocked me-1"></i> Yetki Yönetimi
+                        </NavLink>
+                    }
+                </div>
+            }
+
+            @if (yetkiliFormAdlar.Contains("stok-kart-araclari"))
+            {
+                <h6 class="text-uppercase text-secondary mt-4" @onclick="ToggleStokYonetim" style="cursor:pointer">
+                    <i class="oi oi-wrench me-2"></i> Stok Yönetimi <span class="oi @(stokYonetimOpen ? "oi-caret-bottom" : "oi-caret-right") float-end"></span>
+                </h6>
+            }
+            @if (stokYonetimOpen)
+            {
+                <div class="sub-menu">
+                    @if (yetkiliFormAdlar.Contains("stok-kart-araclari"))
+                    {
+                        <NavLink class="nav-link text-white ms-4" href="stok-kart-araclari">
+                            <i class="oi oi-grid-two-up me-1"></i> Stok Kart Araçları
+                        </NavLink>
+                    }
+                    @if (yetkiliFormAdlar.Contains("stok-kartlari"))
+                    {
+                        <NavLink class="nav-link text-white ms-4" href="stok-kartlari">
+                            <i class="oi oi-list me-1"></i> Stok Kartları
+                        </NavLink>
+                    }
+                </div>
+            }
+
+            @if (yetkiliFormAdlar.Any(x => x.StartsWith("proje")))
+            {
+                <h6 class="text-uppercase text-secondary mt-4" @onclick="ToggleProje" style="cursor:pointer">
+                    <i class="oi oi-folder me-2"></i> Projeler <span class="oi @(projeOpen ? "oi-caret-bottom" : "oi-caret-right") float-end"></span>
+                </h6>
+            }
+            @if (projeOpen)
+            {
+                <div class="sub-menu">
+                    @if (yetkiliFormAdlar.Contains("projeler"))
+                    {
+                        <NavLink class="nav-link text-white ms-4" href="projeler">
+                            <i class="oi oi-list me-1"></i> Proje Listesi
+                        </NavLink>
+                    }
+
+                    @if (yetkiliFormAdlar.Contains("proje-yonetim-araclari"))
+                    {
+                        <NavLink class="nav-link text-white ms-4" href="/proje-yonetim-araclari">
+                            <i class="oi oi-briefcase me-1"></i> Proje Yönetim Araçları
+                        </NavLink>
+                    }
+                </div>
+            }
+
+            @if (yetkiliFormAdlar.Contains("satinalma-talepler"))
+            {
+                <h6 class="text-uppercase text-secondary mt-4" @onclick="ToggleSatinalmaYonetim" style="cursor:pointer">
+                    <i class="oi oi-cart me-2"></i> Satın Alma
+                    <span class="oi @(satinalmaYonetimOpen ? "oi-caret-bottom" : "oi-caret-right") float-end"></span>
+                </h6>
+            }
+            @if (satinalmaYonetimOpen)
+            {
+                <div class="sub-menu">
+                    @if (yetkiliFormAdlar.Contains("satinalma-talepler"))
+                    {
+                        <NavLink class="nav-link text-white ms-4" href="satinalma-talepler">
+                            <i class="oi oi-list me-1"></i> Satın Alma Talepleri
+                        </NavLink>
+                    }
+                    @if (yetkiliFormAdlar.Contains("satinalma-talep-detay-yonetim"))
+                    {
+                        <NavLink class="nav-link text-white ms-4" href="satinalma-talep-detay-yonetim">
+                            <i class="oi oi-document me-2"></i> Talep Detayları
+                        </NavLink>
+                    }
+                    @if (yetkiliFormAdlar.Contains("satinalma-talep-onay"))
+                    {
+                        <NavLink class="nav-link text-white ms-4" href="satinalma-talep-onay">
+                            <i class="oi oi-task me-2"></i> Talep Onay
+                        </NavLink>
+                    }
+                    @* @if (yetkiliFormAdlar.Contains("satinalma-siparisler"))
+                    {
+                        <NavLink class="nav-link text-white ms-4" href="satinalma-siparisler">
+                            <i class="oi oi-inbox me-2"></i> Satın Alma Siparişleri
+                        </NavLink>
+                    }
+                    @if (yetkiliFormAdlar.Contains("satinalma-siparis-ekle"))
+                    {
+                        <NavLink class="nav-link text-white ms-4" href="satinalma-siparis-ekle">
+                            <i class="oi oi-plus me-2"></i> Satın Alma Sipariş Ekle
+                        </NavLink>
+                    } *@
+                </div>
+            }
+
+        </nav>
+
+        <!-- Çıkış Butonu Alanı -->
+        <div class="p-3 mt-auto border-top border-secondary small text-center text-white-50">
+            @if (!string.IsNullOrEmpty(currentUserName))
+            {
+                <div class="current-user-desktop">
+                    <span><i class="oi oi-person me-1"></i> Giriş Yapan: <strong>@currentUserName</strong></span>
+                </div>
+                <button class="btn btn-outline-light w-100 mt-2" @onclick="Logout">
+                    <i class="oi oi-account-logout me-1"></i> Çıkış Yap
+                </button>
+            }
+            else
+            {
+                <span><i class="oi oi-lock-unlocked me-1"></i> Oturum Açılmamış</span>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    private bool isNavMenuOpen = false; // Menünün açık/kapalı durumunu kontrol eder
+    private List<string> yetkiliFormAdlar = new();
+
+    private bool personelOpen = false;
+    private bool firmaOpen = false;
+    private bool pozisyonOpen = false;
+    private bool lokasyonOpen = false;
+    private bool kullaniciOpen = false;
+    private bool stokYonetimOpen = false;
+    private bool projeOpen = false;
+    private bool satinalmaYonetimOpen = false;
+
+    private string? currentUserName;
+
+    // CSS sınıfını dinamik olarak ayarlar. Menü açıksa 'open' sınıfını ekler.
+    private string NavMenuCssClass => isNavMenuOpen ? "sidebar open bg-dark text-white" : "sidebar bg-dark text-white";
+
+    private void ToggleNavMenu()
+    {
+        isNavMenuOpen = !isNavMenuOpen;
+    }
+
+    private void TogglePersonel() => personelOpen = !personelOpen;
+    private void ToggleFirma() => firmaOpen = !firmaOpen;
+    private void TogglePozisyon() => pozisyonOpen = !pozisyonOpen;
+    private void ToggleLokasyon() => lokasyonOpen = !lokasyonOpen;
+    private void ToggleKullanici() => kullaniciOpen = !kullaniciOpen;
+    private void ToggleStokYonetim() => stokYonetimOpen = !stokYonetimOpen;
+    private void ToggleProje() => projeOpen = !projeOpen;
+    private void ToggleSatinalmaYonetim() => satinalmaYonetimOpen = !satinalmaYonetimOpen;
+
+    [CascadingParameter]
+    private Task<AuthenticationState>? AuthenticationStateTask { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (AuthenticationStateTask != null)
+        {
+            var authState = await AuthenticationStateTask;
+            var user = authState.User;
+
+            if (user.Identity != null && user.Identity.IsAuthenticated)
+            {
+                currentUserName = user.Identity.Name;
+                yetkiliFormAdlar = await YetkiService.GetYetkiliFormAdlarAsync(user);
+            }
+            else
+            {
+                currentUserName = null;
+                yetkiliFormAdlar = new();
+            }
+
+            StateHasChanged(); // UI güncellemesi tetiklenir
+        }
+    }
+
+
+    private async Task Logout()
+    {
+        await AuthProvider.MarkUserAsLoggedOut();
+        Navigation.NavigateTo("/login", forceLoad: true);
+    }
+}

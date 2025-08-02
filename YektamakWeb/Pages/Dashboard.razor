@@ -1,0 +1,139 @@
+﻿@page "/dashboard"
+@inherits AuthorizedPageBase
+
+@inject ISatinalmaTalepBaslikService TalepBaslikService
+@inject IKullaniciService KullaniciService
+@inject AuthenticationStateProvider AuthStateProvider
+
+<h3>📊 Dashboard</h3>
+<hr />
+
+@if (!ErisimKontrolEdildi)
+{
+     <p>Sayfa erişimi kontrol ediliyor...</p>
+}
+else if (!ErisimVar)
+{
+     <p class="text-danger">Bu sayfaya erişim yetkiniz yok.</p>
+}
+else if (Yukleniyor)
+{
+     <p>Yükleniyor...</p>
+}
+else
+{
+    <!-- Kendi Taleplerim -->
+    <h4 class="mb-3">📝 Kendi Taleplerim</h4>
+    <div class="row text-center mb-4">
+        <div class="col-md-3 col-6 mb-3"><div class="card border-primary shadow-sm"><div class="card-header bg-primary text-white">Toplam Talep</div><div class="card-body"><h4 class="card-title">@ToplamTalep</h4></div></div></div>
+        <div class="col-md-3 col-6 mb-3"><div class="card border-success shadow-sm"><div class="card-header bg-success text-white">Onaylanan</div><div class="card-body"><h4 class="card-title">@OnaylananTalep</h4></div></div></div>
+        <div class="col-md-3 col-6 mb-3"><div class="card border-danger shadow-sm"><div class="card-header bg-danger text-white">Reddedilen</div><div class="card-body"><h4 class="card-title">@ReddedilenTalep</h4></div></div></div>
+        <div class="col-md-3 col-6 mb-3"><div class="card border-warning shadow-sm"><div class="card-header bg-warning text-dark">Bekleyen/Kısmi</div><div class="card-body"><h4 class="card-title">@BekleyenTalep</h4></div></div></div>
+    </div>
+
+    <!-- Tarafıma Gelen Onay Talepleri -->
+    <h4 class="mb-3">✅ Onaylamam Gereken Talepler</h4>
+    <div class="row text-center">
+        <div class="col-md-3 col-6 mb-3"><div class="card border-primary shadow-sm"><div class="card-header bg-primary text-white">Toplam</div><div class="card-body"><h4 class="card-title">@OnayToplam</h4></div></div></div>
+        <div class="col-md-3 col-6 mb-3"><div class="card border-success shadow-sm"><div class="card-header bg-success text-white">Onayladığım</div><div class="card-body"><h4 class="card-title">@Onayladigim</h4></div></div></div>
+        <div class="col-md-3 col-6 mb-3"><div class="card border-danger shadow-sm"><div class="card-header bg-danger text-white">Reddettiklerim</div><div class="card-body"><h4 class="card-title">@Reddettigim</h4></div></div></div>
+        <div class="col-md-3 col-6 mb-3"><div class="card border-warning shadow-sm"><div class="card-header bg-warning text-dark">Bekleyen</div><div class="card-body"><h4 class="card-title">@OnayBekleyen</h4></div></div></div>
+    </div>
+}
+
+@code {
+    // Kendi taleplerim
+    private int ToplamTalep = 0;
+    private int OnaylananTalep = 0;
+    private int ReddedilenTalep = 0;
+    private int BekleyenTalep = 0;
+
+    // Onaylamam gereken talepler
+    private int OnayToplam = 0;
+    private int Onayladigim = 0;
+    private int Reddettigim = 0;
+    private int OnayBekleyen = 0;
+
+    private bool Yukleniyor = true;
+
+    protected override string GercekSayfaYolu => "/dashboard";
+
+    protected override async Task OnSayfaYuklendi()
+    {
+        Yukleniyor = true;
+
+        // Önce değişkenleri sıfırla
+        ToplamTalep = 0; OnaylananTalep = 0; ReddedilenTalep = 0; BekleyenTalep = 0;
+        OnayToplam = 0; Onayladigim = 0; Reddettigim = 0; OnayBekleyen = 0;
+
+        var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        if (user.Identity is null || !user.Identity.IsAuthenticated)
+        {
+            Yukleniyor = false;
+            return;
+        }
+
+        var aktifKullanici = await KullaniciService.GetUserByKodAsync(user.Identity.Name);
+        if (aktifKullanici == null)
+        {
+            Yukleniyor = false;
+            return;
+        }
+        int userId = aktifKullanici.Id;
+
+        // ==============================================================================
+        // 1) Kendi oluşturduğum taleplerin özetini hesapla
+        // ==============================================================================
+        var kendiTalepler = await TalepBaslikService.GetByKullaniciIdWithIncludeAsync(userId);
+        ToplamTalep = kendiTalepler.Count;
+        foreach (var talep in kendiTalepler)
+        {
+            // Performans için döngü içinde await kullanmaktan kaçınıyoruz.
+            // Durumu, önceden çekilmiş olan Detaylar listesi üzerinden hesaplıyoruz.
+            if (talep.Detaylar == null || !talep.Detaylar.Any())
+            {
+                BekleyenTalep++;
+                continue;
+            }
+
+            if (talep.Detaylar.Any(d => d.OnayDurum == null)) BekleyenTalep++;
+            else if (talep.Detaylar.All(d => d.OnayDurum == true)) OnaylananTalep++;
+            else if (talep.Detaylar.Any(d => d.OnayDurum == false)) ReddedilenTalep++;
+            else BekleyenTalep++; // Kısmi onay durumu da bekleyen sayılabilir
+        }
+
+
+        // ==============================================================================
+        // 2) Tarafıma gelen onay taleplerinin özetini hesapla
+        // ==============================================================================
+        var onayTalepleri = await TalepBaslikService.GetKullaniciyaAtananTaleplerAsync(userId);
+        OnayToplam = onayTalepleri.Count;
+        foreach (var talep in onayTalepleri)
+        {
+            if (talep.Detaylar == null || !talep.Detaylar.Any()) continue;
+
+            // Onay Bekleyen: İçinde en az bir tane OnayDurum==null olan detay varsa, bu talep "Bekleyen" kategorisindedir.
+            if (talep.Detaylar.Any(d => d.OnayDurum == null))
+            {
+                OnayBekleyen++;
+            }
+            // İşlem Yapılmışlar: İçinde hiç OnayDurum==null olan detay YOKSA, bu talep "İşlem Yapılmış" kategorisindedir.
+            else
+            {
+                // Reddettiğim: İşlem yapılmışlar içinde, en az bir tane OnayDurum==false olan varsa, "Reddettiğim" sayılır.
+                if (talep.Detaylar.Any(d => d.OnayDurum == false))
+                {
+                    Reddettigim++;
+                }
+                // Onayladığım: İşlem yapılmışlar içinde, TÜM detayların durumu OnayDurum==true ise, "Onayladığım" sayılır.
+                else if (talep.Detaylar.All(d => d.OnayDurum == true))
+                {
+                    Onayladigim++;
+                }
+            }
+        }
+
+        Yukleniyor = false;
+    }
+}

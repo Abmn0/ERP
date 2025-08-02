@@ -1,0 +1,122 @@
+﻿@page "/markalar"
+@inherits AuthorizedPageBase
+
+@inject IMarkaService MarkaService
+@inject NavigationManager Navigation
+@using Models
+@using ApiService.Interfaces
+@using Microsoft.AspNetCore.Components.Forms
+<h3>Marka Yönetimi</h3>
+
+@if (!ErisimKontrolEdildi)
+{
+    <p>Sayfa kontrol ediliyor...</p>
+}
+else if (!ErisimVar)
+{
+    <p class="text-danger">Bu sayfaya erişim yetkiniz yok.</p>
+}
+else
+{
+    <EditForm Model="@seciliMarka" OnValidSubmit="HandleSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label>Kod</label>
+                <InputText class="form-control" @bind-Value="seciliMarka.Kod" />
+            </div>
+            <div class="col-md-4">
+                <label>Ad</label>
+                <InputText class="form-control" @bind-Value="seciliMarka.Ad" />
+            </div>
+            
+        </div>
+
+        <button class="btn btn-success" type="submit">
+            @(seciliMarka.Id == 0 ? "Ekle" : "Güncelle")
+        </button>
+        <button class="btn btn-secondary ms-2" type="button" @onclick="Temizle">Temizle</button>
+    </EditForm>
+
+    <hr />
+
+    <table class="table table-bordered table-striped mt-3">
+        <thead>
+            <tr>
+                <th>Kod</th>
+                <th>Ad</th>
+                <th>İşlem</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in markalar)
+            {
+                <tr>
+                    <td>@item.Kod</td>
+                    <td>@item.Ad</td>
+                    <td>
+                        <button class="btn btn-sm btn-primary me-1" @onclick="@(() => Duzenle(item))">Düzenle</button>
+                        <button class="btn btn-sm btn-danger" @onclick="@(() => Sil(item.Id))">Sil</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+}
+
+@code {
+    private List<Marka> markalar = new();
+    private Marka seciliMarka = new();
+
+    protected override string GercekSayfaYolu => "/markalar";
+
+    protected override async Task OnSayfaYuklendi()
+    {
+        await Yukle();
+    }
+
+    private async Task Yukle()
+    {
+        markalar = await MarkaService.GetAllAsync();
+    }
+
+    private async Task HandleSubmit()
+    {
+        if (seciliMarka.Id == 0)
+        {
+            await MarkaService.AddAsync(seciliMarka);
+        }
+        else
+        {
+            await MarkaService.UpdateAsync(seciliMarka);
+        }
+
+        await Yukle();
+        Temizle();
+    }
+
+    private void Duzenle(Marka marka)
+    {
+        seciliMarka = new Marka
+            {
+                Id = marka.Id,
+                Kod = marka.Kod,
+                Ad = marka.Ad,
+            };
+    }
+
+    private async Task Sil(int id)
+    {
+        await MarkaService.DeleteAsync(id);
+        await Yukle();
+    }
+
+    private void Temizle()
+    {
+        seciliMarka = new();
+    }
+
+}

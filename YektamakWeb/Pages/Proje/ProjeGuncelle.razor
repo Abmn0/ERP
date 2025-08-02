@@ -1,0 +1,151 @@
+﻿@page "/proje-guncelle/{id:int}"
+@inherits AuthorizedPageBase
+
+@inject IProjeService ProjeService
+@inject IProjeTipService ProjeTipService
+@inject IMarkaService MarkaService
+@inject IMarkaAltGrupService MarkaAltGrupService
+@inject IMarkaAltGrupKategoriService MarkaAltGrupKategoriService
+@inject ISatisSiparisService SatisSiparisService
+@inject NavigationManager Navigation
+
+@using Models
+@using ApiService.Interfaces
+@using Microsoft.AspNetCore.Components.Forms
+
+<h3>Proje Güncelle</h3>
+
+@if (!ErisimKontrolEdildi)
+{
+    <p>Sayfa erişim kontrol ediliyor...</p>
+}
+else if (!ErisimVar)
+{
+    <p class="text-danger">Bu sayfaya erişim yetkiniz yok.</p>
+}
+else if (proje is null)
+{
+    <p>Yükleniyor...</p>
+}
+else
+{
+    <EditForm Model="@proje" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="mb-3">
+            <label>Kod:</label>
+            <InputText class="form-control" @bind-Value="proje.Kod" />
+        </div>
+
+        <div class="mb-3">
+            <label>Ad:</label>
+            <InputText class="form-control" @bind-Value="proje.Ad" />
+        </div>
+
+        <div class="mb-3">
+            <label>Proje Tipi:</label>
+            <InputSelect class="form-select" @bind-Value="proje.ProjeTipId">
+                <option value="">Seçiniz</option>
+                @foreach (var tip in projeTipleri)
+                {
+                    <option value="@tip.ProjeTipId">@tip.ProjeTipAd</option>
+                }
+            </InputSelect>
+        </div>
+
+        <div class="mb-3">
+            <label>Marka:</label>
+            <InputSelect class="form-select" @bind-Value="proje.MarkaId">
+                <option value="">Seçiniz</option>
+                @foreach (var marka in markalar)
+                {
+                    <option value="@marka.Id">@marka.Ad</option>
+                }
+            </InputSelect>
+        </div>
+
+        <div class="mb-3">
+            <label>Alt Grup:</label>
+            <InputSelect class="form-select" @bind-Value="proje.AltGrupId">
+                <option value="">Seçiniz</option>
+                @foreach (var altgrup in altGruplar)
+                {
+                    <option value="@altgrup.Id">@altgrup.Ad</option>
+                }
+            </InputSelect>
+        </div>
+
+        <div class="mb-3">
+            <label>Kategori:</label>
+            <InputSelect class="form-select" @bind-Value="proje.KategoriId">
+                <option value="">Seçiniz</option>
+                @foreach (var kategori in kategoriler)
+                {
+                    <option value="@kategori.Id">@kategori.Ad</option>
+                }
+            </InputSelect>
+        </div>
+
+        <div class="mb-3">
+            <label>Açıklama:</label>
+            <InputTextArea class="form-control" @bind-Value="proje.Aciklama" />
+        </div>
+
+        <div class="mb-3">
+            <label>Sipariş:</label>
+            <InputSelect class="form-select" @bind-Value="proje.SatisSiparisId">
+                <option value="">Seçiniz</option>
+                @foreach (var siparis in satisSiparisler)
+                {
+                    <option value="@siparis.Id">@siparis.SiparisNo</option>
+                }
+            </InputSelect>
+        </div>
+
+        <button class="btn btn-primary" type="submit">Kaydet</button>
+        <button class="btn btn-secondary ms-2" type="button" @onclick="GeriDon">Geri Dön</button>
+    </EditForm>
+}
+
+@code {
+    [Parameter] public int id { get; set; }
+
+    private Proje? proje;
+
+    private List<ProjeTip> projeTipleri = new();
+    private List<Marka> markalar = new();
+    private List<MarkaAltGrup> altGruplar = new();
+    private List<MarkaAltGrupKategori> kategoriler = new();
+    private List<SatisSiparis> satisSiparisler = new();
+
+    protected override string GercekSayfaYolu => "/proje-guncelle";
+
+    protected override async Task OnSayfaYuklendi()
+    {
+        proje = await ProjeService.GetByIdAsync(id);
+
+        if (proje is not null)
+        {
+            projeTipleri = await ProjeTipService.GetAllAsync();
+            markalar = await MarkaService.GetAllAsync();
+            altGruplar = await MarkaAltGrupService.GetAllAsync();
+            kategoriler = await MarkaAltGrupKategoriService.GetAllAsync();
+            satisSiparisler = await SatisSiparisService.GetAllAsync();
+        }
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        if (proje is not null)
+        {
+            await ProjeService.UpdateAsync(proje);
+            Navigation.NavigateTo("/projeler");
+        }
+    }
+
+    private void GeriDon()
+    {
+        Navigation.NavigateTo("/projeler");
+    }
+}

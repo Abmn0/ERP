@@ -1,0 +1,66 @@
+﻿@page "/firma-ekle"
+@inherits AuthorizedPageBase
+@inject IFirmaService FirmaService
+@inject NavigationManager Navigation
+@using Models
+@using ApiService.Interfaces
+
+
+<h3>Yeni Firma Ekle</h3>
+
+@if (!ErisimKontrolEdildi)
+{
+    <p>Sayfa erişimi kontrol ediliyor...</p>
+}
+else if (!ErisimVar)
+{
+    <p class="text-danger">Bu sayfaya erişim yetkiniz yok.</p>
+}
+else
+{
+    <EditForm Model="yeniFirma" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="mb-3">
+            <label class="form-label">Firma Adı</label>
+            <InputText class="form-control" @bind-Value="yeniFirma.Ad" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Firma Kodu</label>
+            <InputText class="form-control" @bind-Value="yeniFirma.Kod" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Telefon</label>
+            <InputText class="form-control" @bind-Value="yeniFirma.Telefon" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Mail</label>
+            <InputText class="form-control" @bind-Value="yeniFirma.Mail" />
+        </div>
+
+        <button class="btn btn-success" type="submit">Kaydet</button>
+    </EditForm>
+}
+
+@code {
+    private Firma yeniFirma = new();
+
+   
+    protected override string GercekSayfaYolu => "/firma-ekle";
+
+    
+    protected override Task OnSayfaYuklendi()
+    {
+        return Task.CompletedTask; 
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        await FirmaService.AddAsync(yeniFirma);
+        Navigation.NavigateTo("/firmalar");
+    }
+}

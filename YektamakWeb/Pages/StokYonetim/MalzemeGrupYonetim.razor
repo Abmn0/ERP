@@ -1,0 +1,163 @@
+﻿@page "/malzeme-gruplar"
+@inherits AuthorizedPageBase
+
+@inject IMalzemeGrupService MalzemeGrupService
+@inject IStokGrupService StokGrupService
+@inject NavigationManager Navigation
+
+<h3>Malzeme Grup Yönetimi</h3>
+
+@if (!ErisimKontrolEdildi)
+{
+    <p>Sayfa erişim kontrol ediliyor...</p>
+}
+else if (!ErisimVar)
+{
+    <p class="text-danger">Bu sayfaya erişim yetkiniz yok.</p>
+}
+else
+{
+    <EditForm Model="@seciliGrup" OnValidSubmit="HandleSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label>Stok Grubu</label>
+                <InputSelect class="form-select" @bind-Value="seciliGrup.StokGrupId">
+                    <option value="">-- Seçiniz --</option>
+                    @foreach (var stok in stokGruplar)
+                    {
+                        <option value="@stok.Id">@stok.Ad</option>
+                    }
+                </InputSelect>
+            </div>
+            <div class="col-md-4">
+                <label>Kod</label>
+                <InputText class="form-control" @bind-Value="seciliGrup.Kod" />
+            </div>
+            <div class="col-md-4">
+                <label>Ad</label>
+                <InputText class="form-control" @bind-Value="seciliGrup.Ad" />
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-2">
+                <label>PDF Var</label>
+                <InputCheckbox class="form-check-input" @bind-Value="seciliGrup.PdfVar" />
+            </div>
+            <div class="col-md-2">
+                <label>DXF Var</label>
+                <InputCheckbox class="form-check-input" @bind-Value="seciliGrup.DxfVar" />
+            </div>
+            <div class="col-md-2">
+                <label>STEP Var</label>
+                <InputCheckbox class="form-check-input" @bind-Value="seciliGrup.StepVar" />
+            </div>
+        </div>
+
+        <button class="btn btn-success" type="submit">@(seciliGrup.Id == 0 ? "Ekle" : "Güncelle")</button>
+        <button class="btn btn-secondary ms-2" type="button" @onclick="Temizle">Temizle</button>
+    </EditForm>
+
+    <hr />
+
+    <table class="table table-bordered table-striped mt-3">
+        <thead>
+            <tr>
+                <th>Kod</th>
+                <th>Ad</th>
+                <th>Stok Grup</th>
+                <th>PDF</th>
+                <th>DXF</th>
+                <th>STEP</th>
+                <th>İşlem</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in malzemeGruplar)
+            {
+                <tr>
+                    <td>@item.Kod</td>
+                    <td>@item.Ad</td>
+                    <td>@item.StokGrup?.Ad</td>
+                    <td>@(item.PdfVar ? "✔" : "-")</td>
+                    <td>@(item.DxfVar ? "✔" : "-")</td>
+                    <td>@(item.StepVar ? "✔" : "-")</td>
+                    <td>
+                        <button class="btn btn-sm btn-primary me-1" @onclick="@(() => Duzenle(item))">Düzenle</button>
+                        <button class="btn btn-sm btn-danger" @onclick="@(() => Sil(item.Id))">Sil</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <button class="btn btn-outline-dark" @onclick="GeriDon">← Geri</button>
+}
+
+@code {
+    protected override string GercekSayfaYolu => "/malzeme-gruplar";
+
+    private List<MalzemeGrup> malzemeGruplar = new();
+    private List<StokGrup> stokGruplar = new();
+
+    private MalzemeGrup seciliGrup = new();
+
+    protected override async Task OnSayfaYuklendi()
+    {
+        await Yukle();
+    }
+
+    private async Task Yukle()
+    {
+        malzemeGruplar = await MalzemeGrupService.GetAllWithIncludeAsync();
+        stokGruplar = await StokGrupService.GetAllAsync();
+    }
+
+    private async Task HandleSubmit()
+    {
+        if (seciliGrup.Id == 0)
+        {
+            await MalzemeGrupService.AddAsync(seciliGrup);
+        }
+        else
+        {
+            await MalzemeGrupService.UpdateAsync(seciliGrup);
+        }
+
+        await Yukle();
+        Temizle();
+    }
+
+    private void Duzenle(MalzemeGrup grup)
+    {
+        seciliGrup = new MalzemeGrup
+            {
+                Id = grup.Id,
+                Kod = grup.Kod,
+                Ad = grup.Ad,
+                PdfVar = grup.PdfVar,
+                DxfVar = grup.DxfVar,
+                StepVar = grup.StepVar,
+                StokGrupId = grup.StokGrupId
+            };
+    }
+
+    private async Task Sil(int id)
+    {
+        await MalzemeGrupService.DeleteAsync(id);
+        await Yukle();
+    }
+
+    private void Temizle()
+    {
+        seciliGrup = new();
+    }
+
+    private void GeriDon()
+    {
+        Navigation.NavigateTo("/stok-kart-araclari");
+    }
+}

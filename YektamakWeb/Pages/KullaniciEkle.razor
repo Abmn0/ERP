@@ -1,0 +1,101 @@
+﻿@page "/kullanici-ekle"
+@inherits AuthorizedPageBase
+@using Utilities.Interfaces
+@inject IKullaniciService KullaniciService
+@inject IRolService RolService
+@inject IPersonelService PersonelService
+@inject NavigationManager Navigation
+@inject IPasswordService PasswordService
+
+<h3>Yeni Kullanıcı Ekle</h3>
+
+@if (!ErisimKontrolEdildi)
+{
+    <p>Sayfa erişimi kontrol ediliyor...</p>
+}
+else if (!ErisimVar)
+{
+    <p class="text-danger">Bu sayfaya erişim yetkiniz yok.</p>
+}
+else
+{
+    <EditForm Model="kullanici" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="mb-3">
+            <label class="form-label">Ad</label>
+            <InputText class="form-control" @bind-Value="kullanici.Ad" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Kod</label>
+            <InputText class="form-control" @bind-Value="kullanici.Kod" />
+            <!-- YENİ EKLENEN SATIR: Hata mesajı burada gösterilecek -->
+            <ValidationMessage For="@(() => kullanici.Kod)" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Şifre</label>
+            <InputText type="password" class="form-control" @bind-Value="sifre" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Rol</label>
+            <InputSelect class="form-control" @bind-Value="kullanici.RolId">
+                <option value="">-- Seçiniz --</option>
+                @foreach (var rol in roller)
+                {
+                    <option value="@rol.Id">@rol.Ad</option>
+                }
+            </InputSelect>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Personel</label>
+            <InputSelect class="form-control" @bind-Value="kullanici.PersonelId">
+                <option value="">-- Seçiniz --</option>
+                @foreach (var p in personeller)
+                {
+                    <option value="@p.Id">@p.PersonelAd @p.PersonelSoyad</option>
+                }
+            </InputSelect>
+        </div>
+
+        <button class="btn btn-success" type="submit">Kaydet</button>
+        <button class="btn btn-secondary ms-2" type="button" @onclick="GeriDon">İptal</button>
+    </EditForm>
+}
+
+@code {
+    private Kullanici kullanici = new();
+    private string sifre = string.Empty;
+    private List<Rol> roller = new();
+    private List<Personel> personeller = new();
+
+    protected override string GercekSayfaYolu => "/kullanici-ekle";
+
+    protected override async Task OnSayfaYuklendi()
+    {
+        roller = await RolService.GetAllAsync();
+        personeller = await PersonelService.GetAllAsync();
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        var (hash, salt) = PasswordService.HashPassword(sifre);
+
+        kullanici.Sifre = hash;
+        kullanici.Salt = salt;
+        kullanici.CreationTime = DateTime.Now;
+        kullanici.IsSifreDegisti = false;
+
+        await KullaniciService.AddAsync(kullanici);
+        Navigation.NavigateTo("/kullanicilar");
+    }
+
+    private void GeriDon()
+    {
+        Navigation.NavigateTo("/kullanicilar");
+    }
+}

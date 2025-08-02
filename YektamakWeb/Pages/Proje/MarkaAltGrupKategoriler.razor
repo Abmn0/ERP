@@ -1,0 +1,135 @@
+﻿@page "/marka-altgrup-kategoriler"
+@inherits AuthorizedPageBase
+
+@inject IMarkaAltGrupKategoriService MarkaAltGrupKategoriService
+@inject IMarkaAltGrupService MarkaAltGrupService
+@inject NavigationManager Navigation
+
+@using Models
+@using ApiService.Interfaces
+@using Microsoft.AspNetCore.Components.Forms
+
+<h3>Marka Alt Grup Kategori Yönetimi</h3>
+
+@if (!ErisimKontrolEdildi)
+{
+    <p>Sayfa erişimi kontrol ediliyor...</p>
+}
+else if (!ErisimVar)
+{
+    <p class="text-danger">Bu sayfaya erişim yetkiniz yok.</p>
+}
+else
+{
+    <EditForm Model="@seciliKategori" OnValidSubmit="HandleSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label>Kod</label>
+                <InputText class="form-control" @bind-Value="seciliKategori.Kod" />
+            </div>
+            <div class="col-md-4">
+                <label>Ad</label>
+                <InputText class="form-control" @bind-Value="seciliKategori.Ad" />
+            </div>
+            <div class="col-md-4">
+                <label>Marka Alt Grup</label>
+                <InputSelect class="form-select" @bind-Value="seciliKategori.MarkaAltGrupId">
+                    <option value="">Seçiniz</option>
+                    @foreach (var grup in markaAltGruplar)
+                    {
+                        <option value="@grup.Id">@grup.Ad</option>
+                    }
+                </InputSelect>
+            </div>
+        </div>
+
+        <button class="btn btn-success" type="submit">@(seciliKategori.Id == 0 ? "Ekle" : "Güncelle")</button>
+        <button class="btn btn-secondary ms-2" type="button" @onclick="Temizle">Temizle</button>
+    </EditForm>
+
+    <hr />
+
+    <table class="table table-bordered table-striped mt-3">
+        <thead>
+            <tr>
+                <th>Kod</th>
+                <th>Ad</th>
+                <th>Marka Alt Grup</th>
+                <th>İşlem</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in kategoriler)
+            {
+                <tr>
+                    <td>@item.Kod</td>
+                    <td>@item.Ad</td>
+                    <td>@item.MarkaAltGrup?.Ad</td>
+                    <td>
+                        <button class="btn btn-sm btn-primary me-1" @onclick="@(() => Duzenle(item))">Düzenle</button>
+                        <button class="btn btn-sm btn-danger" @onclick="@(() => Sil(item.Id))">Sil</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<MarkaAltGrupKategori> kategoriler = new();
+    private List<MarkaAltGrup> markaAltGruplar = new();
+    private MarkaAltGrupKategori seciliKategori = new();
+
+    protected override string GercekSayfaYolu => "/marka-altgrup-kategoriler";
+
+    protected override async Task OnSayfaYuklendi()
+    {
+        await Yukle();
+    }
+
+    private async Task Yukle()
+    {
+        kategoriler = await MarkaAltGrupKategoriService.GetAllWithIncludeAsync();
+        markaAltGruplar = await MarkaAltGrupService.GetAllAsync();
+    }
+
+    private async Task HandleSubmit()
+    {
+        if (seciliKategori.Id == 0)
+        {
+            await MarkaAltGrupKategoriService.AddAsync(seciliKategori);
+        }
+        else
+        {
+            await MarkaAltGrupKategoriService.UpdateAsync(seciliKategori);
+        }
+
+        await Yukle();
+        Temizle();
+    }
+
+    private void Duzenle(MarkaAltGrupKategori item)
+    {
+        seciliKategori = new MarkaAltGrupKategori
+            {
+                Id = item.Id,
+                Kod = item.Kod,
+                Ad = item.Ad,
+                MarkaAltGrupId = item.MarkaAltGrupId
+            };
+    }
+
+    private async Task Sil(int id)
+    {
+        await MarkaAltGrupKategoriService.DeleteAsync(id);
+        await Yukle();
+    }
+
+    private void Temizle()
+    {
+        seciliKategori = new();
+    }
+}

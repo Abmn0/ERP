@@ -1,0 +1,286 @@
+﻿@page "/satinalma-talep-onay"
+@inherits AuthorizedPageBase
+
+@inject ISatinalmaTalepBaslikService BaslikService
+@inject ISatinalmaTalepDetayService DetayService
+@inject IStokKartService StokKartService
+@inject IOlcuBirimService OlcuBirimService
+@inject AuthenticationStateProvider AuthStateProvider
+@inject IKullaniciService KullaniciService
+
+<h3>Satın Alma Talep Onay</h3>
+<hr />
+
+@if (!ErisimKontrolEdildi)
+{
+    <p>Sayfa erişimi kontrol ediliyor...</p>
+}
+else if (!ErisimVar)
+{
+    <p class="text-danger">Bu sayfaya erişim yetkiniz yok.</p>
+}
+else if (verilerYukleniyor)
+{
+    <p>Veriler yükleniyor...</p>
+}
+else
+{
+    @* EKSİK OLAN FİLTRELEME BUTONU EKLENDİ *@
+    <div class="mb-3">
+        <button class="btn btn-outline-secondary" @onclick="ToggleFiltre">
+            @ToggleFiltreButonMetni
+        </button>
+    </div>
+
+    @* Hangi görünümün aktif olduğuna göre UI'yı değiştir *@
+    @if (aktifGorunum == OnayGorunumu.Liste)
+    {
+        @* ============================================================================== *@
+        @* =========================== TALEP LİSTESİ GÖRÜNÜMÜ =========================== *@
+        @* ============================================================================== *@
+
+        @* HATA DÜZELTİLDİ: Artık var olmayan 'onayBekleyenTalepler' yerine 'GoruntulenecekTalepler' kontrol ediliyor. *@
+        @if (!GoruntulenecekTalepler.Any())
+        {
+            <div class="alert alert-info">Bu filtreye uygun herhangi bir talep bulunmamaktadır.</div>
+        }
+        else
+        {
+            <table class="table table-hover table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Talep No</th>
+                        <th>Talep Eden</th>
+                        <th>Talep Tarihi</th>
+                        <th>Açıklama</th>
+                        <th>İşlem</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var talep in GoruntulenecekTalepler)
+                    {
+                        <tr>
+                            <td>@talep.SatinalmaTalepNo</td>
+                            <td>@talep.TalepEdenKullanici?.Ad</td>
+                            <td>@(talep.TalepTarihi?.ToShortDateString() ?? "-")</td>
+                            <td>@talep.Aciklama</td>
+                            <td>
+                                <button class="btn btn-primary btn-sm" @onclick="() => DetaylariGoruntule(talep)">
+                                    Detayları Görüntüle
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    }
+    else if (aktifGorunum == OnayGorunumu.Detay && seciliTalepBaslik != null)
+    {
+        @* ============================================================================== *@
+        @* ============================ TALEP DETAY GÖRÜNÜMÜ ============================ *@
+        @* ============================================================================== *@
+
+        <h4>Talep Detayları: @seciliTalepBaslik.SatinalmaTalepNo</h4>
+        <p><strong>Talep Eden:</strong> @seciliTalepBaslik.TalepEdenKullanici?.Ad</p>
+        <hr />
+
+        <button class="btn btn-secondary mb-3" @onclick="ListeyeGeriDon">
+            <i class="oi oi-arrow-left"></i> Talep Listesine Geri Dön
+        </button>
+
+        <table class="table table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>Stok Kart</th>
+                    <th>Miktar</th>
+                    <th>Açıklama</th>
+                    <th>Durum / İşlem</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var detay in seciliTalepDetaylari)
+                {
+                    <tr>
+                        <td>@stokKartlar?.FirstOrDefault(s => s.Id == detay.StokKartId)?.Ad</td>
+                        <td>@detay.Miktar</td>
+                        <td>@detay.Aciklama</td>
+                        <td>
+                            @if (detay.OnayDurum == null) // Beklemedeyse butonları göster
+                            {
+                                <button class="btn btn-success btn-sm me-2" @onclick="() => Onayla(detay)">Onayla</button>
+                                <button class="btn btn-danger btn-sm" @onclick="() => Reddet(detay)">Reddet</button>
+                            }
+                            else // İşlem yapıldıysa durumu göster
+                            {
+                                @if (detay.OnayDurum == true)
+                                {
+                                    <span class="badge bg-success">Onaylandı</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger">Reddedildi</span>
+                                }
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+}
+
+
+@code {
+    // Sayfanın hangi modda olduğunu belirler
+    private enum OnayGorunumu { Liste, Detay }
+    private OnayGorunumu aktifGorunum = OnayGorunumu.Liste;
+
+    // --- Durum ve Veri Değişkenleri ---
+
+    private bool verilerYukleniyor = true;
+    private int? aktifKullaniciId;
+
+    // Filtreleme durumu
+    private bool gosterSadeceBekleyenleri = true;
+
+    // Tüm veriyi tutan ana liste
+    private List<SatinalmaTalepBaslik> tumTaleplerim = new();
+
+    // Filtrelenmiş, ekranda gösterilecek liste
+    private List<SatinalmaTalepBaslik> GoruntulenecekTalepler => gosterSadeceBekleyenleri
+        ? tumTaleplerim.Where(b => b.Detaylar != null && b.Detaylar.Any(d => d.OnayDurum == null)).ToList()
+        : tumTaleplerim.Where(b => b.Detaylar != null && b.Detaylar.All(d => d.OnayDurum != null)).ToList();
+
+    // Detay görünümü için seçilen nesneler
+    private SatinalmaTalepBaslik? seciliTalepBaslik;
+    private List<SatinalmaTalepDetay> seciliTalepDetaylari = new();
+
+    // Yardımcı listeler (Dropdown/Görüntüleme için)
+    private List<StokKart>? stokKartlar;
+    private List<OlcuBirim>? olcuBirimler;
+
+    // --- UI için Yardımcı Property'ler ---
+
+    private string ToggleFiltreButonMetni => gosterSadeceBekleyenleri ? "İşlem Yapılanları Göster" : "Onay Bekleyenleri Göster";
+    protected override string GercekSayfaYolu => "/satinalma-talep-onay";
+
+    // --- Yaşam Döngüsü Metotları ---
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        if (ErisimVar)
+        {
+            verilerYukleniyor = true;
+            await Yukle();
+            verilerYukleniyor = false;
+        }
+    }
+
+    // --- Veri Yükleme ve Yönetim Metotları ---
+
+    private async Task Yukle()
+    {
+        // 1. Aktif kullanıcıyı bul
+        var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        if (user.Identity?.IsAuthenticated == true)
+        {
+            var kullanici = await KullaniciService.GetUserByKodAsync(user.Identity.Name);
+            aktifKullaniciId = kullanici?.Id;
+        }
+
+        if (aktifKullaniciId == null)
+        {
+            tumTaleplerim = new List<SatinalmaTalepBaslik>();
+            return;
+        }
+
+        // 2. Kullanıcıya atanmış TÜM talepleri getir
+        tumTaleplerim = await BaslikService.GetKullaniciyaAtananTaleplerAsync(aktifKullaniciId.Value);
+
+        // 3. Görüntüleme için yardımcı verileri yükle (sadece bir kere)
+        if (stokKartlar == null)
+            stokKartlar = await StokKartService.GetAllAsync();
+        if (olcuBirimler == null)
+            olcuBirimler = await OlcuBirimService.GetAllAsync();
+    }
+
+    // --- Onay İşlemleri ---
+
+    private async Task Onayla(SatinalmaTalepDetay detay)
+    {
+        await DetayService.OnaylaAsync(detay.Id);
+        detay.OnayDurum = true; // UI'da anında güncelle
+
+        await OtomatikBaslikDurumunuKontrolEtAsync(detay.SatinalmaTalepBaslikId);
+        StateHasChanged();
+    }
+
+    private async Task Reddet(SatinalmaTalepDetay detay)
+    {
+        await DetayService.ReddetAsync(detay.Id);
+        detay.OnayDurum = false; // UI'da anında güncelle
+
+        await OtomatikBaslikDurumunuKontrolEtAsync(detay.SatinalmaTalepBaslikId);
+        StateHasChanged();
+    }
+
+    private async Task OtomatikBaslikDurumunuKontrolEtAsync(int baslikId)
+    {
+        var guncelDetayListesi = await DetayService.GetDetailsByHeaderIdAsync(baslikId);
+
+        if (guncelDetayListesi.All(d => d.OnayDurum != null))
+        {
+            if (guncelDetayListesi.All(d => d.OnayDurum == true))
+            {
+                await BaslikService.BaslikOnaylaAsync(baslikId);
+            }
+            else if (guncelDetayListesi.All(d => d.OnayDurum == false))
+            {
+                await BaslikService.BaslikReddetAsync(baslikId);
+            }
+            else
+            {
+                // Kısmi red durumu — isteğe bağlı: null bırakabiliriz
+                await BaslikService.GuncelleOnayDurumuAsync(baslikId);
+            }
+        }
+
+        if (gosterSadeceBekleyenleri && !seciliTalepDetaylari.Any(d => d.OnayDurum == null))
+        {
+            await GuncelleVeListeyeDon();
+        }
+    }
+
+
+
+    // --- UI Kontrol Metotları ---
+
+    private void ToggleFiltre()
+    {
+        gosterSadeceBekleyenleri = !gosterSadeceBekleyenleri;
+    }
+
+    private void DetaylariGoruntule(SatinalmaTalepBaslik talep)
+    {
+        seciliTalepBaslik = talep;
+        seciliTalepDetaylari = talep.Detaylar?.ToList() ?? new List<SatinalmaTalepDetay>();
+        aktifGorunum = OnayGorunumu.Detay;
+    }
+
+    private void ListeyeGeriDon()
+    {
+        aktifGorunum = OnayGorunumu.Liste;
+        seciliTalepBaslik = null;
+        seciliTalepDetaylari.Clear();
+    }
+
+    private async Task GuncelleVeListeyeDon()
+    {
+        // Ana listeyi yenile ve listeye dön
+        await Yukle();
+        ListeyeGeriDon();
+    }
+}

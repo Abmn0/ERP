@@ -1,0 +1,106 @@
+﻿@page "/personel-ekle"
+@inherits AuthorizedPageBase
+
+@inject IPersonelService PersonelService
+@inject IFirmaService FirmaService
+@inject IPozisyonService PozisyonService
+@inject NavigationManager Navigation
+
+<h3>Yeni Personel Ekle</h3>
+
+@if (!ErisimKontrolEdildi)
+{
+    <p>Yükleniyor...</p>
+}
+else if (!ErisimVar)
+{
+    <p class="text-danger">Bu sayfaya erişim yetkiniz yok.</p>
+}
+else if (firmalar == null || pozisyonlar == null || tumPersoneller == null)
+{
+    <p>Veriler yükleniyor...</p>
+}
+else
+{
+    <EditForm Model="yeniPersonel" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="mb-3">
+            <label>Ad</label>
+            <InputText class="form-control" @bind-Value="yeniPersonel.PersonelAd" />
+        </div>
+
+        <div class="mb-3">
+            <label>Soyad</label>
+            <InputText class="form-control" @bind-Value="yeniPersonel.PersonelSoyad" />
+        </div>
+
+        <div class="mb-3">
+            <label>Telefon</label>
+            <InputText class="form-control" @bind-Value="yeniPersonel.Telefon" />
+        </div>
+
+        <div class="mb-3">
+            <label>Mail</label>
+            <InputText class="form-control" @bind-Value="yeniPersonel.Mail" />
+        </div>
+
+        <div class="mb-3">
+            <label>Firma</label>
+            <InputSelect class="form-select" @bind-Value="yeniPersonel.FirmaId">
+                <option value="">Seçiniz</option>
+                @foreach (var firma in firmalar)
+                {
+                    <option value="@firma.Id">@firma.Ad</option>
+                }
+            </InputSelect>
+        </div>
+
+        <div class="mb-3">
+            <label>Pozisyon</label>
+            <InputSelect class="form-select" @bind-Value="yeniPersonel.PozisyonId">
+                <option value="">Seçiniz</option>
+                @foreach (var poz in pozisyonlar)
+                {
+                    <option value="@poz.Id">@poz.Ad</option>
+                }
+            </InputSelect>
+        </div>
+
+        <div class="mb-3">
+            <label>Yönetici Personel</label>
+            <InputSelect class="form-select" @bind-Value="yeniPersonel.YoneticiPersonelId">
+                <option value="">Seçiniz</option>
+                @foreach (var personel in tumPersoneller)
+                {
+                    <option value="@personel.Id">@personel.PersonelAd @personel.PersonelSoyad</option>
+                }
+            </InputSelect>
+        </div>
+
+        <button class="btn btn-success" type="submit">Kaydet</button>
+    </EditForm>
+}
+
+@code {
+    private Personel yeniPersonel = new();
+    private List<Firma> firmalar = new();
+    private List<Pozisyon> pozisyonlar = new();
+    private List<Personel> tumPersoneller = new();
+
+    protected override string GercekSayfaYolu => "/personel-ekle";
+
+    protected override async Task OnSayfaYuklendi()
+    {
+        firmalar = await FirmaService.GetAllAsync();
+        pozisyonlar = await PozisyonService.GetAllAsync();
+        tumPersoneller = await PersonelService.GetAllAsync();
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        await PersonelService.AddAsync(yeniPersonel);
+        Navigation.NavigateTo("/personeller");
+    }
+}

@@ -1,0 +1,152 @@
+﻿@page "/marka-alt-gruplar"
+@inherits AuthorizedPageBase
+
+@inject IMarkaAltGrupService MarkaAltGrupService
+@inject IMarkaService MarkaService
+@inject NavigationManager Navigation
+
+@using Models
+@using ApiService.Interfaces
+@using Microsoft.AspNetCore.Components.Forms
+
+<h3>Marka Alt Grup Yönetimi</h3>
+
+@if (!ErisimKontrolEdildi)
+{
+    <p>Sayfa kontrol ediliyor...</p>
+}
+else if (!ErisimVar)
+{
+    <p class="text-danger">Bu sayfaya erişim yetkiniz yok.</p>
+}
+else
+{
+    <EditForm Model="@seciliAltGrup" OnValidSubmit="HandleSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label>Marka Seç</label>
+                <InputSelect class="form-control" @bind-Value="seciliAltGrup.MarkaId">
+                    <option value="">-- Seçiniz --</option>
+                    @foreach (var marka in markalar)
+                    {
+                        <option value="@marka.Id">@marka.Ad</option>
+                    }
+                </InputSelect>
+            </div>
+            <div class="col-md-4">
+                <label>Kod</label>
+                <InputText class="form-control" @bind-Value="seciliAltGrup.Kod" />
+            </div>
+            <div class="col-md-4">
+                <label>Ad</label>
+                <InputText class="form-control" @bind-Value="seciliAltGrup.Ad" />
+            </div>
+        </div>
+
+        @if (!string.IsNullOrWhiteSpace(hataMesaji))
+        {
+            <div class="alert alert-danger mt-2">
+                @hataMesaji
+            </div>
+        }
+
+        <button class="btn btn-success" type="submit">@(seciliAltGrup.Id == 0 ? "Ekle" : "Güncelle")</button>
+        <button class="btn btn-secondary ms-2" type="button" @onclick="Temizle">Temizle</button>
+    </EditForm>
+
+    <hr />
+
+    <table class="table table-bordered table-striped mt-3">
+        <thead>
+            <tr>
+                <th>Marka</th>
+                <th>Kod</th>
+                <th>Ad</th>
+                <th>İşlem</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in altGruplar)
+            {
+                <tr>
+                    <td>@item.Marka?.Ad</td>
+                    <td>@item.Kod</td>
+                    <td>@item.Ad</td>
+                    <td>
+                        <button class="btn btn-sm btn-primary me-1" @onclick="@(() => Duzenle(item))">Düzenle</button>
+                        <button class="btn btn-sm btn-danger" @onclick="@(() => Sil(item.Id))">Sil</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<MarkaAltGrup> altGruplar = new();
+    private MarkaAltGrup seciliAltGrup = new();
+    private List<Marka> markalar = new();
+
+    protected override string GercekSayfaYolu => "/marka-alt-gruplar";
+
+    protected override async Task OnSayfaYuklendi()
+    {
+        await Yukle();
+    }
+
+    private async Task Yukle()
+    {
+        markalar = await MarkaService.GetAllAsync();
+        altGruplar = await MarkaAltGrupService.GetAllWithIncludeAsync(); // Marka navigation property için Include
+    }
+
+    private async Task HandleSubmit()
+    {
+        if (seciliAltGrup.Id == 0)
+        {
+            await MarkaAltGrupService.AddAsync(seciliAltGrup);
+        }
+        else
+        {
+            await MarkaAltGrupService.UpdateAsync(seciliAltGrup);
+        }
+
+        await Yukle();
+        Temizle();
+    }
+
+    private void Duzenle(MarkaAltGrup grup)
+    {
+        seciliAltGrup = new MarkaAltGrup
+            {
+                Id = grup.Id,
+                Kod = grup.Kod,
+                Ad = grup.Ad,
+                MarkaId = grup.MarkaId
+            };
+    }
+
+    private string? hataMesaji;
+
+    private async Task Sil(int id)
+    {
+        hataMesaji = null;
+        var (success, errorMessage) = await MarkaAltGrupService.DeleteAsync(id);
+
+        if (!success)
+        {
+            hataMesaji = errorMessage;
+        }
+
+        await Yukle();
+    }
+
+
+    private void Temizle()
+    {
+        seciliAltGrup = new();
+    }
+}

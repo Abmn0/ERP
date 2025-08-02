@@ -1,0 +1,321 @@
+is_global = true
+build_property.TargetFramework = net7.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = YektamakWeb
+build_property.RootNamespace = YektamakWeb
+build_property.ProjectDir = C:\Users\ozabd\source\repos\YektamakERP_v2\YektamakWeb\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 7.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Users\ozabd\source\repos\YektamakERP_v2\YektamakWeb
+build_property._RazorSourceGeneratorDebug = 
+build_property.EffectiveAnalysisLevelStyle = 7.0
+build_property.EnableCodeStyleSeverity = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/App.razor]
+build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/Counter.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ291bnRlci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/Dashboard.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRGFzaGJvYXJkLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/FetchData.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRmV0Y2hEYXRhLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/FirmaEkle.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRmlybWFFa2xlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/FirmaGuncelle.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRmlybWFHdW5jZWxsZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/Firmalar.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRmlybWFsYXIucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/Index.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXgucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/KullaniciEkle.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcS3VsbGFuaWNpRWtsZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/KullaniciGuncelle.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcS3VsbGFuaWNpR3VuY2VsbGUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/Kullanicilar.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcS3VsbGFuaWNpbGFyLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/Login.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTG9naW4ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/PersonelEkle.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUGVyc29uZWxFa2xlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/PersonelGuncelle.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUGVyc29uZWxHdW5jZWxsZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/Personeller.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUGVyc29uZWxsZXIucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/PersonelResimDetay.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUGVyc29uZWxSZXNpbURldGF5LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/PozisyonEkle.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUG96aXN5b25Fa2xlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/PozisyonGuncelle.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUG96aXN5b25HdW5jZWxsZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/Pozisyonlar.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUG96aXN5b25sYXIucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/Proje/MarkaAltGrupKategoriler.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJvamVcTWFya2FBbHRHcnVwS2F0ZWdvcmlsZXIucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/Proje/MarkaAltGruplar.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJvamVcTWFya2FBbHRHcnVwbGFyLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/Proje/Markalar.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJvamVcTWFya2FsYXIucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/Proje/ProjeEkle.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJvamVcUHJvamVFa2xlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/Proje/ProjeGuncelle.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJvamVcUHJvamVHdW5jZWxsZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/Proje/Projeler.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJvamVcUHJvamVsZXIucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/Proje/ProjeSorumlular.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJvamVcUHJvamVTb3J1bWx1bGFyLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/Proje/ProjeStokKartlar.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJvamVcUHJvamVTdG9rS2FydGxhci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/Proje/ProjeSurecTanimlar.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJvamVcUHJvamVTdXJlY1RhbmltbGFyLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/Proje/ProjeTakvimEkle.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJvamVcUHJvamVUYWt2aW1Fa2xlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/Proje/ProjeTakvimGuncelle.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJvamVcUHJvamVUYWt2aW1HdW5jZWxsZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/Proje/ProjeTakvimler.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJvamVcUHJvamVUYWt2aW1sZXIucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/Proje/ProjeTipler.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJvamVcUHJvamVUaXBsZXIucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/Proje/ProjeYonetimAraclari.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJvamVcUHJvamVZb25ldGltQXJhY2xhcmkucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/Proje/SatisSiparisler.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJvamVcU2F0aXNTaXBhcmlzbGVyLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/RolEkle.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUm9sRWtsZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/RolGuncelle.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUm9sR3VuY2VsbGUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/Roller.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUm9sbGVyLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/SatinAlmaveTeklif/SatinalmaSiparisDetay.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2F0aW5BbG1hdmVUZWtsaWZcU2F0aW5hbG1hU2lwYXJpc0RldGF5LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/SatinAlmaveTeklif/SatinalmaSiparisEkle.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2F0aW5BbG1hdmVUZWtsaWZcU2F0aW5hbG1hU2lwYXJpc0VrbGUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/SatinAlmaveTeklif/SatinalmaSiparisGuncelle.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2F0aW5BbG1hdmVUZWtsaWZcU2F0aW5hbG1hU2lwYXJpc0d1bmNlbGxlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/SatinAlmaveTeklif/SatinalmaSiparisListesi.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2F0aW5BbG1hdmVUZWtsaWZcU2F0aW5hbG1hU2lwYXJpc0xpc3Rlc2kucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/SatinAlmaveTeklif/SatinalmaTalepDetayYonetim.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2F0aW5BbG1hdmVUZWtsaWZcU2F0aW5hbG1hVGFsZXBEZXRheVlvbmV0aW0ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/SatinAlmaveTeklif/SatinalmaTalepEkle.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2F0aW5BbG1hdmVUZWtsaWZcU2F0aW5hbG1hVGFsZXBFa2xlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/SatinAlmaveTeklif/SatinalmaTalepGuncelle.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2F0aW5BbG1hdmVUZWtsaWZcU2F0aW5hbG1hVGFsZXBHdW5jZWxsZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/SatinAlmaveTeklif/SatinalmaTalepListesi.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2F0aW5BbG1hdmVUZWtsaWZcU2F0aW5hbG1hVGFsZXBMaXN0ZXNpLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/SatinAlmaveTeklif/SatinalmaTalepOnay.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2F0aW5BbG1hdmVUZWtsaWZcU2F0aW5hbG1hVGFsZXBPbmF5LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/SehirEkle.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2VoaXJFa2xlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/SehirGuncelle.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2VoaXJHdW5jZWxsZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/Sehirler.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2VoaXJsZXIucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/StokYonetim/HammaddeYonetim.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3Rva1lvbmV0aW1cSGFtbWFkZGVZb25ldGltLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/StokYonetim/MalzemeAltGrup2Yonetim.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3Rva1lvbmV0aW1cTWFsemVtZUFsdEdydXAyWW9uZXRpbS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/StokYonetim/MalzemeAltGrupYonetim.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3Rva1lvbmV0aW1cTWFsemVtZUFsdEdydXBZb25ldGltLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/StokYonetim/MalzemeGrupYonetim.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3Rva1lvbmV0aW1cTWFsemVtZUdydXBZb25ldGltLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/StokYonetim/MalzemeStandartYonetim.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3Rva1lvbmV0aW1cTWFsemVtZVN0YW5kYXJ0WW9uZXRpbS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/StokYonetim/OlcuBirimiYonetim.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3Rva1lvbmV0aW1cT2xjdUJpcmltaVlvbmV0aW0ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/StokYonetim/StokGrupYonetim.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3Rva1lvbmV0aW1cU3Rva0dydXBZb25ldGltLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/StokYonetim/StokKartAraclari.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3Rva1lvbmV0aW1cU3Rva0thcnRBcmFjbGFyaS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/StokYonetim/StokKartDetay.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3Rva1lvbmV0aW1cU3Rva0thcnREZXRheS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/StokYonetim/StokKartEkle.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3Rva1lvbmV0aW1cU3Rva0thcnRFa2xlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/StokYonetim/StokKartGuncelle.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3Rva1lvbmV0aW1cU3Rva0thcnRHdW5jZWxsZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/StokYonetim/StokKartListesi.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3Rva1lvbmV0aW1cU3Rva0thcnRMaXN0ZXNpLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/StokYonetim/StokTipYonetim.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3Rva1lvbmV0aW1cU3Rva1RpcFlvbmV0aW0ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/UlkeEkle.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVWxrZUVrbGUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/UlkeGuncelle.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVWxrZUd1bmNlbGxlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/Ulkeler.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVWxrZWxlci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/YetkiYonetimi.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcWWV0a2lZb25ldGltaS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Shared/LoginDisplay.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXExvZ2luRGlzcGxheS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Shared/SurveyPrompt.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXFN1cnZleVByb21wdC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/_Imports.razor]
+build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Shared/MainLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE1haW5MYXlvdXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-7qsztc17wv
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Shared/NavMenu.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE5hdk1lbnUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-inwk6e0cks
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Areas/Identity/Pages/Account/LogOut.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxMb2dPdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Areas/Identity/Pages/Shared/_LoginPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcU2hhcmVkXF9Mb2dpblBhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3IuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ozabd/source/repos/YektamakERP_v2/YektamakWeb/Pages/_Host.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX0hvc3QuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 

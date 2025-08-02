@@ -1,0 +1,167 @@
+﻿@* @page "/satinalma-siparis-guncelle/{Id:int}"
+@inherits AuthorizedPageBase
+
+@inject ISatinalmaSiparisBaslikService SiparisBaslikService
+@inject ISatinalmaSiparisDetayService SiparisDetayService
+@inject IFirmaService FirmaService
+@inject IStokKartService StokKartService
+@inject NavigationManager Navigation
+
+<h3>Satın Alma Siparişi Güncelle</h3>
+<hr />
+
+@if (verilerYukleniyor)
+{
+    <p>Veriler yükleniyor...</p>
+}
+else if (siparisBaslik == null)
+{
+    <p class="text-danger">Sipariş bulunamadı.</p>
+}
+else
+{
+    <EditForm Model="siparisBaslik" OnValidSubmit="KaydetAsync">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <label class="form-label">Sipariş No</label>
+                <InputText class="form-control" @bind-Value="siparisBaslik.SiparisNo" />
+            </div>
+            <div class="col-md-4 mb-3">
+                <label class="form-label">Sipariş Tarihi</label>
+                <InputDate class="form-control" @bind-Value="siparisBaslik.SiparisTarihi" />
+            </div>
+            <div class="col-md-4 mb-3">
+                <label class="form-label">Teslim Tarihi</label>
+                <InputDate class="form-control" @bind-Value="siparisBaslik.TeslimTarihi" />
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Firma</label>
+                <InputSelect class="form-select" @bind-Value="siparisBaslik.FirmaId">
+                    <option value="">-- Firma Seçiniz --</option>
+                    @foreach (var firma in firmalar)
+                    {
+                        <option value="@firma.Id">@firma.Ad</option>
+                    }
+                </InputSelect>
+            </div>
+            <div class="col-md-12 mb-3">
+                <label class="form-label">Açıklama</label>
+                <InputTextArea class="form-control" @bind-Value="siparisBaslik.Aciklama" />
+            </div>
+        </div>
+
+        <hr />
+        <h5>Sipariş Detayları</h5>
+        <div class="table-responsive">
+            <table class="table table-bordered align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th style="width:40%">Stok Kartı</th>
+                        <th style="width:15%">Miktar</th>
+                        <th style="width:15%">Birim Fiyat</th>
+                        <th style="width:20%">Açıklama</th>
+                        <th style="width:10%">İşlem</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var detay in siparisDetaylar)
+                    {
+                        <tr>
+                            <td>
+                                <InputSelect class="form-select" @bind-Value="detay.StokKartId">
+                                    <option value="">-- Seçiniz --</option>
+                                    @foreach (var stok in stokKartlar)
+                                    {
+                                        <option value="@stok.Id">@stok.Ad</option>
+                                    }
+                                </InputSelect>
+                            </td>
+                            <td><InputNumber class="form-control" @bind-Value="detay.Miktar" /></td>
+                            <td><InputNumber class="form-control" @bind-Value="detay.BirimFiyat" /></td>
+                            <td><InputText class="form-control" @bind-Value="detay.Aciklama" /></td>
+                            <td>
+                                <button class="btn btn-sm btn-danger" type="button" @onclick="() => DetaySatiriSil(detay)">Sil</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <button class="btn btn-sm btn-outline-primary mb-3" type="button" @onclick="YeniDetayEkle">+ Yeni Detay Ekle</button>
+        @if (!string.IsNullOrEmpty(hataMesaji))
+        {
+            <div class="alert alert-danger">@hataMesaji</div>
+        }
+        <div>
+            <button type="submit" class="btn btn-success">Güncelle</button>
+            <button type="button" class="btn btn-secondary ms-2" @onclick="GeriDon">İptal</button>
+        </div>
+    </EditForm>
+}
+
+@code {
+    [Parameter] public int Id { get; set; }
+
+    private SatinalmaSiparisBaslik? siparisBaslik;
+    private List<SatinalmaSiparisDetay> siparisDetaylar = new();
+    private List<Firma> firmalar = new();
+    private List<StokKart> stokKartlar = new();
+    private bool verilerYukleniyor = true;
+    private string hataMesaji = string.Empty;
+
+    protected override string GercekSayfaYolu => "/satinalma-siparis-guncelle";
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        if (ErisimVar)
+        {
+            verilerYukleniyor = true;
+            await Yukle();
+            verilerYukleniyor = false;
+        }
+    }
+
+    private async Task Yukle()
+    {
+        siparisBaslik = await SiparisBaslikService.GetByIdAsync(Id);
+        if (siparisBaslik != null && siparisBaslik.Detaylar != null)
+        {
+            siparisDetaylar = siparisBaslik.Detaylar.ToList();
+        }
+        firmalar = await FirmaService.GetAllAsync();
+        stokKartlar = await StokKartService.GetAllAsync();
+    }
+
+    private void YeniDetayEkle() => siparisDetaylar.Add(new SatinalmaSiparisDetay());
+    private void DetaySatiriSil(SatinalmaSiparisDetay detay) => siparisDetaylar.Remove(detay);
+    private void GeriDon() => Navigation.NavigateTo("/satinalma-siparisler");
+
+    private async Task KaydetAsync()
+    {
+        if (siparisBaslik == null) return;
+
+        if (siparisDetaylar.Count == 0 || siparisDetaylar.Any(d => d.StokKartId == null || d.Miktar == null || d.Miktar <= 0))
+        {
+            hataMesaji = "Detaylarda stok ve miktar girilmelidir.";
+            return;
+        }
+
+        await SiparisBaslikService.UpdateAsync(siparisBaslik);
+
+        // Mevcut detayları sil ve yeniden ekle (daha iyi çözüm: güncelleme)
+        await SiparisDetayService.DeleteByBaslikIdAsync(siparisBaslik.Id);
+        foreach (var detay in siparisDetaylar)
+        {
+            detay.SatinalmaSiparisBaslikId = siparisBaslik.Id;
+            await SiparisDetayService.AddAsync(detay);
+        }
+
+        Navigation.NavigateTo("/satinalma-siparisler");
+    }
+}
+ *@

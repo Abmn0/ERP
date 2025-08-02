@@ -1,0 +1,10 @@
+﻿
+namespace Utilities.Interfaces
+{
+    public interface IPasswordService
+    {
+        (string Hash, string Salt) HashPassword(string password);
+        bool VerifyPassword(string password, string storedHash, string storedSalt);
+        bool IsPasswordStrong(string password);
+    }
+}
